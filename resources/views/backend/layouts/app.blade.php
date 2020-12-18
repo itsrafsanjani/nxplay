@@ -22,15 +22,19 @@
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 </head>
 <body>
+@include('backend.partials._header')
+
+@include('backend.partials._sidebar')
 <div id="app">
 
-    <main class="py-4">
+    <main class="main">
         @yield('content')
     </main>
 
-    <!-- Scripts -->
+<!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/admin.js') }}" defer></script>
+    <link href="https://unpkg.com/ionicons@4.3.0/dist/css/ionicons.min.css" rel="stylesheet">
 </div>
 </body>
 </html>

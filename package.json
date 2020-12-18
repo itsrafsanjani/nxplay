@@ -23,7 +23,6 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "ionicons-css": "^5.2.2",
         "jquery-mousewheel": "^3.1.13",
         "magnific-popup": "^1.1.0",
         "malihu-custom-scrollbar-plugin": "^3.1.5",
