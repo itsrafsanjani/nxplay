@@ -53,33 +53,39 @@
                             <th>CATEGORY</th>
                             <th>VIEWS</th>
                             <th>STATUS</th>
-                            <th>CRAETED DATE</th>
+                            <th>Uploaded By</th>
+                            <th>CREATED DATE</th>
                             <th>ACTIONS</th>
                         </tr>
                         </thead>
 
                         <tbody>
+
+                        @foreach($videos as $video)
                         <tr>
                             <td>
-                                <div class="main__table-text">23</div>
+                                <div class="main__table-text">{{ $video->id }}</div>
                             </td>
                             <td>
-                                <div class="main__table-text">I Dream in Another Language</div>
+                                <div class="main__table-text">{{ $video->title }}</div>
                             </td>
                             <td>
-                                <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 7.9</div>
+                                <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> {{ $video->imdb_rating }}</div>
                             </td>
                             <td>
-                                <div class="main__table-text">Movie</div>
+                                <div class="main__table-text">{{ $video->category }}</div>
                             </td>
                             <td>
-                                <div class="main__table-text">1392</div>
+                                <div class="main__table-text">{{ $video->views }}</div>
                             </td>
                             <td>
-                                <div class="main__table-text main__table-text--green">Visible</div>
+                                <div class="main__table-text main__table-text--green">{{ $video->status }}</div>
                             </td>
                             <td>
-                                <div class="main__table-text">24 Oct 2019</div>
+                                <div class="main__table-text">{{ $video->user->name }}</div>
+                            </td>
+                            <td>
+                                <div class="main__table-text">{{ $video->created_at->diffForHumans() }}</div>
                             </td>
                             <td>
                                 <div class="main__table-btns">
@@ -98,354 +104,9 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <div class="main__table-text">24</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">Benched</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 7.1</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">Movie</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">1093</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--red">Hidden</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">24 Oct 2019</div>
-                            </td>
-                            <td>
-                                <div class="main__table-btns">
-                                    <a href="#modal-status" class="main__table-btn main__table-btn--banned open-modal">
-                                        <i class="icon ion-ios-lock"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--view">
-                                        <i class="icon ion-ios-eye"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--edit">
-                                        <i class="icon ion-ios-create"></i>
-                                    </a>
-                                    <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                        <i class="icon ion-ios-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="main__table-text">25</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">Whitney</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 6.3</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">TV Series</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">723</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--green">Visible</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">24 Oct 2019</div>
-                            </td>
-                            <td>
-                                <div class="main__table-btns">
-                                    <a href="#modal-status" class="main__table-btn main__table-btn--banned open-modal">
-                                        <i class="icon ion-ios-lock"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--view">
-                                        <i class="icon ion-ios-eye"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--edit">
-                                        <i class="icon ion-ios-create"></i>
-                                    </a>
-                                    <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                        <i class="icon ion-ios-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="main__table-text">26</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">Blindspotting</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 8.4</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">TV Series</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">2457</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--green">Visible</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">24 Oct 2019</div>
-                            </td>
-                            <td>
-                                <div class="main__table-btns">
-                                    <a href="#modal-status" class="main__table-btn main__table-btn--banned open-modal">
-                                        <i class="icon ion-ios-lock"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--view">
-                                        <i class="icon ion-ios-eye"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--edit">
-                                        <i class="icon ion-ios-create"></i>
-                                    </a>
-                                    <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                        <i class="icon ion-ios-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        <tr>
-                            <td>
-                                <div class="main__table-text">27</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">I Dream in Another Language</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 7.9</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">Movie</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">1392</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--green">Visible</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">24 Oct 2019</div>
-                            </td>
-                            <td>
-                                <div class="main__table-btns">
-                                    <a href="#modal-status" class="main__table-btn main__table-btn--banned open-modal">
-                                        <i class="icon ion-ios-lock"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--view">
-                                        <i class="icon ion-ios-eye"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--edit">
-                                        <i class="icon ion-ios-create"></i>
-                                    </a>
-                                    <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                        <i class="icon ion-ios-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="main__table-text">28</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">Benched</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 7.1</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">TV Series</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">1093</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--red">Hidden</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">24 Oct 2019</div>
-                            </td>
-                            <td>
-                                <div class="main__table-btns">
-                                    <a href="#modal-status" class="main__table-btn main__table-btn--banned open-modal">
-                                        <i class="icon ion-ios-lock"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--view">
-                                        <i class="icon ion-ios-eye"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--edit">
-                                        <i class="icon ion-ios-create"></i>
-                                    </a>
-                                    <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                        <i class="icon ion-ios-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="main__table-text">29</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">Whitney</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 6.3</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">Cartoon</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">723</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--green">Visible</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">24 Oct 2019</div>
-                            </td>
-                            <td>
-                                <div class="main__table-btns">
-                                    <a href="#modal-status" class="main__table-btn main__table-btn--banned open-modal">
-                                        <i class="icon ion-ios-lock"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--view">
-                                        <i class="icon ion-ios-eye"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--edit">
-                                        <i class="icon ion-ios-create"></i>
-                                    </a>
-                                    <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                        <i class="icon ion-ios-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="main__table-text">30</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">Blindspotting</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 8.4</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">Movie</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">2457</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--green">Visible</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">24 Oct 2019</div>
-                            </td>
-                            <td>
-                                <div class="main__table-btns">
-                                    <a href="#modal-status" class="main__table-btn main__table-btn--banned open-modal">
-                                        <i class="icon ion-ios-lock"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--view">
-                                        <i class="icon ion-ios-eye"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--edit">
-                                        <i class="icon ion-ios-create"></i>
-                                    </a>
-                                    <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                        <i class="icon ion-ios-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        <tr>
-                            <td>
-                                <div class="main__table-text">31</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">I Dream in Another Language</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 7.9</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">Movie</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">1392</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--green">Visible</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">24 Oct 2019</div>
-                            </td>
-                            <td>
-                                <div class="main__table-btns">
-                                    <a href="#modal-status" class="main__table-btn main__table-btn--banned open-modal">
-                                        <i class="icon ion-ios-lock"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--view">
-                                        <i class="icon ion-ios-eye"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--edit">
-                                        <i class="icon ion-ios-create"></i>
-                                    </a>
-                                    <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                        <i class="icon ion-ios-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="main__table-text">32</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">Benched</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 7.1</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">Movie</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">1093</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text main__table-text--red">Hidden</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">24 Oct 2019</div>
-                            </td>
-                            <td>
-                                <div class="main__table-btns">
-                                    <a href="#modal-status" class="main__table-btn main__table-btn--banned open-modal">
-                                        <i class="icon ion-ios-lock"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--view">
-                                        <i class="icon ion-ios-eye"></i>
-                                    </a>
-                                    <a href="#" class="main__table-btn main__table-btn--edit">
-                                        <i class="icon ion-ios-create"></i>
-                                    </a>
-                                    <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                        <i class="icon ion-ios-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
+
+                        @endforeach
+
                         </tbody>
                     </table>
                 </div>
@@ -455,20 +116,22 @@
             <!-- paginator -->
             <div class="col-12">
                 <div class="paginator-wrap">
-                    <span>10 from 14 452</span>
+                    <span>20 from {{ $videos->total() }}</span>
 
-                    <ul class="paginator">
-                        <li class="paginator__item paginator__item--prev">
-                            <a href="#"><i class="icon ion-ios-arrow-back"></i></a>
-                        </li>
-                        <li class="paginator__item"><a href="#">1</a></li>
-                        <li class="paginator__item paginator__item--active"><a href="#">2</a></li>
-                        <li class="paginator__item"><a href="#">3</a></li>
-                        <li class="paginator__item"><a href="#">4</a></li>
-                        <li class="paginator__item paginator__item--next">
-                            <a href="#"><i class="icon ion-ios-arrow-forward"></i></a>
-                        </li>
-                    </ul>
+{{--                    <ul class="paginator">--}}
+{{--                        <li class="paginator__item paginator__item--prev">--}}
+{{--                            <a href="#"><i class="icon ion-ios-arrow-back"></i></a>--}}
+{{--                        </li>--}}
+{{--                        <li class="paginator__item"><a href="#">1</a></li>--}}
+{{--                        <li class="paginator__item paginator__item--active"><a href="#">2</a></li>--}}
+{{--                        <li class="paginator__item"><a href="#">3</a></li>--}}
+{{--                        <li class="paginator__item"><a href="#">4</a></li>--}}
+{{--                        <li class="paginator__item paginator__item--next">--}}
+{{--                            <a href="#"><i class="icon ion-ios-arrow-forward"></i></a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
+
+                    {{ $videos->links('backend.bulma') }}
                 </div>
             </div>
             <!-- end paginator -->

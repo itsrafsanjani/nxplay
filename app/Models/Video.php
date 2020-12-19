@@ -42,4 +42,9 @@ class Video extends Model
             $video->slug = Str::slug($video->title.'-'.$video->year);
         });
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

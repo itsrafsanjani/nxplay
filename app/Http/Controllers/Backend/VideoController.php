@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VideoController extends Controller
 {
@@ -14,7 +16,9 @@ class VideoController extends Controller
      */
     public function index()
     {
-        return view('backend.video.index');
+        $data['videos'] = Video::with('user')->select('id', 'title', 'imdb_rating', 'category', 'views', 'status', 'user_id', 'created_at')->paginate(20);
+        return view('backend.video.index', $data);
+//        return $data;
     }
 
     /**
