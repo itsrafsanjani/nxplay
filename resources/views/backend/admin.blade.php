@@ -8,7 +8,7 @@
                 <div class="main__title">
                     <h2>Dashboard</h2>
 
-                    <a href="#" class="main__title-link">add item</a>
+                    <a href="{{ route('videos.create') }}" class="main__title-link">add item</a>
                 </div>
             </div>
             <!-- end main title -->

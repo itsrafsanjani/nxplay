@@ -1,7 +1,7 @@
 <!-- sidebar -->
 <div class="sidebar">
     <!-- sidebar logo -->
-    <a href="{{ route('home') }}" class="sidebar__logo">
+    <a href="{{ route('admin') }}" class="sidebar__logo">
         <img src="{{ asset('img/logo.svg') }}" alt="">
     </a>
     <!-- end sidebar logo -->
@@ -26,11 +26,11 @@
     <!-- sidebar nav -->
     <ul class="sidebar__nav">
         <li class="sidebar__nav-item">
-            <a href="{{ route('home') }}" class="sidebar__nav-link sidebar__nav-link--active"><i class="icon ion-ios-keypad"></i> Dashboard</a>
+            <a href="{{ route('admin') }}" class="sidebar__nav-link {{ request()->routeIs('admin') ? 'sidebar__nav-link--active' : '' }}"><i class="icon ion-ios-keypad"></i> Dashboard</a>
         </li>
 
         <li class="sidebar__nav-item">
-            <a href="#" class="sidebar__nav-link"><i class="icon ion-ios-film"></i> Catalog</a>
+            <a href="{{ route('videos.index') }}" class="sidebar__nav-link {{ request()->routeIs('videos.index') ? 'sidebar__nav-link--active' : '' }}"><i class="icon ion-ios-film"></i> Catalog</a>
         </li>
 
         <li class="sidebar__nav-item">

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Backend\VideoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +24,6 @@ Auth::routes();
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
 
 // admin routes
-Route::get('/admin', function () {
-    return view('backend.admin');
-})->name('admin');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+
+Route::resource('/admin/videos', VideoController::class);
