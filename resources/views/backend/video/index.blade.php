@@ -50,7 +50,7 @@
                             <th>ID</th>
                             <th>TITLE</th>
                             <th>RATING</th>
-                            <th>CATEGORY</th>
+                            <th>TYPE</th>
                             <th>VIEWS</th>
                             <th>STATUS</th>
                             <th>Uploaded By</th>
@@ -73,7 +73,7 @@
                                 <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> {{ $video->imdb_rating }}</div>
                             </td>
                             <td>
-                                <div class="main__table-text">{{ $video->category }}</div>
+                                <div class="main__table-text">{{ $video->type }}</div>
                             </td>
                             <td>
                                 <div class="main__table-text">{{ $video->views }}</div>
@@ -117,19 +117,6 @@
             <div class="col-12">
                 <div class="paginator-wrap">
                     <span>20 from {{ $videos->total() }}</span>
-
-{{--                    <ul class="paginator">--}}
-{{--                        <li class="paginator__item paginator__item--prev">--}}
-{{--                            <a href="#"><i class="icon ion-ios-arrow-back"></i></a>--}}
-{{--                        </li>--}}
-{{--                        <li class="paginator__item"><a href="#">1</a></li>--}}
-{{--                        <li class="paginator__item paginator__item--active"><a href="#">2</a></li>--}}
-{{--                        <li class="paginator__item"><a href="#">3</a></li>--}}
-{{--                        <li class="paginator__item"><a href="#">4</a></li>--}}
-{{--                        <li class="paginator__item paginator__item--next">--}}
-{{--                            <a href="#"><i class="icon ion-ios-arrow-forward"></i></a>--}}
-{{--                        </li>--}}
-{{--                    </ul>--}}
 
                     {{ $videos->links('backend.bulma') }}
                 </div>

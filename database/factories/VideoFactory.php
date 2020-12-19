@@ -26,7 +26,7 @@ class VideoFactory extends Factory
             'user_id' => random_int(1,10),
             'title' => $this->faker->unique()->realText(20),
             'description' => $this->faker->realText(100),
-            'category' => 'Movie',
+            'type' => 'Movie',
             'views' => random_int(1000,100000),
             'runtime' => $this->faker->numberBetween(40, 180),
             'year' => $this->faker->numberBetween(1990, 2020),
@@ -35,7 +35,7 @@ class VideoFactory extends Factory
             'genres' => json_encode(['thriller', 'horror', 'drama']),
             'country' => $this->faker->countryCode,
             'poster' => $this->faker->imageUrl(),
-            'path' => 'http://nxplay.test/storage/videos/video.mp4',
+            'video' => 'http://nxplay.test/storage/videos/video.mp4',
             'status' => 1,
         ];
     }

@@ -16,6 +16,7 @@ class Video extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'title',
         'slug',
         'description',
@@ -26,8 +27,9 @@ class Video extends Model
         'genres',
         'country',
         'poster',
-        'path',
+        'video',
         'type',
+        'status',
     ];
 
     /*

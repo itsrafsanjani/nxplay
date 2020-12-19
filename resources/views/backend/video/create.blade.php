@@ -11,16 +11,37 @@
             </div>
             <!-- end main title -->
 
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    @if($errors->count() === 1)
+                        <li>{{ $errors->first() }}</li>
+                    @else
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+            @endif
+
+            @if(session()->has('message'))
+                <div class="alert alert-{{ session('type')}}">
+                    {{ session('message') }}
+                </div>
+        @endif
+
             <!-- form -->
             <div class="col-12">
-                <form action="#" class="form">
+                <form action="{{ route('videos.store') }}" class="form" method="post" enctype="multipart/form-data">
+                    @csrf
                     <div class="row">
                         <div class="col-12 col-md-5 form__cover">
                             <div class="row">
                                 <div class="col-12 col-sm-6 col-md-12">
                                     <div class="form__img">
                                         <label for="form__img-upload">Upload cover (270 x 400)</label>
-                                        <input id="form__img-upload" name="form__img-upload" type="file" accept=".png, .jpg, .jpeg">
+                                        <input id="form__img-upload" name="poster" type="file" accept=".png, .jpg, .jpeg">
                                         <img id="form__img" src="#" alt=" ">
                                     </div>
                                 </div>
@@ -29,36 +50,25 @@
 
                         <div class="col-12 col-md-7 form__content">
                             <div class="row">
+                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                 <div class="col-12">
-                                    <input type="text" class="form__input" placeholder="Title">
+                                    <input type="text" class="form__input" name="title" placeholder="Title" value="{{ old('title') }}">
                                 </div>
 
                                 <div class="col-12">
-                                    <textarea id="text" name="text" class="form__textarea" placeholder="Description"></textarea>
+                                    <textarea id="text" name="description" class="form__textarea" placeholder="Description">{{ old('description') }}</textarea>
                                 </div>
 
-                                <div class="col-12 col-sm-6 col-lg-3">
-                                    <input type="text" class="form__input" placeholder="Release year">
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" name="year" class="form__input" placeholder="Release year" value="{{ old('year') }}">
                                 </div>
 
-                                <div class="col-12 col-sm-6 col-lg-3">
-                                    <input type="text" class="form__input" placeholder="Running timed in minutes">
-                                </div>
-
-                                <div class="col-12 col-sm-6 col-lg-3">
-                                    <select class="js-example-basic-single" id="quality">
-                                        <option value=""></option>
-                                        <option value="FullHD">FullHD</option>
-                                        <option value="HD">HD</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-12 col-sm-6 col-lg-3">
-                                    <input type="text" class="form__input" placeholder="Age">
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" name="runtime" class="form__input" placeholder="Running timed in minutes" value="{{ old('runtime') }}">
                                 </div>
 
                                 <div class="col-12 col-lg-6">
-                                    <select class="js-example-basic-multiple" id="country" multiple="multiple">
+                                    <select class="js-example-basic-multiple" id="country" name="country">
                                         <option value="Afghanistan">Afghanistan</option>
                                         <option value="Åland Islands">Åland Islands</option>
                                         <option value="Albania">Albania</option>
@@ -284,7 +294,7 @@
                                 </div>
 
                                 <div class="col-12 col-lg-6">
-                                    <select class="js-example-basic-multiple" id="genre" multiple="multiple">
+                                    <select class="js-example-basic-multiple" id="genre" multiple name="genres[]">
                                         <option value="Action">Action</option>
                                         <option value="Animation">Animation</option>
                                         <option value="Comedy">Comedy</option>
@@ -297,33 +307,53 @@
                                         <option value="Science-fiction">Science-fiction</option>
                                         <option value="Thriller">Thriller</option>
                                         <option value="Western">Western</option>
-                                        <option value="Otheer">Otheer</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                 </div>
 
-                                <div class="col-12">
-                                    <div class="form__gallery">
-                                        <label id="gallery1" for="form__gallery-upload">Upload photos</label>
-                                        <input data-name="#gallery1" id="form__gallery-upload" name="gallery" class="form__gallery-upload" type="file" accept=".png, .jpg, .jpeg" multiple>
-                                    </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" name="imdb_id" class="form__input" placeholder="IMDb Id" value="{{ old('imdb_id') }}">
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" name="imdb_rating" class="form__input" placeholder="IMDb Rating" value="{{ old('imdb_rating') }}">
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-12">
-                            <ul class="form__radio">
-                                <li>
-                                    <span>Item type:</span>
-                                </li>
-                                <li>
-                                    <input id="type1" type="radio" name="type" checked="">
-                                    <label for="type1">Movie</label>
-                                </li>
-                                <li>
-                                    <input id="type2" type="radio" name="type">
-                                    <label for="type2">TV Series</label>
-                                </li>
-                            </ul>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <ul class="form__radio">
+                                        <li>
+                                            <span>Item type:</span>
+                                        </li>
+                                        <li>
+                                            <input id="type1" type="radio" name="type" value="1" checked>
+                                            <label for="type1">Movie</label>
+                                        </li>
+                                        <li>
+                                            <input id="type2" type="radio" name="type" value="0">
+                                            <label for="type2">TV Series</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6">
+                                    <ul class="form__radio">
+                                        <li>
+                                            <span>Status:</span>
+                                        </li>
+                                        <li>
+                                            <input id="type3" type="radio" name="status" value="1" checked>
+                                            <label for="type3">Published</label>
+                                        </li>
+                                        <li>
+                                            <input id="type4" type="radio" name="status" value="0">
+                                            <label for="type4">Unpublished</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-12">
@@ -331,12 +361,12 @@
                                 <div class="col-12">
                                     <div class="form__video">
                                         <label id="movie1" for="form__video-upload">Upload video</label>
-                                        <input data-name="#movie1" id="form__video-upload" name="movie" class="form__video-upload" type="file" accept="video/mp4,video/x-m4v,video/*">
+                                        <input data-name="#movie1" id="form__video-upload" name="video" class="form__video-upload" type="file" accept="video/mp4,video/x-m4v,video/*">
                                     </div>
                                 </div>
 
                                 <div class="col-12">
-                                    <button type="button" class="form__btn">publish</button>
+                                    <button type="submit" class="form__btn">publish</button>
                                 </div>
                             </div>
                         </div>
@@ -346,4 +376,23 @@
             <!-- end form -->
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            $('#form__img').attr('src', e.target.result);
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#form__img-upload").change(function(){
+            readURL(this);
+        });
+    </script>
 @endsection
