@@ -19,6 +19,8 @@ class CreateVideosTable extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('description');
+            $table->string('category', 20);
+            $table->unsignedBigInteger('views');
             $table->string('runtime', 3);
             $table->string('year', 4);
             $table->string('imdb_id',9)->unique();
@@ -27,7 +29,7 @@ class CreateVideosTable extends Migration
             $table->string('country', 20);
             $table->string('poster');
             $table->string('path');
-            $table->string('type', 20);
+            $table->tinyInteger('status');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
