@@ -7,6 +7,7 @@ use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
 
 class VideoController extends Controller
 {
@@ -17,7 +18,7 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $data['videos'] = Video::with('user')->select('id', 'title', 'imdb_rating', 'type', 'views', 'status', 'user_id', 'created_at')->paginate(20);
+        $data['videos'] = Video::with('user')->select('id', 'title', 'imdb_rating', 'type', 'views', 'status', 'user_id', 'created_at', 'updated_at')->paginate(20);
         return view('backend.video.index', $data);
 //        return $data;
     }
@@ -122,11 +123,13 @@ class VideoController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        $data['video'] = Video::select('id', 'title', 'description', 'year', 'runtime', 'country', 'genres', 'imdb_id', 'imdb_rating', 'type', 'status')->find($id);
+        return view('backend.video.edit', $data);
+//        return $data;
     }
 
     /**
@@ -134,21 +137,57 @@ class VideoController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+                'title' => 'required|min:5',
+                'description' => 'required|min:5',
+                'runtime' => 'required',
+                'year' => 'required',
+                'imdb_id' => 'required',
+                'imdb_rating' => 'required',
+                'genres' => 'required',
+                'country' => 'required',
+                'type' => 'required',
+                'status' => 'required',
+        ]);
+
+        // database update
+        $video = Video::find($id);
+        $video->update($request->all());
+
+        // redirect
+        session()->flash('message', 'Video updated');
+        session()->flash('type', 'success');
+        return redirect()->route('videos.index');
+
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
-        //
+        $video = Video::find($id);
+        $videoPoster = $video->poster;
+        $videoVideo = $video->video;
+
+        if(file_exists($videoPoster)){
+            @unlink($videoPoster);
+        }
+        if(file_exists($videoVideo)){
+            @unlink($videoVideo);
+        }
+
+        $video->delete();
+        session()->flash('message', 'Video deleted');
+        session()->flash('type', 'success');
+        return redirect()->back();
     }
 }

@@ -8,7 +8,7 @@
                 <div class="main__title">
                     <h2>Catalog</h2>
 
-                    <span class="main__title-stat">14,452 Total</span>
+                    <span class="main__title-stat">{{ $videos->total() }} Total</span>
 
                     <div class="main__title-wrap">
                         <!-- filter sort -->
@@ -37,6 +37,7 @@
                         </form>
                         <!-- end search -->
                     </div>
+                    <a href="{{ route('videos.create') }}" class="main__title-link">add item</a>
                 </div>
             </div>
             <!-- end main title -->
@@ -55,6 +56,7 @@
                             <th>STATUS</th>
                             <th>Uploaded By</th>
                             <th>CREATED DATE</th>
+                            <th>UPDATED DATE</th>
                             <th>ACTIONS</th>
                         </tr>
                         </thead>
@@ -88,6 +90,9 @@
                                 <div class="main__table-text">{{ $video->created_at->diffForHumans() }}</div>
                             </td>
                             <td>
+                                <div class="main__table-text">{{ $video->updated_at->diffForHumans() }}</div>
+                            </td>
+                            <td>
                                 <div class="main__table-btns">
                                     <a href="#modal-status" class="main__table-btn main__table-btn--banned open-modal">
                                         <i class="icon ion-ios-lock"></i>
@@ -95,13 +100,47 @@
                                     <a href="#" class="main__table-btn main__table-btn--view">
                                         <i class="icon ion-ios-eye"></i>
                                     </a>
-                                    <a href="#" class="main__table-btn main__table-btn--edit">
+                                    <a href="{{ route('videos.edit', $video->id) }}" class="main__table-btn main__table-btn--edit">
                                         <i class="icon ion-ios-create"></i>
                                     </a>
+
+                                    <form action="{{ route('videos.destroy', $video->id) }}" id="deleteForm" class="d-none"
+                                          method="POST" onsubmit="return confirm('Are you sure to delete data?')">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+
                                     <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
                                         <i class="icon ion-ios-trash"></i>
                                     </a>
                                 </div>
+
+                                <!-- modal status -->
+                                <div id="modal-status" class="zoom-anim-dialog mfp-hide modal">
+                                    <h6 class="modal__title">Status change</h6>
+
+                                    <p class="modal__text">Are you sure about immediately change status?</p>
+
+                                    <div class="modal__btns">
+                                        <button class="modal__btn modal__btn--apply" type="button">Apply</button>
+                                        <button class="modal__btn modal__btn--dismiss" type="button">Dismiss</button>
+                                    </div>
+                                </div>
+                                <!-- end modal status -->
+
+                                <!-- modal delete -->
+                                <div id="modal-delete" class="zoom-anim-dialog mfp-hide modal">
+                                    <h6 class="modal__title">Item delete</h6>
+
+                                    <p class="modal__text">Are you sure to permanently delete this item?</p>
+
+                                    <div class="modal__btns">
+                                        <button class="modal__btn modal__btn--apply" type="button" onclick="event.preventDefault(); document.getElementById('deleteForm').submit();">Delete</button>
+                                        <button class="modal__btn modal__btn--dismiss" type="button">Dismiss</button>
+                                    </div>
+                                </div>
+                                <!-- end modal delete -->
+
                             </td>
                         </tr>
 
@@ -127,29 +166,5 @@
 @endsection
 
 @section('modal')
-    <!-- modal status -->
-    <div id="modal-status" class="zoom-anim-dialog mfp-hide modal">
-        <h6 class="modal__title">Status change</h6>
 
-        <p class="modal__text">Are you sure about immediately change status?</p>
-
-        <div class="modal__btns">
-            <button class="modal__btn modal__btn--apply" type="button">Apply</button>
-            <button class="modal__btn modal__btn--dismiss" type="button">Dismiss</button>
-        </div>
-    </div>
-    <!-- end modal status -->
-
-    <!-- modal delete -->
-    <div id="modal-delete" class="zoom-anim-dialog mfp-hide modal">
-        <h6 class="modal__title">Item delete</h6>
-
-        <p class="modal__text">Are you sure to permanently delete this item?</p>
-
-        <div class="modal__btns">
-            <button class="modal__btn modal__btn--apply" type="button">Delete</button>
-            <button class="modal__btn modal__btn--dismiss" type="button">Dismiss</button>
-        </div>
-    </div>
-    <!-- end modal delete -->
 @endsection
