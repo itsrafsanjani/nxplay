@@ -25,14 +25,18 @@
 </head>
 <body>
 @include('backend.partials._header')
-
-@include('backend.partials._sidebar')
+@includeWhen(Auth::check(), 'backend.partials._sidebar')
 <div id="app">
 
-    <main class="main">
-        @yield('content')
-    </main>
-@yield('modal')
+    @auth
+        <main class="main">
+            @endauth
+            @yield('content')
+            @auth
+        </main>
+    @endauth
+
+    @yield('modal')
 </div>
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>

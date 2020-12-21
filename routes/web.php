@@ -22,9 +22,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['middleware' => 'auth'], function (){
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
+        ->name('home');
 
-// admin routes
-Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    // admin routes
+    Route::get('/admin', [AdminController::class, 'index'])
+        ->name('admin');
 
-Route::resource('/admin/videos', VideoController::class);
+    Route::resource('/admin/videos', VideoController::class);
+});
+
+

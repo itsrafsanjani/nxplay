@@ -75,7 +75,7 @@
                                 <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> {{ $video->imdb_rating }}</div>
                             </td>
                             <td>
-                                <div class="main__table-text">{{ $video->type }}</div>
+                                <div class="main__table-text">@if($video->type == 0) Movie @else TV Series @endif</div>
                             </td>
                             <td>
                                 <div class="main__table-text">{{ $video->views }}</div>

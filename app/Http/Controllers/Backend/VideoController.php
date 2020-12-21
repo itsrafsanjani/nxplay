@@ -18,7 +18,7 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $data['videos'] = Video::with('user')->select('id', 'title', 'imdb_rating', 'type', 'views', 'status', 'user_id', 'created_at', 'updated_at')->paginate(20);
+        $data['videos'] = Video::with('user')->select('id', 'title', 'imdb_rating', 'type', 'views', 'status', 'user_id', 'created_at', 'updated_at')->orderBy('id', 'desc')->paginate(20);
         return view('backend.video.index', $data);
 //        return $data;
     }

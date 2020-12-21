@@ -17,9 +17,13 @@
             <p>John Doe</p>
         </div>
 
-        <button class="sidebar__user-btn" type="button">
+        <a href="{{ route('logout') }}" class="sidebar__user-btn" type="button" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="icon ion-ios-log-out"></i>
-        </button>
+        </a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
     </div>
     <!-- end sidebar user -->
 
