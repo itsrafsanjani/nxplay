@@ -6,9 +6,9 @@
             <!-- main title -->
             <div class="col-12">
                 <div class="main__title">
-                    <h2>Catalog</h2>
+                    <h2>Users</h2>
 
-                    <span class="main__title-stat">{{ $videos->total() }} Total</span>
+                    <span class="main__title-stat">{{ $users->total() }} Total</span>
 
                     <div class="main__title-wrap">
                         <!-- filter sort -->
@@ -22,22 +22,21 @@
 
                             <ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-sort">
                                 <li>Date created</li>
-                                <li>Rating</li>
-                                <li>Views</li>
+                                <li>Pricing plan</li>
+                                <li>Status</li>
                             </ul>
                         </div>
                         <!-- end filter sort -->
 
                         <!-- search -->
                         <form action="#" class="main__title-form">
-                            <input type="text" placeholder="Find movie / tv series..">
+                            <input type="text" placeholder="Find user..">
                             <button type="button">
                                 <i class="icon ion-ios-search"></i>
                             </button>
                         </form>
                         <!-- end search -->
                     </div>
-                    <a href="{{ route('videos.create') }}" class="main__title-link">add item</a>
                 </div>
             </div>
             <!-- end main title -->
@@ -49,67 +48,54 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>TITLE</th>
-                            <th>RATING</th>
-                            <th>TYPE</th>
-                            <th>VIEWS</th>
+                            <th>BASIC INFO</th>
+                            <th>PHONE NUMBER</th>
                             <th>STATUS</th>
-                            <th>Uploaded By</th>
+                            <th>ROLE</th>
                             <th>CREATED DATE</th>
-                            <th>UPDATED DATE</th>
                             <th>ACTIONS</th>
                         </tr>
                         </thead>
 
                         <tbody>
 
-                        @foreach($videos as $video)
+                        @foreach($users as $user)
+
                         <tr>
                             <td>
-                                <div class="main__table-text">{{ $video->id }}</div>
+                                <div class="main__table-text">{{ $user->id }}</div>
                             </td>
                             <td>
-                                <div class="main__table-text">{{ $video->title }}</div>
+                                <div class="main__user">
+                                    <div class="main__avatar">
+                                        <img src="{{ asset('img/user.svg') }}" alt="">
+                                    </div>
+                                    <div class="main__meta">
+                                        <h3>{{ $user->name }}</h3>
+                                        <span>{{ $user->email }}</span>
+                                    </div>
+                                </div>
                             </td>
                             <td>
-                                <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> {{ $video->imdb_rating }}</div>
+                                <div class="main__table-text">{{ $user->phone_number }}</div>
                             </td>
                             <td>
-                                <div class="main__table-text">@if($video->type == 0) Movie @else TV Series @endif</div>
+                                <div class="main__table-text main__table-text--green">Approved</div>
                             </td>
                             <td>
-                                <div class="main__table-text">{{ $video->views }}</div>
+                                <div class="main__table-text">@if($user->role == 1) Admin @else User @endif</div>
                             </td>
                             <td>
-                                <div class="main__table-text main__table-text--green">{{ $video->status }}</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">{{ $video->user->name }}</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">{{ $video->created_at->diffForHumans() }}</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">{{ $video->updated_at->diffForHumans() }}</div>
+                                <div class="main__table-text">{{ $user->created_at->diffForHumans() }}</div>
                             </td>
                             <td>
                                 <div class="main__table-btns">
                                     <a href="#modal-status" class="main__table-btn main__table-btn--banned open-modal">
                                         <i class="icon ion-ios-lock"></i>
                                     </a>
-                                    <a href="#" class="main__table-btn main__table-btn--view">
-                                        <i class="icon ion-ios-eye"></i>
-                                    </a>
-                                    <a href="{{ route('videos.edit', $video->id) }}" class="main__table-btn main__table-btn--edit">
+                                    <a href="#" class="main__table-btn main__table-btn--edit">
                                         <i class="icon ion-ios-create"></i>
                                     </a>
-
-                                    <form action="{{ route('videos.destroy', $video->id) }}" id="deleteForm" class="d-none"
-                                          method="POST" onsubmit="return confirm('Are you sure to delete data?')">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-
                                     <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
                                         <i class="icon ion-ios-trash"></i>
                                     </a>
@@ -130,17 +116,16 @@
 
                                 <!-- modal delete -->
                                 <div id="modal-delete" class="zoom-anim-dialog mfp-hide modal">
-                                    <h6 class="modal__title">Item delete</h6>
+                                    <h6 class="modal__title">User delete</h6>
 
-                                    <p class="modal__text">Are you sure to permanently delete this item?</p>
+                                    <p class="modal__text">Are you sure to permanently delete this user?</p>
 
                                     <div class="modal__btns">
-                                        <button class="modal__btn modal__btn--apply" type="button" onclick="event.preventDefault(); document.getElementById('deleteForm').submit();">Delete</button>
+                                        <button class="modal__btn modal__btn--apply" type="button">Delete</button>
                                         <button class="modal__btn modal__btn--dismiss" type="button">Dismiss</button>
                                     </div>
                                 </div>
                                 <!-- end modal delete -->
-
                             </td>
                         </tr>
 
@@ -155,18 +140,15 @@
             <!-- paginator -->
             <div class="col-12">
                 <div class="paginator-wrap">
-                    @if($videos->total() > 20)
-                        <span>20 from {{ $videos->total() }}</span>
+                    @if($users->total() > 20)
+                        <span>20 from {{ $users->total() }}</span>
                     @else
-                        <span>{{ $videos->total() }} from {{ $videos->total() }}</span>
+                        <span>{{ $users->total() }} from {{ $users->total() }}</span>
                     @endif
+                    {{ $users->links('backend.bulma') }}
                 </div>
             </div>
             <!-- end paginator -->
         </div>
     </div>
-@endsection
-
-@section('modal')
-
 @endsection

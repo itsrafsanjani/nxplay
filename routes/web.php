@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\VideoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -27,10 +28,16 @@ Route::group(['middleware' => 'auth'], function (){
         ->name('home');
 
     // admin routes
-    Route::get('/admin', [AdminController::class, 'index'])
-        ->name('admin');
+    Route::group(['prefix' => 'admin'], function (){
 
-    Route::resource('/admin/videos', VideoController::class);
+        Route::get('/', [AdminController::class, 'index'])
+            ->name('admin');
+
+        Route::resource('/videos', VideoController::class);
+
+        Route::resource('/users', UserController::class);
+    });
+
 });
 
 

@@ -38,7 +38,7 @@
         </li>
 
         <li class="sidebar__nav-item">
-            <a href="#" class="sidebar__nav-link"><i class="icon ion-ios-contacts"></i> Users</a>
+            <a href="{{ route('users.index') }}" class="sidebar__nav-link"><i class="icon ion-ios-contacts"></i> Users</a>
         </li>
 
         <li class="sidebar__nav-item">
