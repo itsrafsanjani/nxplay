@@ -55,13 +55,11 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $data['user'] = User::find($id);
-        return view('backend.user.edit', $data);
-//        return $data;
+        //
     }
 
     /**
@@ -69,39 +67,21 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required|min:5',
-            'role' => 'required',
-        ]);
-
-        // database update
-        $user = User::find($id);
-        $user->update($request->only('name', 'role'));
-
-        // redirect
-        session()->flash('message', 'User updated');
-        session()->flash('type', 'success');
-        return redirect()->route('users.index');
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $user = User::find($id);
-        $user->delete();
-
-        session()->flash('message', 'User deleted');
-        session()->flash('type', 'success');
-
-        return redirect()->back();
+        //
     }
 }
