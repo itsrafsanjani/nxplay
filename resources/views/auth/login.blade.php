@@ -15,6 +15,14 @@
                         </a>
 
                         <div class="sign__group">
+                            <a href="{{ route('login.google') }}" class="btn btn-danger btn-block"><i class="icon ion-logo-google" style="font-size: 18px; margin-right: 3px;"></i> Sign in with Google</a>
+                            <a href="{{ route('login.facebook') }}" class="btn btn-primary btn-block"><i class="icon ion-logo-facebook" style="font-size: 18px; margin-right: 3px;"></i> Sign in with Facebook</a>
+                            <a href="{{ route('login.github') }}" class="btn btn-dark btn-block"><i class="icon ion-logo-github" style="font-size: 18px; margin-right: 3px;"></i> Sign in with Github</a>
+                        </div>
+
+                        <p class="text-center text-white">OR</p>
+
+                        <div class="sign__group">
                             <input id="email" type="email" class="sign__input @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email">
 
                             @error('email')

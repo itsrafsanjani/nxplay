@@ -35,16 +35,6 @@
                         </div>
 
                         <div class="sign__group">
-                            <input id="phone_number" type="text" class="sign__input @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ old('phone_number') }}" required placeholder="Phone number">
-
-                            @error('phone_number')
-                            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                            @enderror
-                        </div>
-
-                        <div class="sign__group">
                             <input id="password" type="password" class="sign__input @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Password">
 
                             @error('password')
@@ -70,6 +60,14 @@
                         </div>
 
                         <button class="sign__btn" type="submit">Sign up</button>
+
+                        <p class="text-center text-white">OR</p>
+
+                        <div class="sign__group">
+                            <a href="{{ route('login.google') }}" class="btn btn-danger btn-block"><i class="icon ion-logo-google" style="font-size: 18px; margin-right: 3px;"></i> Sign in with Google</a>
+                            <a href="{{ route('login.facebook') }}" class="btn btn-primary btn-block"><i class="icon ion-logo-google" style="font-size: 18px; margin-right: 3px;"></i> Sign in with Facebook</a>
+                            <a href="{{ route('login.github') }}" class="btn btn-dark btn-block"><i class="icon ion-logo-google" style="font-size: 18px; margin-right: 3px;"></i> Sign in with Github</a>
+                        </div>
 
                         <span class="sign__text">Already have an account? <a href="{{ route('login') }}">Sign in!</a></span>
                     </form>
