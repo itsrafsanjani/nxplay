@@ -23,10 +23,14 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], func
     Route::post('login', 'AuthController@login');
     Route::post('register', 'AuthController@register');
 
+    Route::post('forgot-password', 'AuthController@forgotPassword');
+    Route::post('reset', 'AuthController@passwordReset');
+
+    Route::post('refresh', 'AuthController@refresh');
+
     Route::group(['middleware' => 'auth:api'], function () {
         Route::post('logout', 'AuthController@logout');
-        Route::post('refresh', 'AuthController@refresh');
-        Route::post('me', 'AuthController@me');
+        Route::get('me', 'AuthController@me');
 
         Route::resource('videos', 'VideoController')->only('index', 'show');
     });
