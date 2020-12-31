@@ -18,11 +18,20 @@ use Illuminate\Support\Facades\Route;
 //});
 //
 
-Route::post('login', 'AuthController@login');
-Route::post('register', 'AuthController@register');
 
-Route::group(['middleware' => 'auth:api', 'namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], function () {
-    Route::post('logout', 'AuthController@logout');
+Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], function () {
+    Route::post('login', 'AuthController@login');
+    Route::post('register', 'AuthController@register');
+
+    Route::post('forgot-password', 'AuthController@forgotPassword');
+    Route::post('reset', 'AuthController@passwordReset');
+
     Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
+
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::post('logout', 'AuthController@logout');
+        Route::get('me', 'AuthController@me');
+
+        Route::resource('videos', 'VideoController')->only('index', 'show');
+    });
 });
