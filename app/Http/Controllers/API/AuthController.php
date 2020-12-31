@@ -25,16 +25,16 @@ class AuthController extends Controller
 
     public function register(Request $request): \Illuminate\Http\JsonResponse
     {
-        try {
-            $this->validate($request, [
-                'name' => 'required|min:5',
-                'email' => 'required|email|min:5|unique:users',
-                'password' => 'required|min:8',
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'data' => $e->getMessage()
-            ], 422);
+        $input = $request->only('name', 'email', 'password');
+        $validator = Validator::make($input, [
+            'name' => 'required|min:5',
+            'email' => 'required|email|min:5|unique:users',
+            'password' => 'required|min:8',
+        ]);
+
+        if ($validator->fails()) {
+            $response['data'] = $validator->errors();
+            return response()->json($response);
         }
 
         try {
