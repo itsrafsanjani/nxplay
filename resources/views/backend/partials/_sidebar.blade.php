@@ -14,7 +14,7 @@
 
         <div class="sidebar__user-title">
             <span>Admin</span>
-            <p>John Doe</p>
+            <p>{{ auth()->user()->name }}</p>
         </div>
 
         <a href="{{ route('logout') }}" class="sidebar__user-btn" type="button" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

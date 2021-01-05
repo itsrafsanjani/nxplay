@@ -7,7 +7,6 @@ use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Yajra\DataTables\Facades\DataTables;
 
 class VideoController extends Controller
 {

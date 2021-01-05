@@ -56,7 +56,6 @@
                         <tr>
                             <th>ID</th>
                             <th>BASIC INFO</th>
-                            <th>PHONE NUMBER</th>
                             <th>STATUS</th>
                             <th>ROLE</th>
                             <th>CREATED DATE</th>
@@ -82,9 +81,6 @@
                                         <span>{{ $user->email }}</span>
                                     </div>
                                 </div>
-                            </td>
-                            <td>
-                                <div class="main__table-text">{{ $user->phone_number }}</div>
                             </td>
                             <td>
                                 <div class="main__table-text main__table-text--green">Approved</div>
