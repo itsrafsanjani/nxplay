@@ -28,6 +28,8 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], func
 
     Route::post('refresh', 'AuthController@refresh');
 
+    Route::post('google', 'AuthController@google');
+
     Route::group(['middleware' => 'auth:api'], function () {
         Route::post('logout', 'AuthController@logout');
         Route::get('me', 'AuthController@me');

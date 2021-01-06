@@ -4,11 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Google_Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -33,8 +33,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $response['data'] = $validator->errors();
-            return response()->json($response);
+            return response()->json($validator->errors());
         }
 
         try {
@@ -114,5 +113,50 @@ class AuthController extends Controller
         });
         $message = $response == Password::PASSWORD_RESET ? 'Password reset successfully' : GLOBAL_SOMETHING_WANTS_TO_WRONG;
         return response()->json($message);
+    }
+
+    public function google(Request $request)
+    {
+        // Get $id_token via HTTPS POST.
+
+        $url_endpoint = "https://oauth2.googleapis.com/tokeninfo?id_token=";
+
+        $client = new Google_Client(['client_id' => env('IMAMS_GOOGLE_CLIENT_ID')]);
+        // Specify the CLIENT_ID of the app that accesses the backend
+
+        $id_token = $request->only('id_token');
+
+        $validator = Validator::make($id_token, [
+            'id_token' => "required"
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $data = $client->verifyIdToken($id_token);
+        if ($data) {
+            $user = User::where('email', '=', $data->email)->first();
+
+            if (!$user) {
+                $user = new User();
+                $user->name = $data->name;
+                $user->email = $data->email;
+                $user->provider_id = $data->sub;
+                $user->avatar = $data->picture;
+                $user->save();
+            }
+
+            if($user){
+                $user->provider_id = $data->sub;
+                $user->avatar = $data->picture;
+                $user->save();
+            }
+            return $this->respondWithToken($id_token);
+            // If request specified a G Suite domain:
+            //$domain = $payload['hd'];
+        } else {
+            return response()->json(["message"=> "Not found or id_token expired!"], 200);
+        }
     }
 }

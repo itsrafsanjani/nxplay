@@ -50,7 +50,7 @@ class LoginController extends Controller
     // Google callback
     public function handleGoogleCallback()
     {
-        $user = Socialite::driver('google')->stateless()->user();
+        $user = Socialite::driver('google')->user();
 
         // $user->token;
 
@@ -68,7 +68,7 @@ class LoginController extends Controller
     // Facebook callback
     public function handleFacebookCallback()
     {
-        $user = Socialite::driver('facebook')->stateless()->user();
+        $user = Socialite::driver('facebook')->user();
 
         // $user->token;
 
@@ -86,7 +86,7 @@ class LoginController extends Controller
     // Github callback
     public function handleGithubCallback()
     {
-        $user = Socialite::driver('github')->stateless()->user();
+        $user = Socialite::driver('github')->user();
 
         // $user->token;
 
@@ -103,6 +103,12 @@ class LoginController extends Controller
             $user = new User();
             $user->name = $data->name;
             $user->email = $data->email;
+            $user->provider_id = $data->id;
+            $user->avatar = $data->avatar;
+            $user->save();
+        }
+
+        if($user){
             $user->provider_id = $data->id;
             $user->avatar = $data->avatar;
             $user->save();
