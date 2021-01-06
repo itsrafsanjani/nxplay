@@ -174,8 +174,8 @@ class VideoController extends Controller
     public function destroy($id)
     {
         $video = Video::find($id);
-        $videoPoster = $video->poster;
-        $videoVideo = $video->video;
+        $videoPoster = 'storage/images'.$video->poster;
+        $videoVideo = 'storage/videos'.$video->video;
 
         if(file_exists($videoPoster)){
             @unlink($videoPoster);

@@ -31,11 +31,11 @@ class VideoFactory extends Factory
             'runtime' => $this->faker->numberBetween(40, 180),
             'year' => $this->faker->numberBetween(1990, 2020),
             'imdb_id' => 'tt'.$this->faker->unique()->randomNumber(7),
-            'imdb_rating' => random_int(1,9),
+            'imdb_rating' => rand(1,9),
             'genres' => json_encode(['thriller', 'horror', 'drama']),
             'country' => $this->faker->countryCode,
-            'poster' => $this->faker->imageUrl(),
-            'video' => 'http://nxplay.test/storage/videos/video.mp4',
+            'poster' => 'cover.png',
+            'video' => 'video.mp4',
             'status' => 1,
         ];
     }

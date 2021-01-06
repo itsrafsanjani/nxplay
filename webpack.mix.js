@@ -19,4 +19,21 @@ mix.js('resources/js/app.js', 'public/js/app.js')
     .js([
         'resources/js/admin.js',
     ], 'public/js/admin.js')
+    .styles([
+        'resources/css/frontend/owl.carousel.min.css',
+        'resources/css/frontend/nouislider.min.css',
+        'resources/css/frontend/plyr.css',
+        'resources/css/frontend/photoswipe.css',
+        'resources/css/frontend/default-skin.css',
+        'resources/css/frontend/main.css',
+    ], 'public/css/frontend.css')
+    .js([
+        'resources/js/frontend/owl.carousel.min.js',
+        'resources/js/frontend/wNumb.js',
+        'resources/js/frontend/nouislider.min.js',
+        'resources/js/frontend/jquery.morelines.min.js',
+        'resources/js/frontend/photoswipe.min.js',
+        'resources/js/frontend/photoswipe-ui-default.min.js',
+        'resources/js/frontend/main.js',
+    ], 'public/js/frontend.js')
     .sourceMaps();

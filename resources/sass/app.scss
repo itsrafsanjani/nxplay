@@ -2,7 +2,17 @@
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+@import "~bootstrap/scss/_mixins";
+@import '~bootstrap/scss/_reboot';
+@import '~bootstrap/scss/_grid';
+@import '~bootstrap/scss/_buttons';
+@import '~bootstrap/scss/_button-group';
+@import '~bootstrap/scss/_forms';
+@import '~bootstrap/scss/_alert';
+@import '~bootstrap/scss/_dropdown';
+@import '~bootstrap/scss/utilities/_display';
 
 // installed packages
 @import '~magnific-popup/dist/magnific-popup.css';

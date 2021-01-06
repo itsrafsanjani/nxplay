@@ -4,12 +4,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\VideoController;
+use App\Http\Controllers\Frontend\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
@@ -26,8 +25,8 @@ Route::get('login/github', [LoginController::class, 'redirectToGithub'])->name('
 Route::get('login/github/callback', [LoginController::class, 'handleGithubCallback']);
 
 Route::group(['middleware' => 'auth'], function (){
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
-        ->name('home');
+    Route::get('/videos/{slug}', [\App\Http\Controllers\Frontend\VideoController::class, 'show'])
+        ->name('frontend.videos.show');
 
     // admin routes
     Route::group(['prefix' => 'admin'], function (){

@@ -1,0 +1,5 @@
+/*! PhotoSwipe - v4.1.2 - 2017-04-05
+* http://photoswipe.com
+* Copyright (c) 2017 Dmitry Semenov; */
+
+/*! nouislider - 11.1.0 - 2018-04-02 11:18:13 */
