@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth'], function (){
         ->name('frontend.videos.show');
 
     // admin routes
-    Route::group(['prefix' => 'admin'], function (){
+    Route::group(['prefix' => 'admin', 'middleware' => 'role'], function (){
 
         Route::get('/', [AdminController::class, 'index'])
             ->name('admin');
