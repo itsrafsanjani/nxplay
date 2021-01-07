@@ -19,7 +19,7 @@ NXPlay is an open source streaming entertainment service created with Laravel.
 
 ## Contributing
 
-Thank you for considering contributing to the LLC Ecommerce!
+Thank you for considering contributing to the NXPlay!
 
 ## Contribution Guideline
 
@@ -34,4 +34,4 @@ Thank you for considering contributing to the LLC Ecommerce!
 
 ## License
 
-The LLC Ecommerce is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The NXPlay is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
