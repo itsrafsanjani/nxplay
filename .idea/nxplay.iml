@@ -135,5 +135,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="ionicons" level="application" />
+    <orderEntry type="library" name="plyr" level="application" />
   </component>
 </module>

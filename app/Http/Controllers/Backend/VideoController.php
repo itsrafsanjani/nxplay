@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -42,16 +43,7 @@ class VideoController extends Controller
     {
         $rules = [
             'user_id' => 'required',
-            'title' => 'required|min:5',
-            'description' => 'required|min:5',
-            'runtime' => 'required',
-            'year' => 'required',
             'imdb_id' => 'required',
-            'imdb_rating' => 'required',
-            'genres' => 'required',
-            'country' => 'required',
-            'poster' => 'required',
-            'type' => 'required',
             'video' => 'required',
             'status' => 'required',
         ];
@@ -62,38 +54,41 @@ class VideoController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $poster = $request->file('poster');
-        $imageFile = $poster->getClientOriginalName();
-        $imageFileName = pathinfo($imageFile, PATHINFO_FILENAME);
-        $extension = pathinfo($imageFile, PATHINFO_EXTENSION);
-        $imageName = Str::slug($imageFileName).'-'.Str::orderedUuid().'.'.$extension;
+        $response = Http::get(env('OMDB_API_SECRET').'i='.$request->imdb_id);
 
-        $video = $request->file('video');
-        $videoFile = $video->getClientOriginalName();
-        $videoFileName = pathinfo($videoFile, PATHINFO_FILENAME);
-        $extension = pathinfo($videoFile, PATHINFO_EXTENSION);
-        $videoName = Str::slug($videoFileName).'-'.Str::orderedUuid().'.'.$extension;
+        if($response){
+            $videoInfo = json_decode($response->body());
 
-        $data = [
-            'user_id' => $request->input('user_id'),
-            'title' => trim($request->input('title')),
-            'description' => $request->input('description'),
-            'runtime' => $request->input('runtime'),
-            'year' => $request->input('year'),
-            'imdb_id' => $request->input('imdb_id'),
-            'imdb_rating' => $request->input('imdb_rating'),
-            'genres' => json_encode($request->input('genres')),
-            'country' => $request->input('country'),
-            'poster' => $imageName,
-            'type' => $request->input('type'),
-            'video' => $videoName,
-            'status' => $request->input('status'),
-        ];
+            $video = $request->file('video');
+            $videoFile = $video->getClientOriginalName();
+            $videoFileName = pathinfo($videoFile, PATHINFO_FILENAME);
+            $extension = pathinfo($videoFile, PATHINFO_EXTENSION);
+            $videoName = Str::slug($videoFileName).'-'.Str::orderedUuid().'.'.$extension;
+
+            $data = [
+                'user_id' => $request->input('user_id'),
+                'title' => $videoInfo->Title,
+                'description' => $videoInfo->Plot,
+                'runtime' => $videoInfo->Runtime,
+                'year' => $videoInfo->Year,
+                'imdb_id' => $request->input('imdb_id'),
+                'imdb_rating' => $videoInfo->imdbRating,
+                'genres' => json_encode(explode(',', $videoInfo->Genre)),
+                'country' => json_encode(explode(',', $videoInfo->Country)),
+                'directors' => json_encode(explode(',', $videoInfo->Director)),
+                'actors' => json_encode(explode(',', $videoInfo->Actors)),
+                'box_office' => isset($videoInfo->BoxOffice) ? $videoInfo->BoxOffice : null,
+                'poster' => $videoInfo->Poster,
+                'type' => $videoInfo->Type,
+                'video' => $videoName,
+                'status' => $request->input('status'),
+            ];
+        }
+
         try {
             Video::create($data);
 
-            if($poster->isValid() && $video->isValid()){
-                $poster->storeAs('images', $imageName);
+            if($video->isValid()){
                 $video->storeAs('videos', $videoName);
             }
 

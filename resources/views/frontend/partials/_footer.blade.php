@@ -8,8 +8,7 @@
                         <img src="{{ asset('img/logo.svg') }}" alt=""/>
                     </a>
 
-                    <span class="footer__copyright">© 2020 NXPlay<br/>Created by<a
-                            href="#">Md Rafsan Jani Rafin</a></span>
+                    <span class="footer__copyright">© 2020 NXPlay<br/>Created by <a href="#">Md Rafsan Jani Rafin</a></span>
                     <nav class="footer__nav">
                         <a href="#">About Us</a>
                         <a href="#">Contacts</a>

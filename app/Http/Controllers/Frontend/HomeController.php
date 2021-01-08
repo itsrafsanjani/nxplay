@@ -11,6 +11,7 @@ class HomeController extends Controller
     public function index()
     {
         $data['videos'] = Video::paginate(18);
+        $data['newVideos'] = Video::where('status', 1)->latest()->take(5)->get();
         return view('frontend.frontend', $data);
 //        return $data;
     }

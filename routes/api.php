@@ -26,14 +26,15 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], func
     Route::post('forgot-password', 'AuthController@forgotPassword');
     Route::post('reset', 'AuthController@passwordReset');
 
-    Route::post('refresh', 'AuthController@refresh');
+    Route::get('refresh', 'AuthController@refresh');
 
     Route::post('google', 'AuthController@google');
+    Route::post('github', 'AuthController@github');
 
     Route::group(['middleware' => 'auth:api'], function () {
         Route::post('logout', 'AuthController@logout');
         Route::get('me', 'AuthController@me');
 
-        Route::resource('videos', 'VideoController')->only('index', 'sho');
+        Route::resource('videos', 'VideoController')->only('index', 'show');
     });
 });

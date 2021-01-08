@@ -19,7 +19,7 @@
                             <!-- card cover -->
                             <div class="col-12 col-sm-5 col-lg-6 col-xl-5">
                                 <div class="card__cover">
-                                    <img src="{{asset('storage/images/'.$video->poster)}}" alt="">
+                                    <img src="{{ $video->poster }}" alt="">
                                     <span class="card__rate @if($video->imdb_rating>=7)card__rate--green @else card__rate--red @endif">{{ $video->imdb_rating }}</span>
                                 </div>
                             </div>
@@ -29,16 +29,28 @@
                             <div class="col-12 col-sm-7 col-lg-6 col-xl-7">
                                 <div class="card__content">
                                     <ul class="card__meta">
-{{--                                        <li><span>Director:</span> Vince Gilligan</li>--}}
-{{--                                        <li><span>Cast:</span> <a href="#">Brian Cranston</a> <a href="#">Jesse Plemons</a> <a href="#">Matt Jones</a> <a href="#">Jonathan Banks</a>, <a href="#">Charles Baker</a> <a href="#">Tess Harper</a></li>--}}
+                                        <li><span>Director:</span>
+                                            @foreach(json_decode($video->directors) as $director)
+                                                <a href="#">{{ ucfirst($director) }}</a>
+                                            @endforeach
+                                        </li>
+                                        <li><span>Cast:</span>
+                                            @foreach(json_decode($video->actors) as $actor)
+                                                <a href="#">{{ ucfirst($actor) }}</a>
+                                            @endforeach
+                                        </li>
                                         <li><span>Genre:</span>
                                             @foreach(json_decode($video->genres) as $genre)
                                                 <a href="#">{{ ucfirst($genre) }}</a>
                                             @endforeach
                                         </li>
                                         <li><span>Release year:</span> {{ $video->year }}</li>
-                                        <li><span>Running time:</span> {{ $video->runtime }} min</li>
-                                        <li><span>Country:</span> <a href="#">{{ $video->country }}</a></li>
+                                        <li><span>Running time:</span> {{ $video->runtime }}</li>
+                                        <li><span>Country:</span>
+                                            @foreach(json_decode($video->country) as $country)
+                                                <a href="#">{{ ucfirst($country) }}</a>
+                                            @endforeach
+                                        </li>
                                         <li><span>IMDb rating:</span>{{ $video->imdb_rating }} <a href="{{ $video->imdb_id }}">
                                                 <img src="https://ia.media-imdb.com/images/M/MV5BMTk3ODA4Mjc0NF5BMl5BcG5nXkFtZTgwNDc1MzQ2OTE@._V1_.png" alt="imdb logo" style="width: auto; height: 18px; margin-left: 10px"> </a></li>
                                     </ul>
@@ -53,7 +65,7 @@
 
                 <!-- player -->
                 <div class="col-12 col-lg-6">
-                    <video controls crossorigin playsinline poster="{{asset('storage/images/'.$video->poster)}}" id="player">
+                    <video controls crossorigin playsinline poster="{{ $video->poster }}" id="player">
                         <!-- Video files -->
 {{--                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4" size="576">--}}
 {{--                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" size="720">--}}
@@ -78,7 +90,3 @@
     </section>
     <!-- end details -->
 @endsection
-
-@push('javascripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.3/plyr.min.js"></script>
-@endpush
