@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Search Engine -->
     <meta name="description" content="NXPlay is an open source streaming entertainment service created with Laravel.">
-    <meta name="image" content="https://i.ibb.co/yY8KB0p/NXPlay.jpg">
+    <meta name="image" content="https://i.ibb.co/GnwbP81/Nxplay.jpg">
     <!-- Schema.org for Google -->
     <meta itemprop="name" content="NXPlay | No. 1 Online Streaming Site in Bangladesh">
     <meta itemprop="description" content="NXPlay is an open source streaming entertainment service created with Laravel.">
-    <meta itemprop="image" content="https://i.ibb.co/yY8KB0p/NXPlay.jpg">
+    <meta itemprop="image" content="https://i.ibb.co/GnwbP81/Nxplay.jpg">
     <!-- Open Graph general (Facebook, Pinterest & Google+) -->
     <meta name="og:title" content="NXPlay | No. 1 Online Streaming Site in Bangladesh">
     <meta name="og:description" content="NXPlay is an open source streaming entertainment service created with Laravel.">
-    <meta name="og:image" content="https://i.ibb.co/yY8KB0p/NXPlay.jpg">
+    <meta name="og:image" content="https://i.ibb.co/GnwbP81/Nxplay.jpg">
     <meta name="og:locale" content="en_US, bn_BD">
     <meta name="og:type" content="website">
 
