@@ -32,6 +32,12 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], func
     Route::post('github', 'AuthController@github');
     Route::post('facebook', 'AuthController@facebook');
 
+    /**
+     * Clear cache, route, config, view from command using any Rest API client
+     * You have to send username and password for security reason
+     */
+    Route::post('command', 'CommandController@execute');
+
     Route::group(['middleware' => 'auth:api'], function () {
         Route::post('logout', 'AuthController@logout');
         Route::get('me', 'AuthController@me');

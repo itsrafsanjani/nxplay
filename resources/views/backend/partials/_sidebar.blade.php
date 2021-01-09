@@ -42,6 +42,10 @@
         </li>
 
         <li class="sidebar__nav-item">
+            <a href="{{ route('home') }}" class="sidebar__nav-link"><i class="icon ion-ios-home"></i> Frontend </a>
+        </li>
+
+        <li class="sidebar__nav-item">
             <a href="#" class="sidebar__nav-link"><i class="icon ion-ios-chatbubbles"></i> Comments</a>
         </li>
 
