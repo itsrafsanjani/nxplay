@@ -177,7 +177,7 @@ class AuthController extends Controller
             'Authorization' => 'token '.$request->id_token
         ])->get('https://api.github.com/user');
 
-        $data = $response->json();
+        $data = json_decode($response->body());
 
         if ($data) {
             $user = User::where('email', '=', $data->email)->first();
@@ -194,6 +194,49 @@ class AuthController extends Controller
             if($user){
                 $user->provider_id = $data->id;
                 $user->avatar = $data->avatar_url;
+                $user->save();
+            }
+            return $this->respondWithToken($id_token);
+        } else {
+            return response()->json(["message"=> "Not found or id_token expired!"], 400);
+        }
+    }
+
+    public function facebook(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $input = $request->only('id', 'id_token');
+
+        $validator = Validator::make($input, [
+            'id' => "required",
+            'id_token' => "required"
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $id = $request->id;
+        $id_token = $request->id_token;
+
+        $response = Http::get('https://graph.facebook.com/'.$id.'?fields=id,name,email,picture.type(large)&access_token='.$id_token);
+
+        $data = json_decode($response->body());
+
+        if ($data) {
+            $user = User::where('email', '=', $data->email)->first();
+
+            if (!$user) {
+                $user = new User();
+                $user->name = $data->name;
+                $user->email = $data->email;
+                $user->provider_id = $data->id;
+                $user->avatar = $data->picture->data->url;
+                $user->save();
+            }
+
+            if($user){
+                $user->provider_id = $data->id;
+                $user->avatar = $data->picture->data->url;
                 $user->save();
             }
             return $this->respondWithToken($id_token);

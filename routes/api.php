@@ -30,6 +30,7 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], func
 
     Route::post('google', 'AuthController@google');
     Route::post('github', 'AuthController@github');
+    Route::post('facebook', 'AuthController@facebook');
 
     Route::group(['middleware' => 'auth:api'], function () {
         Route::post('logout', 'AuthController@logout');
