@@ -51,7 +51,7 @@
                                                 <a href="#">{{ ucfirst($country) }}</a>
                                             @endforeach
                                         </li>
-                                        <li><span>IMDb rating:</span>{{ $video->imdb_rating }} <a href="{{ $video->imdb_id }}">
+                                        <li><span>IMDb rating:</span>{{ $video->imdb_rating }} <a href="https://www.imdb.com/title/{{ $video->imdb_id }}" target="_blank">
                                                 <img src="https://ia.media-imdb.com/images/M/MV5BMTk3ODA4Mjc0NF5BMl5BcG5nXkFtZTgwNDc1MzQ2OTE@._V1_.png" alt="imdb logo" style="width: auto; height: 18px; margin-left: 10px"> </a></li>
                                     </ul>
                                     <div class="card__description">{{ $video->description }}</div>
@@ -70,9 +70,6 @@
 {{--                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4" size="576">--}}
 {{--                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" size="720">--}}
                         <source src="{{ asset('storage/videos/'.$video->video) }}" type="video/mp4" size="1080">
-                        <source src="{{ asset('storage/videos/'.$video->video) }}" type="video/mp4" size="720">
-                        <source src="{{ asset('storage/videos/'.$video->video) }}" type="video/mp4" size="480">
-                        <source src="{{ asset('storage/videos/'.$video->video) }}" type="video/mp4" size="360">
 
                         <!-- Caption files -->
                         <track kind="captions" label="English" srclang="en" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
