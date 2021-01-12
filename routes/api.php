@@ -32,6 +32,8 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], func
     Route::post('github', 'AuthController@github');
     Route::post('facebook', 'AuthController@facebook');
 
+    Route::resource('home', 'HomeController')->only('index');
+
     /**
      * Clear cache, route, config, view from command using any Rest API client
      * You have to send username and password for security reason
