@@ -13,7 +13,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h1 class="home__title"><b>NEW ITEMS</b> OF THIS SEASON</h1>
+                <h1 class="home__title"><b>NEW MOVIE/SERIES</b> OF THIS SEASON</h1>
 
                 <button class="home__nav home__nav--prev" type="button">
                     <i class="icon ion-ios-arrow-round-back"></i>
