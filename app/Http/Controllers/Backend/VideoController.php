@@ -43,8 +43,8 @@ class VideoController extends Controller
     {
         $rules = [
             'user_id' => 'required',
-            'imdb_id' => 'required',
-            'video' => 'required',
+            'imdb_id' => 'required|unique:videos',
+            'video' => 'required|mimes:mp4',
             'status' => 'required',
         ];
 
@@ -95,7 +95,7 @@ class VideoController extends Controller
             session()->flash('message','Video upload successful');
             session()->flash('type','success');
             return redirect()->back();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             session()->flash('message', $e->getMessage());
             session()->flash('type','danger');
             return redirect()->back();
@@ -136,21 +136,18 @@ class VideoController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-                'title' => 'required|min:5',
+                'title' => 'required',
                 'description' => 'required|min:5',
                 'runtime' => 'required',
                 'year' => 'required',
-                'imdb_id' => 'required',
                 'imdb_rating' => 'required',
-                'genres' => 'required',
-                'country' => 'required',
                 'type' => 'required',
                 'status' => 'required',
         ]);
 
         // database update
         $video = Video::find($id);
-        $video->update($request->all());
+        $video->update($request->only('title', 'description','runtime', 'year', 'imdb_rating', 'type', 'status'));
 
         // redirect
         session()->flash('message', 'Video updated');
