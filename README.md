@@ -3,6 +3,12 @@
 NXPlay is an open source streaming entertainment service created with Laravel.
 
 ## Packages Used
+- 1. `laravel/ui`
+- 2. `laravel/socialite`
+- 3. `google/apiclient`
+- 4. `tymon/jwt-auth`
+- 5. `tymon/jwt-auth`
+- 6. `barryvdh/laravel-debugbar`
 
 ## Installation Instructions
 
