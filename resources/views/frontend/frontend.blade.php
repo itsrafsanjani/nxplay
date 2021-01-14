@@ -59,4 +59,6 @@
         </div>
     </section>
     <!-- end content -->
+
+    @include('frontend.partials._popular-videos', $popularVideos)
 @endsection

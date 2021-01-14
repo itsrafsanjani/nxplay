@@ -88,7 +88,7 @@
                                 <div class="main__table-text">{{ $video->views }}</div>
                             </td>
                             <td>
-                                <div class="main__table-text main__table-text--green">{{ $video->status }}</div>
+                                <div class="main__table-text @if($video->status == 1) main__table-text--green"> Published @else main__table-text--red"> Unpublished @endif</div>
                             </td>
                             <td>
                                 <div class="main__table-text">{{ $video->user->name }}</div>
