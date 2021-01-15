@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Google_Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -116,18 +115,11 @@ class AuthController extends Controller
         return response()->json($message, 200);
     }
 
-    public function google(Request $request)
+    public function google(Request $request): \Illuminate\Http\JsonResponse
     {
-        // Get $id_token via HTTPS POST.
+        $input = $request->only('id_token');
 
-        $url_endpoint = "https://oauth2.googleapis.com/tokeninfo?id_token=";
-
-        $client = new Google_Client(['client_id' => env('IMAMS_GOOGLE_CLIENT_ID')]);
-        // Specify the CLIENT_ID of the app that accesses the backend
-
-        $id_token = $request->only('id_token');
-
-        $validator = Validator::make($id_token, [
+        $validator = Validator::make($input, [
             'id_token' => "required"
         ]);
 
@@ -135,8 +127,13 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $data = $client->verifyIdToken($id_token);
-        if ($data) {
+        $id_token = $request->id_token;
+
+        try {
+            $response = Http::get('https://oauth2.googleapis.com/tokeninfo?id_token='.$id_token);
+
+            $data = json_decode($response->body());
+
             $user = User::where('email', '=', $data->email)->first();
 
             if (!$user) {
@@ -154,18 +151,17 @@ class AuthController extends Controller
                 $user->save();
             }
             return $this->respondWithToken($id_token);
-            // If request specified a G Suite domain:
-            //$domain = $payload['hd'];
-        } else {
-            return response()->json(["message"=> "Not found or id_token expired!"], 400);
+        } catch (\Exception $exception){
+            return response()->json(["message"=> "Not found or id_token expired!", "errors" => $exception->getMessage()], 400);
         }
+
     }
 
-    public function github(Request $request)
+    public function github(Request $request): \Illuminate\Http\JsonResponse
     {
-        $id_token = $request->only('id_token');
+        $input = $request->only('id_token');
 
-        $validator = Validator::make($id_token, [
+        $validator = Validator::make($input, [
             'id_token' => "required"
         ]);
 
@@ -173,19 +169,33 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $response = Http::withHeaders([
-            'Authorization' => 'token '.$request->id_token
-        ])->get('https://api.github.com/user');
+        $id_token = $request->id_token;
 
-        $data = json_decode($response->body());
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'token '.$id_token
+            ])->get('https://api.github.com/user');
 
-        if ($data) {
-            $user = User::where('email', '=', $data->email)->first();
+            $responseEmails = Http::withHeaders([
+                'Authorization' => 'token '.$id_token
+            ])->get('https://api.github.com/user/emails');
+
+            $data = json_decode($response->body());
+            $emails = json_decode($responseEmails->body());
+
+//            return response()->json([$data, $emails], 200);
+
+            foreach ($emails as $email){
+                if($email->primary == true){
+                    $em = $email->email;
+                }
+            }
+            $user = User::where('email', '=', $em)->first();
 
             if (!$user) {
                 $user = new User();
-                $user->name = $data->name;
-                $user->email = $data->email;
+                $user->name = isset($data->name) ? $data->name : $data->login;
+                $user->email = $em;
                 $user->provider_id = $data->id;
                 $user->avatar = $data->avatar_url;
                 $user->save();
@@ -197,8 +207,8 @@ class AuthController extends Controller
                 $user->save();
             }
             return $this->respondWithToken($id_token);
-        } else {
-            return response()->json(["message"=> "Not found or id_token expired!"], 400);
+        } catch (\Exception $exception){
+            return response()->json(["message"=> "Not found or id_token expired!", "errors" => $exception->getMessage()], 400);
         }
     }
 
@@ -218,11 +228,11 @@ class AuthController extends Controller
         $id = $request->id;
         $id_token = $request->id_token;
 
-        $response = Http::get('https://graph.facebook.com/'.$id.'?fields=id,name,email,picture.type(large)&access_token='.$id_token);
+        try {
+            $response = Http::get('https://graph.facebook.com/'.$id.'?fields=id,name,email,picture.type(large)&access_token='.$id_token);
 
-        $data = json_decode($response->body());
+            $data = json_decode($response->body());
 
-        if ($data) {
             $user = User::where('email', '=', $data->email)->first();
 
             if (!$user) {
@@ -240,8 +250,8 @@ class AuthController extends Controller
                 $user->save();
             }
             return $this->respondWithToken($id_token);
-        } else {
-            return response()->json(["message"=> "Not found or id_token expired!"], 400);
+        } catch (\Exception $exception){
+            return response()->json(["message"=> "Not found or id_token expired!", "errors" => $exception->getMessage()], 400);
         }
     }
 }

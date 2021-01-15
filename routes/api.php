@@ -44,6 +44,6 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], func
         Route::post('logout', 'AuthController@logout');
         Route::get('me', 'AuthController@me');
 
-        Route::resource('videos', 'VideoController')->only('index', 'show');
+        Route::resource('videos', 'VideoController', ['as' => 'app'])->only('index', 'show');
     });
 });
