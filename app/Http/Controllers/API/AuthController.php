@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -115,6 +116,15 @@ class AuthController extends Controller
         return response()->json($message, 200);
     }
 
+    public function fromUser($user)
+    {
+        return response()->json([
+            'access_token' => JWTAuth::fromUser($user),
+            'token_type' => 'bearer',
+            'expires_in' => auth('api')->factory()->getTTL() * 60
+        ], 200);
+    }
+
     public function google(Request $request): \Illuminate\Http\JsonResponse
     {
         $input = $request->only('id_token');
@@ -150,7 +160,7 @@ class AuthController extends Controller
                 $user->avatar = $data->picture;
                 $user->save();
             }
-            return $this->respondWithToken($id_token);
+            return $this->fromUser($user);
         } catch (\Exception $exception){
             return response()->json(["message"=> "Not found or id_token expired!", "errors" => $exception->getMessage()], 400);
         }
@@ -206,7 +216,7 @@ class AuthController extends Controller
                 $user->avatar = $data->avatar_url;
                 $user->save();
             }
-            return $this->respondWithToken($id_token);
+            return $this->fromUser($user);
         } catch (\Exception $exception){
             return response()->json(["message"=> "Not found or id_token expired!", "errors" => $exception->getMessage()], 400);
         }
@@ -249,7 +259,7 @@ class AuthController extends Controller
                 $user->avatar = $data->picture->data->url;
                 $user->save();
             }
-            return $this->respondWithToken($id_token);
+            return $this->fromUser($user);
         } catch (\Exception $exception){
             return response()->json(["message"=> "Not found or id_token expired!", "errors" => $exception->getMessage()], 400);
         }
