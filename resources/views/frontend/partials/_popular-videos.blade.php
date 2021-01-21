@@ -31,7 +31,7 @@
                     @foreach($popularVideos as $popularVideo)
                         <div class="card">
                             <div class="card__cover">
-                                <img src="{{ $popularVideo->poster }}" alt="{{ $popularVideo->title }}"/>
+                                <img src="https://imdb-api.com/posters/w300/{{ $popularVideo->poster }}" alt="{{ $popularVideo->title }}"/>
                                 <a href="{{ route('frontend.videos.show', $popularVideo->slug) }}" class="card__play">
                                     <i class="icon ion-ios-play"></i>
                                 </a>

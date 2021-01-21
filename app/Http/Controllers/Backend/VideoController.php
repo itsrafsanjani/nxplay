@@ -44,7 +44,7 @@ class VideoController extends Controller
         $rules = [
             'user_id' => 'required',
             'imdb_id' => 'required|unique:videos',
-            'video' => 'required|mimes:mp4',
+            'video' => 'required|mimes:mp4|max:102400', // Max 100 MB File
             'status' => 'required',
         ];
 
@@ -56,8 +56,15 @@ class VideoController extends Controller
 
         $response = Http::get(env('OMDB_API_SECRET').'i='.$request->imdb_id);
 
+        $poster = Http::get('https://imdb-api.com/en/API/Posters/'.env('IMDB_API_SECRET').'/'.$request->imdb_id);
+
+
         if($response){
             $videoInfo = json_decode($response->body());
+
+            $posters = json_decode($poster->body());
+
+            $firstPoster = $posters->posters[0]->id;
 
             $video = $request->file('video');
             $videoFile = $video->getClientOriginalName();
@@ -78,7 +85,7 @@ class VideoController extends Controller
                 'directors' => json_encode(explode(',', $videoInfo->Director)),
                 'actors' => json_encode(explode(',', $videoInfo->Actors)),
                 'box_office' => isset($videoInfo->BoxOffice) ? $videoInfo->BoxOffice : null,
-                'poster' => $videoInfo->Poster,
+                'poster' => $firstPoster,
                 'type' => $videoInfo->Type,
                 'video' => $videoName,
                 'status' => $request->input('status'),

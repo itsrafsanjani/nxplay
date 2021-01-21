@@ -19,7 +19,7 @@
                             <!-- card cover -->
                             <div class="col-12 col-sm-5 col-lg-6 col-xl-5">
                                 <div class="card__cover">
-                                    <img src="{{ $video->poster }}" alt="">
+                                    <img src="https://imdb-api.com/posters/w300/{{ $video->poster }}" alt="">
                                     <span class="card__rate @if($video->imdb_rating>=7)card__rate--green @else card__rate--red @endif">{{ $video->imdb_rating }}</span>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
 
                 <!-- player -->
                 <div class="col-12 col-lg-6">
-                    <video controls crossorigin playsinline poster="{{ $video->poster }}" id="player">
+                    <video controls crossorigin playsinline poster="https://imdb-api.com/posters/w300/{{ $video->poster }}" id="player">
                         <!-- Video files -->
 {{--                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4" size="576">--}}
 {{--                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" size="720">--}}
