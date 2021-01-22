@@ -32,6 +32,8 @@ class Video extends Model
         'poster',
         'video',
         'type',
+        'photos',
+        'age_rating',
         'status',
     ];
 

@@ -32,6 +32,10 @@ class CreateVideosTable extends Migration
             $table->string('box_office', 50)->nullable();
             $table->string('poster');
             $table->string('video');
+            $table->longText('photos');
+            $table->string('age_rating', 10);
+            $table->unsignedBigInteger('likes')->default(0);
+            $table->unsignedBigInteger('dislikes')->default(0);
             $table->tinyInteger('status');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -26,6 +26,11 @@
         "jquery-mousewheel": "^3.1.13",
         "magnific-popup": "^1.1.0",
         "malihu-custom-scrollbar-plugin": "^3.1.5",
-        "select2": "^4.0.13"
+        "nouislider": "^14.6.3",
+        "owl.carousel": "^2.3.4",
+        "photoswipe": "^4.1.3",
+        "plyr": "^3.6.3",
+        "select2": "^4.0.13",
+        "wnumb": "^1.2.0"
     }
 }

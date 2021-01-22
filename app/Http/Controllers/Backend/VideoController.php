@@ -58,6 +58,8 @@ class VideoController extends Controller
 
         $poster = Http::get('https://imdb-api.com/en/API/Posters/'.env('IMDB_API_SECRET').'/'.$request->imdb_id);
 
+        $photo = Http::get('https://imdb-api.com/en/API/Images/'.env('IMDB_API_SECRET').'/'.$request->imdb_id.'/Short');
+
 
         if($response){
             $videoInfo = json_decode($response->body());
@@ -65,6 +67,14 @@ class VideoController extends Controller
             $posters = json_decode($poster->body());
 
             $firstPoster = $posters->posters[0]->id;
+
+            $photos = json_decode($photo->body());
+
+            $allPhotos = [];
+
+            foreach ($photos->items as $photo) {
+                $allPhotos[] = str_replace('https://imdb-api.com/images/original/', '', $photo->image);
+            }
 
             $video = $request->file('video');
             $videoFile = $video->getClientOriginalName();
@@ -88,6 +98,8 @@ class VideoController extends Controller
                 'poster' => $firstPoster,
                 'type' => $videoInfo->Type,
                 'video' => $videoName,
+                'photos' => json_encode($allPhotos),
+                'age_rating' => $videoInfo->Rated,
                 'status' => $request->input('status'),
             ];
         }

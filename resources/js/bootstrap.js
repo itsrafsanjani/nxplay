@@ -11,6 +11,17 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
+    // installed packages
+    require('magnific-popup')
+    require('select2')
+    require('jquery-mousewheel')
+    require('malihu-custom-scrollbar-plugin')
+    window.noUiSlider = require('nouislider')
+    window.wNumb = require('wnumb')
+    window.PhotoSwipe = require('photoswipe/dist/photoswipe.min')
+    window.PhotoSwipeUI_Default = require('photoswipe/dist/photoswipe-ui-default.min')
+    window.Plyr = require('plyr')
+    require('owl.carousel')
 } catch (e) {
     console.log(e);
 }
@@ -42,8 +53,3 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: true
 // });
 
-// installed packages
-require('magnific-popup')
-require('select2')
-require('jquery-mousewheel')
-require('malihu-custom-scrollbar-plugin')

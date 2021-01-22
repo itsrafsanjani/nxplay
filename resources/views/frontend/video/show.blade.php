@@ -86,4 +86,5 @@
         <!-- end details content -->
     </section>
     <!-- end details -->
+    @include('frontend.video.discover')
 @endsection

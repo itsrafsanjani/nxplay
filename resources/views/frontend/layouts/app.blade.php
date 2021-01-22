@@ -45,8 +45,8 @@
 @include('frontend.partials._footer')
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.3/plyr.min.js"></script>
+{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.3/plyr.min.js"></script>--}}
 @stack('javascripts')
-<script src="{{ asset('js/frontend.js') }}" defer></script>
+<script src="{{ asset('js/frontend.js') }}"></script>
 </body>
 </html>
