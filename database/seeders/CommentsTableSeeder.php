@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Comment;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Database\Seeder;
 
-class VideosTableSeeder extends Seeder
+class CommentsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,10 +16,10 @@ class VideosTableSeeder extends Seeder
      */
     public function run()
     {
-//        Video::factory(50)->create();
-        Video::factory()
-            ->count(3)
-            ->for(User::factory())
+//        Comment::factory(10)->create();
+        Comment::factory(10)
+//            ->has(User::factory()->count(10))
+//            ->has(Video::factory()->count(10))
             ->create();
     }
 }

@@ -93,10 +93,10 @@
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @if(auth()->user()->avatar)
                                         <img src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->name }}"
-                                             style="border: 1px solid #CCCCCC; border-radius: 5px; width: 39px; height: auto; float: left; margin-right: 7px;">
+                                             style="border: 2px solid #1eff0e; border-radius: 50%; width: 39px; height: auto; float: left; margin-right: 7px;">
                                     @else
                                         <img src="https://ui-avatars.com/api/?name={{ auth()->user()->name }}" alt="{{ auth()->user()->name }}"
-                                             style="border: 1px solid #CCCCCC; border-radius: 5px; width: 39px; height: auto; float: left; margin-right: 7px;">
+                                             style="border: 2px solid #1eff0e; border-radius: 50%; width: 39px; height: auto; float: left; margin-right: 7px;">
                                     @endif
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">

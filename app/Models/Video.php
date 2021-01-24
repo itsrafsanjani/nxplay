@@ -34,6 +34,8 @@ class Video extends Model
         'type',
         'photos',
         'age_rating',
+        'likes',
+        'dislikes',
         'status',
     ];
 
@@ -53,5 +55,13 @@ class Video extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function comments()
+    {
+//        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)
+            ->latest()
+            ->whereNull('parent_id');
     }
 }

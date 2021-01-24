@@ -11,6 +11,9 @@
                     <div class="col-12">
                         <!-- content title -->
                         <h2 class="content__title">New items</h2>
+                        <div class="section__nav-wrap">
+                            <a href="{{ route('frontend.videos.index') }}" class="section__view">View All</a>
+                        </div>
                         <!-- end content title -->
                     </div>
                 </div>

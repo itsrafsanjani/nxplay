@@ -68,4 +68,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function videos()
+    {
+        return $this->hasMany(Video::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

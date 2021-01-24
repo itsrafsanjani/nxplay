@@ -41,7 +41,7 @@
 <div id="app">
     @yield('content')
 </div>
-@include('frontend.partials._about')
+@includeWhen(request()->routeIs('home'), 'frontend.partials._about')
 @include('frontend.partials._footer')
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>

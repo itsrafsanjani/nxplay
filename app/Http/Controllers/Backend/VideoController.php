@@ -36,7 +36,7 @@ class VideoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
@@ -50,18 +50,18 @@ class VideoController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $response = Http::get(env('OMDB_API_SECRET').'i='.$request->imdb_id);
+        $response = Http::get(env('OMDB_API_SECRET') . 'i=' . $request->imdb_id);
 
-        $poster = Http::get('https://imdb-api.com/en/API/Posters/'.env('IMDB_API_SECRET').'/'.$request->imdb_id);
+        $poster = Http::get('https://imdb-api.com/en/API/Posters/' . env('IMDB_API_SECRET') . '/' . $request->imdb_id);
 
-        $photo = Http::get('https://imdb-api.com/en/API/Images/'.env('IMDB_API_SECRET').'/'.$request->imdb_id.'/Short');
+        $photo = Http::get('https://imdb-api.com/en/API/Images/' . env('IMDB_API_SECRET') . '/' . $request->imdb_id . '/Short');
 
 
-        if($response){
+        if ($response) {
             $videoInfo = json_decode($response->body());
 
             $posters = json_decode($poster->body());
@@ -80,7 +80,7 @@ class VideoController extends Controller
             $videoFile = $video->getClientOriginalName();
             $videoFileName = pathinfo($videoFile, PATHINFO_FILENAME);
             $extension = pathinfo($videoFile, PATHINFO_EXTENSION);
-            $videoName = Str::slug($videoFileName).'-'.Str::orderedUuid().'.'.$extension;
+            $videoName = Str::slug($videoFileName) . '-' . Str::orderedUuid() . '.' . $extension;
 
             $data = [
                 'user_id' => $request->input('user_id'),
@@ -107,16 +107,16 @@ class VideoController extends Controller
         try {
             Video::create($data);
 
-            if($video->isValid()){
+            if ($video->isValid()) {
                 $video->storeAs('videos', $videoName);
             }
 
-            session()->flash('message','Video upload successful');
-            session()->flash('type','success');
+            session()->flash('message', 'Video upload successful');
+            session()->flash('type', 'success');
             return redirect()->back();
         } catch (\Exception $e) {
             session()->flash('message', $e->getMessage());
-            session()->flash('type','danger');
+            session()->flash('type', 'danger');
             return redirect()->back();
         }
     }
@@ -124,7 +124,7 @@ class VideoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -135,7 +135,7 @@ class VideoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit($id)
@@ -148,25 +148,25 @@ class VideoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-                'title' => 'required',
-                'description' => 'required|min:5',
-                'runtime' => 'required',
-                'year' => 'required',
-                'imdb_rating' => 'required',
-                'type' => 'required',
-                'status' => 'required',
+            'title' => 'required',
+            'description' => 'required|min:5',
+            'runtime' => 'required',
+            'year' => 'required',
+            'imdb_rating' => 'required',
+            'type' => 'required',
+            'status' => 'required',
         ]);
 
         // database update
         $video = Video::find($id);
-        $video->update($request->only('title', 'description','runtime', 'year', 'imdb_rating', 'type', 'status'));
+        $video->update($request->only('title', 'description', 'runtime', 'year', 'imdb_rating', 'type', 'status'));
 
         // redirect
         session()->flash('message', 'Video updated');
@@ -179,15 +179,15 @@ class VideoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
         $video = Video::find($id);
-        $videoVideo = public_path().'storage/videos'.$video->video;
+        $videoVideo = public_path() . 'storage/videos' . $video->video;
 
-        if(file_exists($videoVideo)){
+        if (file_exists($videoVideo)) {
             @unlink($videoVideo);
         }
 

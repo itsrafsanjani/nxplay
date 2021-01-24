@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-12">
                     <!-- content title -->
-                    <h2 class="content__title">Discover</h2>
+                    <h2 class="content__title" id="discover">Discover</h2>
                     <!-- end content title -->
 
                     <!-- content tabs nav -->
@@ -66,58 +66,97 @@
                             <!-- comments -->
                             <div class="col-12">
                                 <div class="comments">
-                                    <ul class="comments__list">
-                                        <li class="comments__item">
-                                            <div class="comments__autor">
-                                                <img class="comments__avatar" src="{{ asset('img/user.svg') }}" alt="">
-                                                <span class="comments__name">John Doe</span>
-                                                <span class="comments__time">30.08.2018, 17:53</span>
-                                            </div>
-                                            <p class="comments__text">There are many variations of passages of Lorem
-                                                Ipsum available, but the majority have suffered alteration in some form,
-                                                by injected humour, or randomised words which don't look even slightly
-                                                believable. If you are going to use a passage of Lorem Ipsum, you need
-                                                to be sure there isn't anything embarrassing hidden in the middle of
-                                                text.</p>
-                                            <div class="comments__actions">
-                                                <div class="comments__rate">
-                                                    <button type="button"><i class="icon ion-md-thumbs-up"></i>12</button>
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            @if($errors->count() === 1)
+                                                <li>{{ $errors->first() }}</li>
+                                            @else
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        </div>
+                                    @endif
 
-                                                    <button type="button">7<i class="icon ion-md-thumbs-down"></i></button>
-                                                </div>
-
-                                                <button type="button"><i class="icon ion-ios-share-alt"></i>Reply</button>
-                                            </div>
-                                        </li>
-
-                                        <li class="comments__item comments__item--answer">
-                                            <div class="comments__autor">
-                                                <img class="comments__avatar" src="{{ asset('img/user.svg') }}" alt="">
-                                                <span class="comments__name">John Doe</span>
-                                                <span class="comments__time">24.08.2018, 16:41</span>
-                                            </div>
-                                            <p class="comments__text">Lorem Ipsum is simply dummy text of the printing
-                                                and typesetting industry. Lorem Ipsum has been the industry's standard
-                                                dummy text ever since the 1500s, when an unknown printer took a galley
-                                                of type and scrambled it to make a type specimen book.</p>
-                                            <div class="comments__actions">
-                                                <div class="comments__rate">
-                                                    <button type="button"><i class="icon ion-md-thumbs-up"></i>8</button>
-
-                                                    <button type="button">3<i class="icon ion-md-thumbs-down"></i></button>
-                                                </div>
-
-                                                <button type="button"><i class="icon ion-ios-share-alt"></i>Reply</button>
-                                            </div>
-                                        </li>
-
-                                    </ul>
-
-                                    <form action="#" class="form">
-                                        <textarea id="text" name="text" class="form__textarea"
+                                    @if(session()->has('message'))
+                                        <div class="alert alert-{{ session('type')}}">
+                                            {{ session('message') }}
+                                        </div>
+                                    @endif
+                                    <form action="{{ route('comments.store') }}" class="form" method="post" id="commentForm" style="margin-bottom: 20px;">
+                                        @csrf
+                                        <input type="hidden" name="user_id" id="userId"
+                                               value="{{ auth()->user()->id }}">
+                                        <input type="hidden" name="video_id" id="videoId" value="{{ $video->id }}">
+                                        <input type="hidden" name="comment_id" id="commentId">
+                                        <textarea id="commentText" name="comment_text" class="form__textarea"
                                                   placeholder="Add comment"></textarea>
-                                        <button type="button" class="form__btn">Send</button>
+                                        <button type="submit" class="form__btn">Send</button>
                                     </form>
+                                    <ul class="comments__list">
+                                        @foreach($video->comments as $comment)
+                                            <li class="comments__item">
+                                                <div class="comments__autor">
+                                                    <img class="comments__avatar"
+                                                         src="{{ $comment->user->avatar? $comment->user->avatar : 'https://ui-avatars.com/api/?name='.$comment->user->name }}"
+                                                         alt="">
+                                                    <span class="comments__name">{{ $comment->user->name }}</span>
+                                                    <span class="comments__time"
+                                                          title="{{ $comment->created_at }}">{{ $comment->created_at->diffForHumans() }}</span>
+                                                </div>
+                                                <p class="comments__text">{{ $comment->comment_text }}</p>
+                                                <div class="comments__actions">
+                                                    <div class="comments__rate">
+                                                        <button type="button"><i class="icon ion-md-thumbs-up"></i>
+                                                        </button>
+
+                                                        <button type="button"><i class="icon ion-md-thumbs-down"></i>
+                                                        </button>
+                                                    </div>
+
+                                                    <button type="button" onclick="
+                                                        document.getElementById('discover').scrollIntoView({ behavior: 'smooth' });
+                                                        document.getElementById('commentId').value={{ $comment->id }};
+                                                        document.getElementById('commentText').value={{ "'@".$comment->user->name." '"}};
+                                                        document.getElementById('commentText').focus();
+                                                    ">
+                                                    <i class="icon ion-ios-share-alt"></i>
+                                                    Reply
+                                                    </button>
+                                                </div>
+                                            </li>
+
+                                            @forelse($comment->replies as $reply)
+                                            <li class="comments__item comments__item--answer">
+                                                <div class="comments__autor">
+                                                    <img class="comments__avatar" src="{{ $reply->user->avatar? $reply->user->avatar : 'https://ui-avatars.com/api/?name='.$reply->user->name }}" alt="">
+                                                    <span class="comments__name">{{ $reply->user->name }}</span>
+                                                    <span class="comments__time" title="{{ $reply->created_at }}">{{ $reply->created_at->diffForHumans() }}</span>
+                                                </div>
+                                                <p class="comments__text">{{ $reply->comment_text }}</p>
+                                                <div class="comments__actions">
+                                                    <div class="comments__rate">
+                                                        <button type="button"><i class="icon ion-md-thumbs-up"></i></button>
+
+                                                        <button type="button"><i class="icon ion-md-thumbs-down"></i></button>
+                                                    </div>
+                                                    <button type="button" onclick="
+                                                        document.getElementById('discover').scrollIntoView({ behavior: 'smooth' });
+                                                        document.getElementById('commentId').value={{ $comment->id }};
+                                                        document.getElementById('commentText').value={{ "'@".$reply->user->name." '"}};
+                                                        document.getElementById('commentText').focus();
+                                                        ">
+                                                        <i class="icon ion-ios-share-alt"></i>
+                                                        Reply
+                                                    </button>
+                                                </div>
+                                            </li>
+                                                @empty
+                                            @endforelse
+                                        @endforeach
+                                    </ul>
                                 </div>
                             </div>
                             <!-- end comments -->
@@ -198,17 +237,19 @@
                         <!-- project gallery -->
                         <div class="gallery" itemscope>
                             <div class="row">
-                                @foreach(json_decode($video->photos) as $photo)
+                            @foreach(json_decode($video->photos) as $photo)
                                 <!-- gallery item -->
-                                <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                    <a href="https://imdb-api.com/images/1920x1280/{{ $photo }}" itemprop="contentUrl" data-size="1920x1280">
-                                        <img src="https://imdb-api.com/images/480x360/{{ $photo }}" itemprop="thumbnail"
-                                             alt="Image description"/>
-                                    </a>
-{{--                                    <figcaption itemprop="caption description">Some image caption 1</figcaption>--}}
-                                </figure>
-                                @endforeach
-                                <!-- end gallery item -->
+                                    <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
+                                        <a href="https://imdb-api.com/images/1920x1280/{{ $photo }}"
+                                           itemprop="contentUrl" data-size="1920x1280">
+                                            <img src="https://imdb-api.com/images/480x360/{{ $photo }}"
+                                                 itemprop="thumbnail"
+                                                 alt="Image description"/>
+                                        </a>
+                                        {{--                                    <figcaption itemprop="caption description">Some image caption 1</figcaption>--}}
+                                    </figure>
+                            @endforeach
+                            <!-- end gallery item -->
                             </div>
                         </div>
                         <!-- end project gallery -->
