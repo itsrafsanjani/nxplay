@@ -72,7 +72,7 @@ class CommentController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -106,10 +106,28 @@ class CommentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy($id): \Illuminate\Http\RedirectResponse
     {
-        //
+        try {
+            if(auth()->user()->id == Comment::find($id)->user_id) {
+                $comment = Comment::find($id);
+                $comment->delete();
+
+                session()->flash('message','Comment deleted.');
+                session()->flash('type','success');
+                return redirect()->back();
+            }
+
+            session()->flash('message', 'You do not have permission to delete this comment.');
+            session()->flash('type','danger');
+            return redirect()->back();
+//            dd($id);
+        } catch (\Exception $exception) {
+            session()->flash('message', $exception->getMessage());
+            session()->flash('type','danger');
+            return redirect()->back();
+        }
     }
 }

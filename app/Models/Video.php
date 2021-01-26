@@ -59,9 +59,35 @@ class Video extends Model
 
     public function comments()
     {
-//        return $this->hasMany(Comment::class);
         return $this->hasMany(Comment::class)
             ->latest()
             ->whereNull('parent_id');
+    }
+
+    public function videoLikes()
+    {
+        return $this->hasMany(VideoLike::class)->where('status', 1);
+    }
+
+    public function videoDislikes()
+    {
+        return $this->hasMany(VideoLike::class)->where('status', 0);
+    }
+
+    public function isLikedBy(User $user)
+    {
+        return (bool) $user->video_likes
+            ->where('video_id', $this->id)
+            ->where('status', 1)
+            ->count();
+    }
+
+    public function isDislikedBy(User $user)
+    {
+        return (bool) $user->video_likes
+            ->where('video_id', $this->id)
+            ->whereNotNull('status')
+            ->where('status', 0)
+            ->count();
     }
 }

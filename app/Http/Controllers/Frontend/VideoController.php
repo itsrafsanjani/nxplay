@@ -16,12 +16,13 @@ class VideoController extends Controller
 
     public function show($slug)
     {
-        $data['video'] = Video::where('slug', $slug)->where('status', 1)->first();
+        $data['video'] = Video::with('videoLikes', 'videoDislikes')->where('slug', $slug)->where('status', 1)->first();
 
         if($data['video'] === null){
             return redirect()->route('home');
         }
 
         return view('frontend.video.show', $data);
+//        return $data;
     }
 }

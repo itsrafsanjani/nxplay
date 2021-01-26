@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +21,19 @@ class Comment extends Model
         'comment_text',
         'parent_id'
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($comment) {
+            $comment->replies()->get('id')->each->delete();
+        });
+    }
 
     public function user()
     {
@@ -35,4 +49,33 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class, 'parent_id');
     }
+
+    public function commentLikes()
+    {
+        return $this->hasMany(CommentLike::class)->where('status', 1);
+    }
+
+    public function commentDislikes()
+    {
+        return $this->hasMany(CommentLike::class)->where('status', 0);
+    }
+
+    public function isLikedBy(User $user)
+    {
+        return (bool) $user->comment_likes
+            ->where('comment_id', $this->id)
+            ->whereNotNull('status')
+            ->where('status', 1)
+            ->count();
+    }
+
+    public function isDislikedBy(User $user)
+    {
+        return (bool) $user->comment_likes
+            ->where('comment_id', $this->id)
+            ->whereNotNull('status')
+            ->where('status', 0)
+            ->count();
+    }
+
 }

@@ -2,9 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Comment;
+use App\Models\CommentLike;
+use App\Models\Review;
 use App\Models\User;
 use App\Models\Video;
+use App\Models\VideoLike;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,7 +20,33 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         User::factory(10)->create();
-         Video::factory(10)->create();
+        User::create([
+            'name' => 'Md Rafsan Jani Rafin',
+            'email' => 'mdrafsanjanirafin@gmail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt(11111111), // password
+            'remember_token' => Str::random(10),
+            'role' => 1
+        ], [
+            'name' => 'Md Imam Hossain',
+            'email' => 'imamagun94@gmail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt(11111111), // password
+            'remember_token' => Str::random(10),
+            'role' => 1
+        ], [
+            'name' => 'Radoanul Haider',
+            'email' => 'radoan@gmail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt(11111111), // password
+            'remember_token' => Str::random(10),
+            'role' => 1
+        ]);
+        User::factory(10)->create();
+        Video::factory(10)->create();
+        Review::factory(10)->create();
+        Comment::factory(10)->create();
+        VideoLike::factory(10)->create();
+        CommentLike::factory(10)->create();
     }
 }

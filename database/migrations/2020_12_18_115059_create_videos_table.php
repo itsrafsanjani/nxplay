@@ -23,7 +23,7 @@ class CreateVideosTable extends Migration
             $table->string('runtime', 10);
             $table->string('year', 10);
             $table->string('imdb_id',9)->unique();
-            $table->float('imdb_rating', 2, 1);
+            $table->string('imdb_rating', 4);
             $table->string('genres');
             $table->string('country');
             $table->string('type', 20);
@@ -34,9 +34,7 @@ class CreateVideosTable extends Migration
             $table->string('video');
             $table->longText('photos');
             $table->string('age_rating', 10);
-            $table->unsignedBigInteger('likes')->default(0);
-            $table->unsignedBigInteger('dislikes')->default(0);
-            $table->tinyInteger('status');
+            $table->boolean('status');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

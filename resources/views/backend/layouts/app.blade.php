@@ -42,5 +42,6 @@
 <script src="{{ asset('js/app.js') }}"></script>
 @stack('javascripts')
 <script src="{{ asset('js/admin.js') }}" defer></script>
+<script src="http://unpkg.com/turbolinks"></script>
 </body>
 </html>

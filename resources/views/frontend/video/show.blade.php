@@ -53,6 +53,20 @@
                                         </li>
                                         <li><span>IMDb rating:</span>{{ $video->imdb_rating }} <a href="https://www.imdb.com/title/{{ $video->imdb_id }}" target="_blank">
                                                 <img src="https://ia.media-imdb.com/images/M/MV5BMTk3ODA4Mjc0NF5BMl5BcG5nXkFtZTgwNDc1MzQ2OTE@._V1_.png" alt="imdb logo" style="width: auto; height: 18px; margin-left: 10px"> </a></li>
+                                        <li>
+                                            <div class="comments__rate" style="position: relative; left: 0; top: 0; margin-top: 5px; border: 2px solid rgba(26,25,31,.7); border-radius: 3px; padding: 5px 30px; background: rgba(26,25,31,.7);">
+                                                <form action="{{ route('likeOrDislike') }}" method="post" id="likeDislikeForm" style="display: inline-flex">
+                                                    @csrf
+                                                    <input type="hidden" name="video_id" value="{{ $video->id }}">
+                                                    <input type="hidden" name="video_id" value="{{ auth()->user()->id }}">
+                                                    <input type="hidden" name="status" id="status">
+                                                    <button type="button" title="I Like this" id="likebtn" onclick="document.getElementById('commentLikeBtn').value='1'; document.getElementById('likeDislikeForm').submit();"><i class="icon ion-md-thumbs-up" style="font-size: 20px; margin-right: 6px; {{ $video->islikedBy(auth()->user()) ? 'color: #00ff70;' : 'color: #fff' }}"></i>
+                                                        {{ $video->videoLikes->count() }}</button>
+                                                    <button type="button" title="I Don't Like this" id="dislikebtn" onclick="document.getElementById('commentLikeBtn').value='0'; document.getElementById('likeDislikeForm').submit();">
+                                                        <i class="icon ion-md-thumbs-down" style="font-size: 20px; margin-left: 6px; margin-right: 6px; {{ $video->isDislikedBy(auth()->user()) ? 'color: #fd6060;' : 'color: #ffffff' }}"></i> {{ $video->videoDislikes->count() }}</button>
+                                                </form>
+                                            </div>
+                                        </li>
                                     </ul>
                                     <div class="card__description">{{ $video->description }}</div>
                                 </div>
@@ -88,3 +102,56 @@
     <!-- end details -->
     @include('frontend.video.discover')
 @endsection
+
+{{--@push('javascripts')--}}
+{{--    <script type="text/javascript">--}}
+
+{{--        $.ajaxSetup({--}}
+{{--            headers: {--}}
+{{--                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+{{--            }--}}
+{{--        });--}}
+
+{{--        $("#likebtn").click(function(e){--}}
+
+{{--            let video_id = $("input[name=video_id]").val();--}}
+{{--            let status = 1;--}}
+{{--            let user_id = $("input[name=user_id]").val();--}}
+
+{{--            $.ajax({--}}
+{{--                type:'POST',--}}
+{{--                url:"{{ route('likeOrDislike') }}",--}}
+{{--                data:{video_id:video_id, status:status, user_id:user_id},--}}
+{{--                // success:function(data){--}}
+{{--                //     alert(data.success);--}}
+{{--                // }--}}
+{{--            });--}}
+
+{{--            $(document).ajaxStop(function(){--}}
+{{--                window.location.reload();--}}
+{{--            });--}}
+
+{{--        });--}}
+
+{{--        $("#dislikebtn").click(function(e){--}}
+
+{{--            let video_id = $("input[name=video_id]").val();--}}
+{{--            let status = 0;--}}
+{{--            let user_id = $("input[name=user_id]").val();--}}
+
+{{--            $.ajax({--}}
+{{--                type:'POST',--}}
+{{--                url:"{{ route('likeOrDislike') }}",--}}
+{{--                data:{video_id:video_id, status:status, user_id:user_id},--}}
+{{--                // success:function(data){--}}
+{{--                //     alert(data.success);--}}
+{{--                // }--}}
+{{--            });--}}
+
+{{--            $(document).ajaxStop(function(){--}}
+{{--                window.location.reload();--}}
+{{--            });--}}
+
+{{--        });--}}
+{{--    </script>--}}
+{{--@endpush--}}
