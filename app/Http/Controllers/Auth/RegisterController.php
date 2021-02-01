@@ -50,7 +50,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'min:5', 'max:255'],
+            'name' => ['required', 'string', 'regex:/(^([a-zA-z ]+)(\d+)?$)/u', 'min:5', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'policy' => ['required'],
@@ -65,10 +65,13 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($data['email'])));
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'avatar' => $grav_url
         ]);
     }
 }

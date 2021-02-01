@@ -17,7 +17,7 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth('api')->attempt($credentials)) {
+        if (!$token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -28,7 +28,7 @@ class AuthController extends Controller
     {
         $input = $request->only('name', 'email', 'password');
         $validator = Validator::make($input, [
-            'name' => 'required|min:5',
+            'name' => 'required|regex:/(^([a-zA-z ]+)(\d+)?$)/u|min:5',
             'email' => 'required|email|min:5|unique:users',
             'password' => 'required|min:8',
         ]);
@@ -37,17 +37,19 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
+        $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($request->email)));
+
         try {
             $user = User::create([
                 'name' => trim($request->input('name')),
                 'email' => strtolower(trim($request->input('email'))),
                 'password' => Hash::make($request->input('password')),
+                'avatar' => $grav_url,
             ]);
 
             return response()->json([
                 'data' => $user
             ], 201);
-
         } catch (\PDOException $e) {
             return response()->json([
                 'data' => $e->getMessage()
@@ -99,7 +101,7 @@ class AuthController extends Controller
 
     public function passwordReset(Request $request): \Illuminate\Http\JsonResponse
     {
-        $input = $request->only('email','token', 'password', 'password_confirmation');
+        $input = $request->only('email', 'token', 'password', 'password_confirmation');
         $validator = Validator::make($input, [
             'token' => 'required',
             'email' => 'required|email',
@@ -140,7 +142,7 @@ class AuthController extends Controller
         $id_token = $request->id_token;
 
         try {
-            $response = Http::get('https://oauth2.googleapis.com/tokeninfo?id_token='.$id_token);
+            $response = Http::get('https://oauth2.googleapis.com/tokeninfo?id_token=' . $id_token);
 
             $data = json_decode($response->body());
 
@@ -155,16 +157,15 @@ class AuthController extends Controller
                 $user->save();
             }
 
-            if($user){
+            if ($user) {
                 $user->provider_id = $data->sub;
                 $user->avatar = $data->picture;
                 $user->save();
             }
             return $this->fromUser($user);
-        } catch (\Exception $exception){
-            return response()->json(["message"=> "Not found or id_token expired!", "errors" => $exception->getMessage()], 400);
+        } catch (\Exception $exception) {
+            return response()->json(["message" => "Not found or id_token expired!", "errors" => $exception->getMessage()], 400);
         }
-
     }
 
     public function github(Request $request): \Illuminate\Http\JsonResponse
@@ -183,20 +184,20 @@ class AuthController extends Controller
 
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'token '.$id_token
+                'Authorization' => 'token ' . $id_token
             ])->get('https://api.github.com/user');
 
             $responseEmails = Http::withHeaders([
-                'Authorization' => 'token '.$id_token
+                'Authorization' => 'token ' . $id_token
             ])->get('https://api.github.com/user/emails');
 
             $data = json_decode($response->body());
             $emails = json_decode($responseEmails->body());
 
-//            return response()->json([$data, $emails], 200);
+            //            return response()->json([$data, $emails], 200);
 
-            foreach ($emails as $email){
-                if($email->primary == true){
+            foreach ($emails as $email) {
+                if ($email->primary == true) {
                     $em = $email->email;
                 }
             }
@@ -211,14 +212,14 @@ class AuthController extends Controller
                 $user->save();
             }
 
-            if($user){
+            if ($user) {
                 $user->provider_id = $data->id;
                 $user->avatar = $data->avatar_url;
                 $user->save();
             }
             return $this->fromUser($user);
-        } catch (\Exception $exception){
-            return response()->json(["message"=> "Not found or id_token expired!", "errors" => $exception->getMessage()], 400);
+        } catch (\Exception $exception) {
+            return response()->json(["message" => "Not found or id_token expired!", "errors" => $exception->getMessage()], 400);
         }
     }
 
@@ -239,7 +240,7 @@ class AuthController extends Controller
         $id_token = $request->id_token;
 
         try {
-            $response = Http::get('https://graph.facebook.com/'.$id.'?fields=id,name,email,picture.type(large)&access_token='.$id_token);
+            $response = Http::get('https://graph.facebook.com/' . $id . '?fields=id,name,email,picture.type(large)&access_token=' . $id_token);
 
             $data = json_decode($response->body());
 
@@ -254,14 +255,47 @@ class AuthController extends Controller
                 $user->save();
             }
 
-            if($user){
+            if ($user) {
                 $user->provider_id = $data->id;
                 $user->avatar = $data->picture->data->url;
                 $user->save();
             }
             return $this->fromUser($user);
-        } catch (\Exception $exception){
-            return response()->json(["message"=> "Not found or id_token expired!", "errors" => $exception->getMessage()], 400);
+        } catch (\Exception $exception) {
+            return response()->json(["message" => "Not found or id_token expired!", "errors" => $exception->getMessage()], 400);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $validator = Validator::make($request->only('name', 'password', 'provider_id', 'avatar'), [
+            'name' => 'sometimes|regex:/(^([a-zA-z ]+)(\d+)?$)/u|min:5',
+            'password' => 'sometimes|min:8',
+            'provider_id' => 'sometimes|min:8',
+            'avatar' => 'sometimes|max:255',
+        ]);
+
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        if (!empty($request->password)) {
+            $request->merge(['password' => bcrypt($request['password'])]);
+        }
+
+        try {
+            $user->update($request->only('name', 'password', 'provider_id', 'avatar'));
+
+            return response()->json([
+                'data' => $user
+            ], 201);
+        } catch (\PDOException $e) {
+            return response()->json([
+                'data' => $e->getMessage()
+            ], 500);
         }
     }
 }
