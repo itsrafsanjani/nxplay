@@ -40,11 +40,12 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], func
      */
     Route::post('command', 'CommandController@execute');
 
-    Route::group(['middleware' => 'auth:api'], function () {
+    // Route::group(['middleware' => 'auth:api'], function () {
         Route::post('logout', 'AuthController@logout');
         Route::get('me', 'AuthController@me');
         Route::patch('users/{user}', 'AuthController@update');
-
-        Route::resource('videos', 'VideoController', ['as' => 'app'])->only('index', 'show');
-    });
+        Route::apiResource('videos', 'VideoController', ['as' => 'app'])->only('index', 'show');
+        Route::apiResource('comments', 'CommentController', ['as' => 'app']);
+        Route::post('videos/like', 'VideoLikeController@likeOrDislike')->name('app.videos.like');
+    // });
 });
