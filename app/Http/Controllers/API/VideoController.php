@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Video;
+use App\Models\VideoLike;
 use Illuminate\Http\Request;
 
 class VideoController extends Controller
@@ -46,6 +47,8 @@ class VideoController extends Controller
     public function show($id): \Illuminate\Http\JsonResponse
     {
         $video = Video::find($id);
+        $video['likes'] = VideoLike::where('video_id', $id)->where('status', 1)->count();
+        $video['dislikes'] = VideoLike::where('video_id', $id)->where('status', 0)->count();
         return response()->json($video, 200);
     }
 }
