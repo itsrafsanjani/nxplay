@@ -13,18 +13,18 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
-    public function login(): \Illuminate\Http\JsonResponse
+    public function login() : \Illuminate\Http\JsonResponse
     {
         $credentials = request(['email', 'password']);
 
-        if (!$token = auth('api')->attempt($credentials)) {
+        if (! $token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return $this->respondWithToken($token);
     }
 
-    public function register(Request $request): \Illuminate\Http\JsonResponse
+    public function register(Request $request) : \Illuminate\Http\JsonResponse
     {
         $input = $request->only('name', 'email', 'password');
         $validator = Validator::make($input, [
@@ -37,7 +37,7 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($request->email)));
+        $grav_url = 'https://www.gravatar.com/avatar/'.md5(strtolower(trim($request->email)));
 
         try {
             $user = User::create([
@@ -57,37 +57,38 @@ class AuthController extends Controller
         }
     }
 
-    public function me(): \Illuminate\Http\JsonResponse
+    public function me() : \Illuminate\Http\JsonResponse
     {
         return response()->json(auth('api')->user(), 200);
     }
 
-    public function logout(): \Illuminate\Http\JsonResponse
+    public function logout() : \Illuminate\Http\JsonResponse
     {
         auth('api')->logout();
 
         return response()->json(['message' => 'Successfully logged out'], 200);
     }
 
-    public function refresh(): \Illuminate\Http\JsonResponse
+    public function refresh() : \Illuminate\Http\JsonResponse
     {
         return $this->respondWithToken(auth('api')->refresh());
     }
 
-    protected function respondWithToken($token): \Illuminate\Http\JsonResponse
+    protected function respondWithToken($token) : \Illuminate\Http\JsonResponse
     {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'expires_in' => auth('api')->factory()->getTTL() * 60,
+            'data' => auth('api')->user()
         ], 200);
     }
 
-    public function forgotPassword(Request $request): \Illuminate\Http\JsonResponse
+    public function forgotPassword(Request $request) : \Illuminate\Http\JsonResponse
     {
         $input = $request->only('email');
         $validator = Validator::make($input, [
-            'email' => "required|email"
+            'email' => 'required|email'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
@@ -99,7 +100,7 @@ class AuthController extends Controller
         return response()->json($message, 200);
     }
 
-    public function passwordReset(Request $request): \Illuminate\Http\JsonResponse
+    public function passwordReset(Request $request) : \Illuminate\Http\JsonResponse
     {
         $input = $request->only('email', 'token', 'password', 'password_confirmation');
         $validator = Validator::make($input, [
@@ -127,12 +128,12 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function google(Request $request): \Illuminate\Http\JsonResponse
+    public function google(Request $request) : \Illuminate\Http\JsonResponse
     {
         $input = $request->only('id_token');
 
         $validator = Validator::make($input, [
-            'id_token' => "required"
+            'id_token' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -142,13 +143,13 @@ class AuthController extends Controller
         $id_token = $request->id_token;
 
         try {
-            $response = Http::get('https://oauth2.googleapis.com/tokeninfo?id_token=' . $id_token);
+            $response = Http::get('https://oauth2.googleapis.com/tokeninfo?id_token='.$id_token);
 
             $data = json_decode($response->body());
 
             $user = User::where('email', '=', $data->email)->first();
 
-            if (!$user) {
+            if (! $user) {
                 $user = new User();
                 $user->name = $data->name;
                 $user->email = $data->email;
@@ -164,16 +165,16 @@ class AuthController extends Controller
             }
             return $this->fromUser($user);
         } catch (\Exception $exception) {
-            return response()->json(["message" => "Not found or id_token expired!", "errors" => $exception->getMessage()], 400);
+            return response()->json(['message' => 'Not found or id_token expired!', 'errors' => $exception->getMessage()], 400);
         }
     }
 
-    public function github(Request $request): \Illuminate\Http\JsonResponse
+    public function github(Request $request) : \Illuminate\Http\JsonResponse
     {
         $input = $request->only('id_token');
 
         $validator = Validator::make($input, [
-            'id_token' => "required"
+            'id_token' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -184,11 +185,11 @@ class AuthController extends Controller
 
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'token ' . $id_token
+                'Authorization' => 'token '.$id_token
             ])->get('https://api.github.com/user');
 
             $responseEmails = Http::withHeaders([
-                'Authorization' => 'token ' . $id_token
+                'Authorization' => 'token '.$id_token
             ])->get('https://api.github.com/user/emails');
 
             $data = json_decode($response->body());
@@ -203,7 +204,7 @@ class AuthController extends Controller
             }
             $user = User::where('email', '=', $em)->first();
 
-            if (!$user) {
+            if (! $user) {
                 $user = new User();
                 $user->name = isset($data->name) ? $data->name : $data->login;
                 $user->email = $em;
@@ -219,17 +220,17 @@ class AuthController extends Controller
             }
             return $this->fromUser($user);
         } catch (\Exception $exception) {
-            return response()->json(["message" => "Not found or id_token expired!", "errors" => $exception->getMessage()], 400);
+            return response()->json(['message' => 'Not found or id_token expired!', 'errors' => $exception->getMessage()], 400);
         }
     }
 
-    public function facebook(Request $request): \Illuminate\Http\JsonResponse
+    public function facebook(Request $request) : \Illuminate\Http\JsonResponse
     {
         $input = $request->only('id', 'id_token');
 
         $validator = Validator::make($input, [
-            'id' => "required",
-            'id_token' => "required"
+            'id' => 'required',
+            'id_token' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -240,13 +241,13 @@ class AuthController extends Controller
         $id_token = $request->id_token;
 
         try {
-            $response = Http::get('https://graph.facebook.com/' . $id . '?fields=id,name,email,picture.type(large)&access_token=' . $id_token);
+            $response = Http::get('https://graph.facebook.com/'.$id.'?fields=id,name,email,picture.type(large)&access_token='.$id_token);
 
             $data = json_decode($response->body());
 
             $user = User::where('email', '=', $data->email)->first();
 
-            if (!$user) {
+            if (! $user) {
                 $user = new User();
                 $user->name = $data->name;
                 $user->email = $data->email;
@@ -262,7 +263,7 @@ class AuthController extends Controller
             }
             return $this->fromUser($user);
         } catch (\Exception $exception) {
-            return response()->json(["message" => "Not found or id_token expired!", "errors" => $exception->getMessage()], 400);
+            return response()->json(['message' => 'Not found or id_token expired!', 'errors' => $exception->getMessage()], 400);
         }
     }
 
@@ -277,12 +278,11 @@ class AuthController extends Controller
             'avatar' => 'sometimes|max:255',
         ]);
 
-
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
-        if (!empty($request->password)) {
+        if (! empty($request->password)) {
             $request->merge(['password' => bcrypt($request['password'])]);
         }
 

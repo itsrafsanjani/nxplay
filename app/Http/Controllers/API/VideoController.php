@@ -14,14 +14,15 @@ class VideoController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request): \Illuminate\Http\JsonResponse
+    public function index(Request $request) : \Illuminate\Http\JsonResponse
     {
         $query = Video::where('status', 1)->select('id', 'title', 'imdb_rating', 'type', 'genres', 'poster');
 
         if ($request->has('sort')) {
             {
-                if ($request->has('by'))
+                if ($request->has('by')) {
                     $query->orderBy($request->input('by'), $request->input('sort'));
+                }
             }
             $query->orderBy('id', $request->input('sort'));
         }
@@ -44,11 +45,14 @@ class VideoController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id): \Illuminate\Http\JsonResponse
+    public function show(Request $request, $id) : \Illuminate\Http\JsonResponse
     {
-        $video = Video::find($id);
+        $video = Video::findOrFail($id);
+        $user_id = $request->input('user_id');
         $video['likes'] = VideoLike::where('video_id', $id)->where('status', 1)->count();
         $video['dislikes'] = VideoLike::where('video_id', $id)->where('status', 0)->count();
+        $video['likeStatus'] = VideoLike::where('video_id', $id)->where('user_id', $user_id)->get('status');
+
         return response()->json($video, 200);
     }
 }
