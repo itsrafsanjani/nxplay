@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 //});
 //
 
-
 Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], function () {
     Route::post('login', 'AuthController@login');
     Route::post('register', 'AuthController@register');
@@ -36,16 +35,16 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], func
 
     /**
      * Clear cache, route, config, view from command using any Rest API client
-     * You have to send username and password for security reason
+     * You have to send username and password for security reason.
      */
     Route::post('command', 'CommandController@execute');
 
-    // Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['middleware' => 'auth:api'], function () {
         Route::post('logout', 'AuthController@logout');
         Route::get('me', 'AuthController@me');
         Route::patch('users/{user}', 'AuthController@update');
         Route::apiResource('videos', 'VideoController', ['as' => 'app'])->only('index', 'show');
         Route::apiResource('comments', 'CommentController', ['as' => 'app']);
         Route::post('videos/like', 'VideoLikeController@likeOrDislike')->name('app.videos.like');
-    // });
+    });
 });

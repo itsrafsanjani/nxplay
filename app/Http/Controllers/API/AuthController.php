@@ -124,7 +124,8 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => JWTAuth::fromUser($user),
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'expires_in' => auth('api')->factory()->getTTL() * 60,
+            'data' => $user
         ], 200);
     }
 
@@ -208,13 +209,13 @@ class AuthController extends Controller
                 $user = new User();
                 $user->name = isset($data->name) ? $data->name : $data->login;
                 $user->email = $em;
-                $user->provider_id = $data->id;
+                $user->provider_id = (string) $data->id;
                 $user->avatar = $data->avatar_url;
                 $user->save();
             }
 
             if ($user) {
-                $user->provider_id = $data->id;
+                $user->provider_id = (string) $data->id;
                 $user->avatar = $data->avatar_url;
                 $user->save();
             }
