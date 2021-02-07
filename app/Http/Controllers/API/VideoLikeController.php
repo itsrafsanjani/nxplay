@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Video;
 use App\Models\VideoLike;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -16,7 +15,7 @@ class VideoLikeController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function likeOrDislike(Request $request): \Illuminate\Http\JsonResponse
+    public function likeOrDislike(Request $request) : \Illuminate\Http\JsonResponse
     {
         $rules = [
             'user_id' => 'required',
@@ -25,7 +24,7 @@ class VideoLikeController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
@@ -41,33 +40,32 @@ class VideoLikeController extends Controller
 
             if ($likeIdCheck == null) {
                 VideoLike::create([
-                    'user_id' =>$user_id,
+                    'user_id' => $user_id,
                     'video_id' => $video_id,
                     'status' => $status
                 ]);
-            } else if ($likeIdCheck->status == $status) {
+            } elseif ($likeIdCheck->status == $status) {
                 $newData = VideoLike::find($likeIdCheck->id);
                 $newData->update([
                     'status' => null
                 ]);
-            } else if ($likeIdCheck->status == !$status) {
+            } elseif ($likeIdCheck->status == ! $status) {
                 $newData = VideoLike::find($likeIdCheck->id);
                 $newData->update([
                     'status' => $status
                 ]);
-            } else if ($likeIdCheck->status == null) {
+            } elseif ($likeIdCheck->status == null) {
                 $newData = VideoLike::find($likeIdCheck->id);
                 $newData->update([
                     'status' => $status
                 ]);
             }
 
-            $statusUpdate['status'] = (bool)$status;
+            $statusUpdate['status'] = VideoLike::find($likeIdCheck->id)->status;
             $statusUpdate['likes'] = VideoLike::where('video_id', $video_id)->where('status', 1)->count();
             $statusUpdate['dislikes'] = VideoLike::where('video_id', $video_id)->where('status', 0)->count();
 
             return response()->json($statusUpdate, 200);
-
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 400);
         }
