@@ -18,7 +18,7 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = auth('api')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'These credentials do not match our records.'], 401);
         }
 
         return $this->respondWithToken($token);
