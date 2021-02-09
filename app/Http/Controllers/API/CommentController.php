@@ -23,8 +23,8 @@ class CommentController extends Controller
         $comments = DB::table('comments')
             ->where('video_id', '=', $video_id)
             ->join('users', 'users.id', '=', 'comments.user_id')
-            ->select('users.name', 'users.email', 'users.avatar', 'comments.comment_text', 'comments.parent_id', 'comments.created_at', 'comments.updated_at')
-            ->get();
+            ->select('comments.id', 'users.name', 'users.email', 'users.avatar', 'comments.comment_text', 'comments.parent_id', 'comments.created_at', 'comments.updated_at')
+            ->paginate(20);
 
         return response()->json($comments, 200);
     }
@@ -38,7 +38,6 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'user_id' => 'required',
             'video_id' => 'required',
             'comment_text' => 'required|max:255'
         ];
@@ -50,7 +49,7 @@ class CommentController extends Controller
         }
 
         $data = [
-            'user_id' => $request->input('user_id'),
+            'user_id' => auth()->user()->id,
             'video_id' => $request->input('video_id'),
             'comment_text' => $request->input('comment_text'),
             'parent_id' => $request->input('comment_id')
@@ -91,10 +90,21 @@ class CommentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        //
+        try {
+            if (auth()->user()->id == Comment::find($id)->user_id) {
+                $review = Comment::find($id);
+                $review->delete();
+                return response()->json(['message' => 'Comment deleted.'], 200);
+            }
+            return response()->json([
+                'message' => 'You do not have permission to delete this comment.'
+            ], 403);
+        } catch (\Exception $exception) {
+            return response()->json($exception->getMessage(), 500);
+        }
     }
 }

@@ -15,10 +15,9 @@ class VideoLikeController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function likeOrDislike(Request $request) : \Illuminate\Http\JsonResponse
+    public function likeOrDislike(Request $request): \Illuminate\Http\JsonResponse
     {
         $rules = [
-            'user_id' => 'required',
             'video_id' => 'required'
         ];
 
@@ -28,7 +27,7 @@ class VideoLikeController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $user_id = $request->input('user_id');
+        $user_id = auth()->user()->id;
         $video_id = $request->input('video_id');
         $status = $request->input('status');
 
@@ -49,7 +48,7 @@ class VideoLikeController extends Controller
                 $newData->update([
                     'status' => null
                 ]);
-            } elseif ($likeIdCheck->status == ! $status) {
+            } elseif ($likeIdCheck->status == !$status) {
                 $newData = VideoLike::find($likeIdCheck->id);
                 $newData->update([
                     'status' => $status
@@ -67,7 +66,7 @@ class VideoLikeController extends Controller
 
             return response()->json($statusUpdate, 200);
         } catch (\Exception $exception) {
-            return response()->json($exception->getMessage(), 400);
+            return response()->json($exception->getMessage(), 500);
         }
     }
 }

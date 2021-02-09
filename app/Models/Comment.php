@@ -60,21 +60,17 @@ class Comment extends Model
         return $this->hasMany(CommentLike::class)->where('status', 0);
     }
 
-    public function isLikedBy(User $user)
+    public function isLikedBy(User $user): bool
     {
-        return (bool) $user->comment_likes
+        return (bool) $user->commentLikes
             ->where('comment_id', $this->id)
-            ->whereNotNull('status')
-            ->where('status', 1)
             ->count();
     }
 
-    public function isDislikedBy(User $user)
+    public function isDislikedBy(User $user): bool
     {
-        return (bool) $user->comment_likes
+        return (bool) $user->commentDislikes
             ->where('comment_id', $this->id)
-            ->whereNotNull('status')
-            ->where('status', 0)
             ->count();
     }
 

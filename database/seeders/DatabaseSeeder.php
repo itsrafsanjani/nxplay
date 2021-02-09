@@ -26,22 +26,28 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => bcrypt(11111111), // password
             'remember_token' => Str::random(10),
+            'avatar' => 'https://www.gravatar.com/avatar/' . md5(strtolower(trim('mdrafsanjanirafin@gmail.com'))),
             'role' => 1
-        ], [
+        ]);
+        User::create([
             'name' => 'Md Imam Hossain',
             'email' => 'imamagun94@gmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt(11111111), // password
             'remember_token' => Str::random(10),
+            'avatar' => 'https://www.gravatar.com/avatar/' . md5(strtolower(trim('imamagun94@gmail.com'))),
             'role' => 1
-        ], [
+        ]);
+        User::create([
             'name' => 'Radoanul Haider',
             'email' => 'radoan@gmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt(11111111), // password
             'remember_token' => Str::random(10),
+            'avatar' => 'https://www.gravatar.com/avatar/' . md5(strtolower(trim('radoan@gmail.com'))),
             'role' => 1
         ]);
+
         User::factory(10)->create();
         Video::factory(10)->create();
         Review::factory(10)->create();

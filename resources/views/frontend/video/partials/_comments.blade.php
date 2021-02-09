@@ -39,6 +39,7 @@
                         <span class="comments__name">{{ $comment->user->name }}
                         <span class="comments__time"
                               title="{{ $comment->created_at }}">{{ $comment->created_at->diffForHumans() }}</span>
+                        </span>
                     </div>
                     <p class="comments__text">{{ $comment->comment_text }}</p>
                     <div class="comments__actions">

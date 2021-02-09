@@ -17,10 +17,11 @@ class CreateReviewsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('video_id');
-            $table->string('title');
-            $table->longText('body');
-            $table->string('rating', 4);
+            $table->string('title', 50);
+            $table->text('body');
+            $table->decimal('rating', 3,1);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('video_id')->references('id')->on('videos')->onDelete('cascade');

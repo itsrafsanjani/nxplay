@@ -64,6 +64,13 @@ class Video extends Model
             ->whereNull('parent_id');
     }
 
+    public function replies()
+    {
+        return $this->hasMany(Comment::class)
+            ->latest()
+            ->where('parent_id');
+    }
+
     public function videoLikes()
     {
         return $this->hasMany(VideoLike::class)->where('status', 1);
@@ -76,7 +83,7 @@ class Video extends Model
 
     public function isLikedBy(User $user)
     {
-        return (bool) $user->video_likes
+        return (bool) $user->videoLikes()
             ->where('video_id', $this->id)
             ->where('status', 1)
             ->count();
@@ -84,10 +91,15 @@ class Video extends Model
 
     public function isDislikedBy(User $user)
     {
-        return (bool) $user->video_likes
+        return (bool) $user->videoLikes()
             ->where('video_id', $this->id)
             ->whereNotNull('status')
             ->where('status', 0)
             ->count();
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }

@@ -34,6 +34,7 @@ Primary use:	HotFlix Template
 24. Plyr customization
 25. PhotoSwipe customization
 26. mCustomScrollbar customization
+27. select2 customization
 ----------------------------------------*/
 /*==============================
 	Fonts
@@ -4189,4 +4190,123 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .mCS-custom-bar.mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar,
 .mCS-custom-bar.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar {
   background-color: #ffd80e;
+}
+
+/*==============================
+	select2 customization
+==============================*/
+.select2 {
+    width: 100% !important;
+    height: 46px;
+    margin-bottom: 20px;
+}
+.select2-search--dropdown,
+.select2-container--default .select2-selection--single .select2-selection__clear {
+    display: none;
+}
+.select2-container--default .select2-selection--single {
+    border: none;
+    height: 46px;
+    color: #fff;
+    padding: 0 40px 0 20px;
+    letter-spacing: 0.4px;
+    background-color: rgba(210,201,255,0.04);
+    width: 100%;
+    font-size: 16px;
+    -webkit-border-radius: 6;
+    border-radius: 6;
+    outline: none !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 46px;
+    top: 0;
+    right: 0;
+    width: 40px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: #ffd80e transparent transparent transparent;
+}
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+    border-color: transparent transparent #ffd80e transparent;
+}
+.select2-container--default .select2-selection--multiple {
+    border: none;
+    height: 46px;
+    color: #fff;
+    padding: 0 40px 0 20px;
+    letter-spacing: 0.4px;
+    background-color: rgba(210,201,255,0.04);
+    width: 100%;
+    font-size: 16px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+}
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border: none;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    padding: 0;
+}
+.select2-container .select2-search--inline .select2-search__field {
+    font-size: 16px;
+    letter-spacing: 0.4px;
+    height: 46px;
+    margin: 0;
+    color: #fff;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: rgba(210,201,255,0.04);
+    border: none;
+    -webkit-border-radius: 6;
+    border-radius: 6;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    height: 30px;
+    margin-top: 8px;
+    color: #fff;
+    padding: 0 10px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #ffd80e;
+    margin-right: 6px;
+    -webkit-transition: 0.4s ease;
+    -moz-transition: 0.4s ease;
+    transition: 0.4s ease;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+    color: #ffd80e;
+}
+.select2-container .select2-selection--single .select2-selection__rendered {
+    padding: 0;
+    color: #fff;
+    line-height: 46px;
+}
+.select2-dropdown {
+    border: none;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    padding: 15px;
+    -webkit-box-shadow: 0 0 15px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 0 15px 0 rgba(0,0,0,0.3);
+    background-color: #1a191f;
+}
+.select2-results__option {
+    padding: 0;
+    line-height: 40px;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    line-height: 40px;
+    display: block;
+}
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: transparent;
+    color: #ffd80e;
+}
+.select2-container--default .select2-results__option[aria-selected="true"] {
+    background-color: transparent;
+    color: #ffd80e;
+    cursor: default;
 }

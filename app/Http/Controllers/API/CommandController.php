@@ -24,4 +24,17 @@ class CommandController extends Controller
 
         return response()->json(['message' => 'username, password mone nai abar command maraite aicho!']);
     }
+
+    public function refreshSeed(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $username = $request->username;
+        $password = $request->password;
+
+        if($username == "nxplay" && $password == "AreyHogaMarseRe!"){
+            Artisan::call('migrate:refresh --seed');
+            return response()->json(['message' => 'migrate:refresh --seed command executed successfully!']);
+        }
+
+        return response()->json(['message' => 'username, password mone nai abar command maraite aicho!']);
+    }
 }

@@ -38,6 +38,7 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], func
      * You have to send username and password for security reason.
      */
     Route::post('command', 'CommandController@execute');
+    Route::post('command/refresh-seed', 'CommandController@refreshSeed');
 
     Route::group(['middleware' => 'jwt'], function () {
         Route::post('logout', 'AuthController@logout');
@@ -46,5 +47,6 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], func
         Route::apiResource('videos', 'VideoController', ['as' => 'app'])->only('index', 'show');
         Route::apiResource('comments', 'CommentController', ['as' => 'app']);
         Route::post('videos/like', 'VideoLikeController@likeOrDislike')->name('app.videos.like');
+        Route::apiResource('reviews', 'ReviewController', ['as' => 'app']);
     });
 });
