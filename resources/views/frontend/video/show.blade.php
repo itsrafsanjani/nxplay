@@ -55,7 +55,7 @@
                                                 <img src="https://ia.media-imdb.com/images/M/MV5BMTk3ODA4Mjc0NF5BMl5BcG5nXkFtZTgwNDc1MzQ2OTE@._V1_.png" alt="imdb logo" style="width: auto; height: 18px; margin-left: 10px"> </a></li>
                                         <li>
                                             <div class="comments__rate" style="position: relative; left: 0; top: 0; margin-top: 5px; border: 2px solid rgba(26,25,31,.7); border-radius: 3px; padding: 5px 30px; background: rgba(26,25,31,.7);">
-                                                <form action="{{ route('likeOrDislike') }}" method="post" id="likeDislikeForm" style="display: inline-flex">
+                                                <form action="{{ route('frontend.likeOrDislike') }}" method="post" id="likeDislikeForm" style="display: inline-flex">
                                                     @csrf
                                                     <input type="hidden" name="video_id" value="{{ $video->id }}">
                                                     <input type="hidden" name="video_id" value="{{ auth()->user()->id }}">
@@ -120,7 +120,7 @@
 
 {{--            $.ajax({--}}
 {{--                type:'POST',--}}
-{{--                url:"{{ route('likeOrDislike') }}",--}}
+{{--                url:"{{ route('frontend.likeOrDislike') }}",--}}
 {{--                data:{video_id:video_id, status:status, user_id:user_id},--}}
 {{--                // success:function(data){--}}
 {{--                //     alert(data.success);--}}
@@ -141,7 +141,7 @@
 
 {{--            $.ajax({--}}
 {{--                type:'POST',--}}
-{{--                url:"{{ route('likeOrDislike') }}",--}}
+{{--                url:"{{ route('frontend.likeOrDislike') }}",--}}
 {{--                data:{video_id:video_id, status:status, user_id:user_id},--}}
 {{--                // success:function(data){--}}
 {{--                //     alert(data.success);--}}

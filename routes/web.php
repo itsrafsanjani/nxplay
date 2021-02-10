@@ -1,19 +1,17 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Backend\AdminController;
-use App\Http\Controllers\Backend\UserController;
-use App\Http\Controllers\Backend\VideoController;
-use App\Http\Controllers\Frontend\CommentController;
-use App\Http\Controllers\Frontend\CommentLikeController;
 use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Frontend\ReviewController;
-use App\Http\Controllers\Frontend\VideoLikeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * HomeController For Viewing
+ * Movie/Series List Without Login
+ */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Login/Signup Routes
 Auth::routes();
 
 // Google login
@@ -29,28 +27,42 @@ Route::get('login/github', [LoginController::class, 'redirectToGithub'])->name('
 Route::get('login/github/callback', [LoginController::class, 'handleGithubCallback']);
 
 Route::group(['middleware' => 'auth'], function (){
-    Route::get('videos', [\App\Http\Controllers\Frontend\VideoController::class, 'index'])
-        ->name('frontend.videos.index');
-    Route::get('/videos/{slug}', [\App\Http\Controllers\Frontend\VideoController::class, 'show'])
-        ->name('frontend.videos.show');
 
-    Route::resource('/comments', CommentController::class);
+    /**
+     * Frontend Routes
+     */
+    Route::group(['as' => 'frontend.', 'namespace' => 'App\Http\Controllers\Frontend'], function (){
 
-    Route::resource('/reviews', ReviewController::class);
+        Route::get('videos', 'VideoController@index')
+            ->name('videos.index');
 
-    Route::post('/like-or-dislike', [VideoLikeController::class, 'likeOrDislike'])->name('likeOrDislike');
+        Route::get('/videos/{video}', 'VideoController@show')
+            ->name('videos.show');
 
-    Route::post('/comment-like-or-dislike', [CommentLikeController::class, 'commentLikeOrDislike'])->name('commentLikeOrDislike');
+        Route::resource('/comments', 'CommentController')->only('index', 'store', 'destroy');
 
-    // admin routes
-    Route::group(['prefix' => 'admin', 'middleware' => 'role'], function (){
+        Route::resource('/reviews', 'ReviewController')->only('store', 'destroy');
 
-        Route::get('/', [AdminController::class, 'index'])
+        Route::resource('/users', 'UserController')->only('show', 'update');
+
+        Route::post('/like-or-dislike', 'VideoLikeController@likeOrDislike')
+            ->name('likeOrDislike');
+
+        Route::post('/comment-like-or-dislike', 'CommentLikeController@commentLikeOrDislike')
+            ->name('commentLikeOrDislike');
+    });
+
+    /**
+     * Backend or Admin Routes
+     */
+    Route::group(['namespace' => 'App\Http\Controllers\Backend', 'prefix' => 'admin', 'middleware' => 'role'], function (){
+
+        Route::get('/', 'AdminController@index')
             ->name('admin');
 
-        Route::resource('/videos', VideoController::class);
+        Route::resource('/videos', 'VideoController');
 
-        Route::resource('/users', UserController::class);
+        Route::resource('/users', 'UserController');
     });
 
 });

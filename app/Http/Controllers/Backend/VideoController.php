@@ -166,7 +166,7 @@ class VideoController extends Controller
 
         // database update
         $video = Video::find($id);
-        $video->update($request->only('title', 'description', 'runtime', 'year', 'imdb_rating', 'type', 'status'));
+        $video->update($request->only('user_id', 'title', 'description', 'runtime', 'year', 'imdb_rating', 'type', 'status'));
 
         // redirect
         session()->flash('message', 'Video updated');

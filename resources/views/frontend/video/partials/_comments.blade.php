@@ -19,7 +19,7 @@
                 {{ session('message') }}
             </div>
         @endif
-        <form action="{{ route('comments.store') }}" class="form" method="post" id="commentForm" style="margin-bottom: 20px;">
+        <form action="{{ route('frontend.comments.store') }}" class="form" method="post" id="commentForm" style="margin-bottom: 20px;">
             @csrf
             <input type="hidden" name="user_id" id="userId"
                    value="{{ auth()->user()->id }}">
@@ -45,7 +45,7 @@
                     <div class="comments__actions">
                         <div class="comments__rate">
                             <!-- Comment Like / Dislike Form-->
-                            <form action="{{ route('commentLikeOrDislike') }}" method="post" id="commentLikeForm{{ $comment->id }}" style="display: inline-flex">
+                            <form action="{{ route('frontend.commentLikeOrDislike') }}" method="post" id="commentLikeForm{{ $comment->id }}" style="display: inline-flex">
                                 @csrf
                                 <input type="hidden" name="comment_id" value="{{ $comment->id }}">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
@@ -76,7 +76,7 @@
                             Reply
                         </button>
                         @if(auth()->user()->id == $comment->user_id)
-                            <form action="{{ route('comments.destroy', $comment->id) }}" method="post">
+                            <form action="{{ route('frontend.comments.destroy', $comment->id) }}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"><i class="icon ion-ios-trash"></i>Delete</button>
@@ -96,7 +96,7 @@
                         <div class="comments__actions">
                             <div class="comments__rate">
                                 <!-- Reply Like / Dislike Form -->
-                                <form action="{{ route('commentLikeOrDislike') }}" method="post" id="commentLikeForm{{ $reply->id }}" style="display: inline-flex">
+                                <form action="{{ route('frontend.commentLikeOrDislike') }}" method="post" id="commentLikeForm{{ $reply->id }}" style="display: inline-flex">
                                     @csrf
                                     <input type="hidden" name="comment_id" value="{{ $reply->id }}">
                                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
@@ -125,7 +125,7 @@
                                 Reply
                             </button>
                             @if(auth()->user()->id == $reply->user_id)
-                                <form action="{{ route('comments.destroy', $reply->id) }}" method="post">
+                                <form action="{{ route('frontend.comments.destroy', $reply->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"><i class="icon ion-ios-trash"></i>Delete</button>
@@ -157,7 +157,7 @@
 
             $.ajax({
                 type:'POST',
-                url:"{{ route('likeOrDislike') }}",
+                url:"{{ route('frontend.commentLikeOrDislike') }}",
                 data:{video_id:video_id, status:status, user_id:user_id},
                 // success:function(data){
                 //     alert(data.success);
@@ -178,7 +178,7 @@
 
             $.ajax({
                 type:'POST',
-                url:"{{ route('likeOrDislike') }}",
+                url:"{{ route('frontend.commentLikeOrDislike') }}",
                 data:{video_id:video_id, status:status, user_id:user_id},
                 // success:function(data){
                 //     alert(data.success);

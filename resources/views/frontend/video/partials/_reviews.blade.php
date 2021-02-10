@@ -36,7 +36,7 @@
                         <p class="reviews__text">{{ $review->body }}</p>
                         @if(auth()->user()->id == $review->user_id)
                             <div class="comments__actions">
-                                <form action="{{ route('reviews.destroy', $review->id) }}" method="post">
+                                <form action="{{ route('frontend.reviews.destroy', $review->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"><i class="icon ion-ios-trash"></i>Delete</button>
@@ -60,7 +60,7 @@
                         <p class="reviews__text">{{ $review->body }}</p>
                         @if(auth()->user()->id == $review->user_id)
                             <div class="comments__actions">
-                                <form action="{{ route('reviews.destroy', $review->id) }}" method="post">
+                                <form action="{{ route('frontend.reviews.destroy', $review->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"><i class="icon ion-ios-trash"></i>Delete</button>
@@ -72,7 +72,7 @@
             @endforeach
         </ul>
 
-        <form action="{{ route('reviews.store') }}" class="form" method="POST">
+        <form action="{{ route('frontend.reviews.store') }}" class="form" method="POST">
             @csrf
             <input type="hidden" name="user_id" value="{{ auth()->user()->id }}" required>
             <input type="hidden" name="video_id" value="{{ $video->id }}" required>

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -23,7 +24,7 @@ class VideoFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => random_int(1,10),
+            'user_id' => User::all()->random()->id,
             'title' => $this->faker->unique()->realText(20),
             'description' => $this->faker->realText(100),
             'type' => 'movie',

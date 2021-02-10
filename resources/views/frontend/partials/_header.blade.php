@@ -100,7 +100,9 @@
                                     @endif
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">{{ Auth::user()->name }}</a>
+                                    <a class="dropdown-item" href="{{ route('frontend.users.show', auth()->user()->id) }}">
+                                        {{ Auth::user()->name }}
+                                    </a>
                                     @if(auth()->user()->role == 1)
                                         <a class="dropdown-item" href="{{ route('admin') }}">
                                             Dashboard
