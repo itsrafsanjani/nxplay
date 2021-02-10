@@ -131,87 +131,126 @@
                                 </div>
                             @endif
                         </div>
-                        <!-- details form -->
-                        <div class="col-12 col-lg-6">
-                            <form action="{{ route('frontend.users.update', auth()->user()->id) }}" class="profile__form" method="POST">
-                                @csrf
-                                @method('PATCH')
-                                <div class="row">
-                                    <div class="col-12">
-                                        <h4 class="profile__title">Profile details</h4>
-                                    </div>
 
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="profile__group">
-                                            <label class="profile__label" for="name">Name</label>
-                                            <input id="name" type="text" name="name" class="profile__input"
-                                                   value="{{ $user->name }}">
+                        @if(auth()->user()->id == $user->id)
+                            <!-- details form -->
+                                <div class="col-12 col-lg-6">
+                                    <form action="{{ route('frontend.users.update', auth()->user()->id) }}" class="profile__form" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h4 class="profile__title">Profile details</h4>
+                                            </div>
+
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                <div class="profile__group">
+                                                    <label class="profile__label" for="name">Name</label>
+                                                    <input id="name" type="text" name="name" class="profile__input"
+                                                           value="{{ $user->name }}">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                <div class="profile__group">
+                                                    <label class="profile__label" for="email">Email</label>
+                                                    <input id="email" type="text" name="email" class="profile__input"
+                                                           value="{{ $user->email }}">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="profile__group">
+                                                    <label class="profile__label">Provider ID</label>
+                                                    <input type="text" class="profile__input" placeholder="If you logged in with any social account then it will appear here."
+                                                           value="{{ $user->provider_id }}" disabled>
+                                                </div>
+                                            </div>
+
+                                            @if(auth()->user()->id == $user->id)
+                                                <div class="col-12">
+                                                    <button class="profile__btn" type="submit">Update</button>
+                                                </div>
+                                            @endif
                                         </div>
-                                    </div>
-
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="profile__group">
-                                            <label class="profile__label" for="email">Email</label>
-                                            <input id="email" type="text" name="email" class="profile__input"
-                                                   value="{{ $user->email }}">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <div class="profile__group">
-                                            <label class="profile__label">Provider ID</label>
-                                            <input type="text" class="profile__input" placeholder="If you logged in with any social account then it will appear here."
-                                                   value="{{ $user->provider_id }}" disabled>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <button class="profile__btn" type="submit">Update</button>
-                                    </div>
+                                    </form>
                                 </div>
-                            </form>
-                        </div>
-                        <!-- end details form -->
+                                <!-- end details form -->
 
-                        <!-- password form -->
-                        <div class="col-12 col-lg-6">
-                            <form action="{{ route('frontend.users.update', auth()->user()->id) }}" class="profile__form" method="POST">
-                                @csrf
-                                @method('PATCH')
-                                <div class="row">
-                                    <div class="col-12">
-                                        <h4 class="profile__title">Change password</h4>
-                                    </div>
+                                <!-- password form -->
+                                <div class="col-12 col-lg-6">
+                                    <form action="{{ route('frontend.users.update', $user->id) }}" class="profile__form" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h4 class="profile__title">Change password</h4>
+                                            </div>
 
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="profile__group">
-                                            <label class="profile__label" for="oldPassword">Old Password</label>
-                                            <input id="oldPassword" type="password" name="old_password" class="profile__input">
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                <div class="profile__group">
+                                                    <label class="profile__label" for="oldPassword">Old Password</label>
+                                                    <input id="oldPassword" type="password" name="old_password" class="profile__input">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                <div class="profile__group">
+                                                    <label class="profile__label" for="password">New Password</label>
+                                                    <input id="password" type="password" name="password" class="profile__input">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                <div class="profile__group">
+                                                    <label class="profile__label" for="confirmPassword">Confirm New Password</label>
+                                                    <input id="confirmPassword" type="password" name="password_confirmation"
+                                                           class="profile__input">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <button class="profile__btn" type="submit">Change</button>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="profile__group">
-                                            <label class="profile__label" for="password">New Password</label>
-                                            <input id="password" type="password" name="password" class="profile__input">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <div class="profile__group">
-                                            <label class="profile__label" for="confirmPassword">Confirm New Password</label>
-                                            <input id="confirmPassword" type="password" name="password_confirmation"
-                                                   class="profile__input">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <button class="profile__btn" type="submit">Change</button>
-                                    </div>
+                                    </form>
                                 </div>
-                            </form>
-                        </div>
-                        <!-- end password form -->
+                                <!-- end password form -->
+                        @else
+                            <!-- details form -->
+                                <div class="col-12 col-lg-6">
+                                    <form action="#" class="profile__form">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h4 class="profile__title">Profile details</h4>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="profile__group">
+                                                    <label class="profile__label" for="name">Name</label>
+                                                    <input id="name" type="text" name="name" class="profile__input"
+                                                           value="{{ $user->name }}" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="profile__group">
+                                                    <label class="profile__label" for="email">Email</label>
+                                                    <input id="email" type="text" name="email" class="profile__input"
+                                                           value="{{ $user->email }}" disabled>
+                                                </div>
+                                            </div>
+
+                                            @if(auth()->user()->id == $user->id)
+                                                <div class="col-12">
+                                                    <button class="profile__btn" type="submit">Update</button>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- end details form -->
+                        @endif
                     </div>
                 </div>
 
