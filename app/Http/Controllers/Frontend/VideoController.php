@@ -28,6 +28,14 @@ class VideoController extends Controller
             ->where('status', 1)
             ->first();
 
+        $videoGenres = $data['video']['genres'];
+
+        $data['similarVideos'] = Video::where('genres', 'LIKE', '%' . $videoGenres . '%')
+            ->select('id', 'slug', 'title', 'imdb_rating', 'type', 'genres', 'poster')
+            ->orderBy('views', 'desc')
+            ->take(6)
+            ->get();
+
         if ($data['video'] === null) {
             return redirect()->route('home');
         }

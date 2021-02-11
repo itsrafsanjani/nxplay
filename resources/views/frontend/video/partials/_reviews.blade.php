@@ -55,7 +55,7 @@
                             {{ $review->user->name }}
                         </span>
 
-                            <span class="reviews__rating reviews__rating--green">{{ $review->rating }}</span>
+                            <span class="reviews__rating @if($review->rating>=7)reviews__rating--green @else reviews__rating--red @endif">{{ $review->rating }}</span>
                         </div>
                         <p class="reviews__text">{{ $review->body }}</p>
                         @if(auth()->user()->id == $review->user_id)
