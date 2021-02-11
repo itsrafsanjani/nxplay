@@ -58,11 +58,11 @@
                                                 <form action="{{ route('frontend.likeOrDislike') }}" method="post" id="likeDislikeForm" style="display: inline-flex">
                                                     @csrf
                                                     <input type="hidden" name="video_id" value="{{ $video->id }}">
-                                                    <input type="hidden" name="video_id" value="{{ auth()->user()->id }}">
+                                                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                                     <input type="hidden" name="status" id="status">
-                                                    <button type="button" title="I Like this" id="likebtn" onclick="document.getElementById('commentLikeBtn').value='1'; document.getElementById('likeDislikeForm').submit();"><i class="icon ion-md-thumbs-up" style="font-size: 20px; margin-right: 6px; {{ $video->islikedBy(auth()->user()) ? 'color: #00ff70;' : 'color: #fff' }}"></i>
+                                                    <button type="button" title="I Like this" id="likebtn" onclick="document.getElementById('status').value='1'; document.getElementById('likeDislikeForm').submit();"><i class="icon ion-md-thumbs-up" style="font-size: 20px; margin-right: 6px; {{ $video->islikedBy(auth()->user()) ? 'color: #00ff70;' : 'color: #fff' }}"></i>
                                                         {{ $video->videoLikes->count() }}</button>
-                                                    <button type="button" title="I Don't Like this" id="dislikebtn" onclick="document.getElementById('commentLikeBtn').value='0'; document.getElementById('likeDislikeForm').submit();">
+                                                    <button type="button" title="I Don't Like this" id="dislikebtn" onclick="document.getElementById('status').value='0'; document.getElementById('likeDislikeForm').submit();">
                                                         <i class="icon ion-md-thumbs-down" style="font-size: 20px; margin-left: 6px; margin-right: 6px; {{ $video->isDislikedBy(auth()->user()) ? 'color: #fd6060;' : 'color: #ffffff' }}"></i> {{ $video->videoDislikes->count() }}</button>
                                                 </form>
                                             </div>

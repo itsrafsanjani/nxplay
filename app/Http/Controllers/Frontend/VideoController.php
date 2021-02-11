@@ -17,9 +17,18 @@ class VideoController extends Controller
 
     public function show($slug)
     {
-        $data['video'] = Video::with('videoLikes.user', 'videoDislikes.user', 'comments.user', 'comments.replies.user', 'reviews.user', 'comments.commentLikes', 'comments.replies.commentLikes', 'comments.commentDislikes', 'comments.replies.commentDislikes')->where('slug', $slug)->where('status', 1)->first();
+        $data['video'] = Video::
+        with('comments:id,user_id,video_id,comment_text,parent_id,created_at',
+            'comments.replies:id,user_id,video_id,comment_text,parent_id,created_at',
+            'reviews:id,user_id,video_id,title,body,rating,created_at',
+            'comments.user:id,name,avatar', 'comments.replies.user:id,name,avatar', 'reviews.user:id,name,avatar',
+            'comments.commentLikes:id,comment_id,user_id,status', 'comments.replies.commentLikes:id,comment_id,user_id,status',
+            'comments.commentDislikes:id,comment_id,user_id,status', 'comments.replies.commentDislikes:id,comment_id,user_id,status')
+            ->where('slug', $slug)
+            ->where('status', 1)
+            ->first();
 
-        if($data['video'] === null){
+        if ($data['video'] === null) {
             return redirect()->route('home');
         }
 
