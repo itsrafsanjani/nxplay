@@ -24,6 +24,7 @@ class CommentController extends Controller
             ->where('video_id', '=', $video_id)
             ->join('users', 'users.id', '=', 'comments.user_id')
             ->select('comments.id', 'users.name', 'users.email', 'users.avatar', 'comments.comment_text', 'comments.parent_id', 'comments.created_at', 'comments.updated_at')
+            ->orderBy('comments.created_at', 'desc')
             ->paginate(20);
 
         return response()->json($comments, 200);
