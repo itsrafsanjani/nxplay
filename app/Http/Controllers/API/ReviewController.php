@@ -13,10 +13,15 @@ class ReviewController extends Controller
     {
         $video_id = $request->input('video_id');
 
-        $reviews = Review::where('video_id', $video_id)->paginate(20);
+        $reviews = Review::
+        with('user:id,name,avatar')
+            ->where('video_id', $video_id)
+            ->select('id', 'user_id', 'video_id', 'title', 'body', 'rating', 'created_at')
+            ->paginate(20);
 
         return response()->json($reviews, 200);
     }
+
     /**
      * Store a newly created resource in storage.
      *
