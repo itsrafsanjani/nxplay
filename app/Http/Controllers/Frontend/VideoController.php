@@ -28,7 +28,7 @@ class VideoController extends Controller
             ->where('status', 1)
             ->first();
 
-        $videoGenres = $data['video']['genres'];
+        $videoGenres = !empty($data['video']['genres']);
 
         $data['similarVideos'] = Video::where('genres', 'LIKE', '%' . $videoGenres . '%')
             ->select('id', 'slug', 'title', 'imdb_rating', 'type', 'genres', 'poster')
@@ -37,7 +37,7 @@ class VideoController extends Controller
             ->get();
 
         if ($data['video'] === null) {
-            return redirect()->route('home');
+            abort(404);
         }
 
         return view('frontend.video.show', $data);
