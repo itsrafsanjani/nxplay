@@ -63,6 +63,8 @@ Route::group(['middleware' => 'auth'], function (){
         Route::resource('/videos', 'VideoController');
 
         Route::resource('/users', 'UserController');
+
+        Route::resource('/comments', 'CommentController');
     });
 
 });

@@ -94,10 +94,10 @@
                                 <div class="main__table-text">{{ $video->user->name }}</div>
                             </td>
                             <td>
-                                <div class="main__table-text">{{ $video->created_at->diffForHumans() }}</div>
+                                <div class="main__table-text" title="{{ $video->created_at }}">{{ $video->created_at->diffForHumans() }}</div>
                             </td>
                             <td>
-                                <div class="main__table-text">{{ $video->updated_at->diffForHumans() }}</div>
+                                <div class="main__table-text" title="{{ $video->updated_at }}">{{ $video->updated_at->diffForHumans() }}</div>
                             </td>
                             <td>
                                 <div class="main__table-btns">

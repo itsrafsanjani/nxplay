@@ -34,11 +34,11 @@
         </li>
 
         <li class="sidebar__nav-item">
-            <a href="{{ route('videos.index') }}" class="sidebar__nav-link {{ request()->routeIs('videos.index') ? 'sidebar__nav-link--active' : '' }}"><i class="icon ion-ios-film"></i> Catalog</a>
+            <a href="{{ route('videos.index') }}" class="sidebar__nav-link {{ request()->routeIs('videos.*') ? 'sidebar__nav-link--active' : '' }}"><i class="icon ion-ios-film"></i> Catalog</a>
         </li>
 
         <li class="sidebar__nav-item">
-            <a href="{{ route('users.index') }}" class="sidebar__nav-link"><i class="icon ion-ios-contacts"></i> Users</a>
+            <a href="{{ route('users.index') }}" class="sidebar__nav-link {{ request()->routeIs('users.*') ? 'sidebar__nav-link--active' : '' }}"><i class="icon ion-ios-contacts"></i> Users</a>
         </li>
 
         <li class="sidebar__nav-item">
@@ -46,7 +46,7 @@
         </li>
 
         <li class="sidebar__nav-item">
-            <a href="#" class="sidebar__nav-link"><i class="icon ion-ios-chatbubbles"></i> Comments</a>
+            <a href="{{ route('comments.index') }}" class="sidebar__nav-link {{ request()->routeIs('comments.*') ? 'sidebar__nav-link--active' : '' }}"><i class="icon ion-ios-chatbubbles"></i> Comments</a>
         </li>
 
         <li class="sidebar__nav-item">

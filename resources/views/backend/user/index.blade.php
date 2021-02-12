@@ -89,7 +89,7 @@
                                 <div class="main__table-text">@if($user->role == 1) Admin @else User @endif</div>
                             </td>
                             <td>
-                                <div class="main__table-text">{{ $user->created_at->diffForHumans() }}</div>
+                                <div class="main__table-text" title="{{ $user->created_at }}">{{ $user->created_at->diffForHumans() }}</div>
                             </td>
                             <td>
                                 <div class="main__table-btns">
