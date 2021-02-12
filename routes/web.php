@@ -46,10 +46,10 @@ Route::group(['middleware' => 'auth'], function (){
         Route::resource('/users', 'UserController')->only('show', 'update');
 
         Route::post('/like-or-dislike', 'VideoLikeController@likeOrDislike')
-            ->name('likeOrDislike');
+            ->name('video_like_or_dislike');
 
         Route::post('/comment-like-or-dislike', 'CommentLikeController@commentLikeOrDislike')
-            ->name('commentLikeOrDislike');
+            ->name('comment_like_or_dislike');
     });
 
     /**

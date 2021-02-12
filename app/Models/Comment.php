@@ -64,6 +64,7 @@ class Comment extends Model
     {
         return (bool) $user->commentLikes
             ->where('comment_id', $this->id)
+            ->where('status', 1)
             ->count();
     }
 
@@ -71,7 +72,8 @@ class Comment extends Model
     {
         return (bool) $user->commentDislikes
             ->where('comment_id', $this->id)
+            ->whereNotNull('status')
+            ->where('status', 0)
             ->count();
     }
-
 }

@@ -45,7 +45,7 @@
                     <div class="comments__actions">
                         <div class="comments__rate">
                             <!-- Comment Like / Dislike Form-->
-                            <form action="{{ route('frontend.commentLikeOrDislike') }}" method="post" id="commentLikeForm{{ $comment->id }}" style="display: inline-flex">
+                            <form action="{{ route('frontend.comment_like_or_dislike') }}" method="post" id="commentLikeForm{{ $comment->id }}" style="display: inline-flex">
                                 @csrf
                                 <input type="hidden" name="comment_id" value="{{ $comment->id }}">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
@@ -55,6 +55,11 @@
                                             document.getElementById('commentLikeForm{{ $comment->id }}').submit();">
                                     <i class="icon ion-md-thumbs-up" style="{{ $comment->isLikedBy(auth()->user()) ? 'color: #00ff70;' : 'color: #fff' }}"></i> {{ $comment->commentLikes->count() }}
                                 </button>
+
+                                <div>
+                                    <p>{{ $comment->isLikedBy(auth()->user()) }}</p>
+                                    <p>{{ $comment->isDislikedBy(auth()->user()) }}</p>
+                                </div>
 
                                 <button type="button"
                                         onclick="document.getElementById('commentLikeBtn{{ $comment->id }}').value='0';
@@ -96,7 +101,7 @@
                         <div class="comments__actions">
                             <div class="comments__rate">
                                 <!-- Reply Like / Dislike Form -->
-                                <form action="{{ route('frontend.commentLikeOrDislike') }}" method="post" id="commentLikeForm{{ $reply->id }}" style="display: inline-flex">
+                                <form action="{{ route('frontend.comment_like_or_dislike') }}" method="post" id="commentLikeForm{{ $reply->id }}" style="display: inline-flex">
                                     @csrf
                                     <input type="hidden" name="comment_id" value="{{ $reply->id }}">
                                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
@@ -157,7 +162,7 @@
 
             $.ajax({
                 type:'POST',
-                url:"{{ route('frontend.commentLikeOrDislike') }}",
+                url:"{{ route('frontend.comment_like_or_dislike') }}",
                 data:{video_id:video_id, status:status, user_id:user_id},
                 // success:function(data){
                 //     alert(data.success);
@@ -178,7 +183,7 @@
 
             $.ajax({
                 type:'POST',
-                url:"{{ route('frontend.commentLikeOrDislike') }}",
+                url:"{{ route('frontend.comment_like_or_dislike') }}",
                 data:{video_id:video_id, status:status, user_id:user_id},
                 // success:function(data){
                 //     alert(data.success);
