@@ -65,6 +65,8 @@ Route::group(['middleware' => 'auth'], function (){
         Route::resource('/users', 'UserController');
 
         Route::resource('/comments', 'CommentController');
+
+        Route::resource('/reviews', 'ReviewController');
     });
 
 });

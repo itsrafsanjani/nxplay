@@ -50,7 +50,7 @@
         </li>
 
         <li class="sidebar__nav-item">
-            <a href="#" class="sidebar__nav-link"><i class="icon ion-ios-star-half"></i> Reviews</a>
+            <a href="{{ route('reviews.index') }}" class="sidebar__nav-link {{ request()->routeIs('reviews.*') ? 'sidebar__nav-link--active' : '' }}"><i class="icon ion-ios-star-half"></i> Reviews</a>
         </li>
 
         <!-- dropdown -->
