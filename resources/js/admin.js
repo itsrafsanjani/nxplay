@@ -76,6 +76,8 @@ $(document).ready(function () {
 
 	$('#subscription, #rights').select2();
 
+	$('#rating').select2();
+
 	/*==============================
 	Upload cover
 	==============================*/
@@ -86,7 +88,7 @@ $(document).ready(function () {
 			reader.onload = function(e) {
 				$('#form__img').attr('src', e.target.result);
 			}
-		
+
 			reader.readAsDataURL(input.files[0]);
 		}
 	}

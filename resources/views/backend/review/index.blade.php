@@ -102,7 +102,7 @@
                                 </td>
                                 <td>
                                     <div
-                                        class="main__table-text">{{ $review->rating }}
+                                        class="main__table-text"><i class="icon ion-ios-star"></i> {{ $review->rating }}
                                     </div>
                                 </td>
                                 <td>

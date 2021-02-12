@@ -79,7 +79,7 @@
             <input type="text" name="title" class="form__input" placeholder="Title" required>
             <textarea name="body" class="form__textarea" placeholder="Review" style="margin-bottom: 8px;"
                       required></textarea>
-            <select type="number" name="rating" class="js-example-basic-single" required>
+            <select type="number" name="rating" class="js-example-basic-single" id="rating" required>
                 <option value=""> Select your rating here...</option>
                 <option value="1.0"> 1.0</option>
                 <option value="2.0"> 2.0</option>
@@ -96,12 +96,3 @@
         </form>
     </div>
 </div>
-
-@push('javascripts')
-    <script>
-        // In your Javascript (external .js resource or <script> tag)
-        $(document).ready(function () {
-            $('.js-example-basic-single').select2();
-        });
-    </script>
-@endpush

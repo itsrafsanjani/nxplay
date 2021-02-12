@@ -22,6 +22,7 @@
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     <link href="https://unpkg.com/ionicons@4.3.0/dist/css/ionicons.min.css" rel="stylesheet">
     @yield('styles')
+    <script src="https://unpkg.com/turbolinks"></script>
 </head>
 <body>
 @include('backend.partials._header')
@@ -42,6 +43,5 @@
 <script src="{{ asset('js/app.js') }}"></script>
 @stack('javascripts')
 <script src="{{ asset('js/admin.js') }}" defer></script>
-<script src="http://unpkg.com/turbolinks"></script>
 </body>
 </html>

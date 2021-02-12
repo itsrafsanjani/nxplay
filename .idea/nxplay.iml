@@ -129,5 +129,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="ionicons" level="application" />
     <orderEntry type="library" name="plyr" level="application" />
+    <orderEntry type="library" name="turbolinks" level="application" />
   </component>
 </module>
