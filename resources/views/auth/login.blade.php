@@ -20,7 +20,7 @@
                             <a href="{{ route('login.github') }}" class="btn btn-dark btn-block"><i class="icon ion-logo-github" style="font-size: 18px; margin-right: 3px;"></i> Sign in with Github</a>
                         </div>
 
-                        <p class="text-center text-white">OR</p>
+                        <p class="text-center" style="color: white">OR</p>
 
                         <div class="sign__group">
                             <input id="email" type="email" class="sign__input @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email">

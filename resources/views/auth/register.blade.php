@@ -61,7 +61,7 @@
 
                         <button class="sign__btn" type="submit">Sign up</button>
 
-                        <p class="text-center text-white">OR</p>
+                        <p class="text-center" style="color: white">OR</p>
 
                         <div class="sign__group">
                             <a href="{{ route('login.google') }}" class="btn btn-danger btn-block"><i class="icon ion-logo-google" style="font-size: 18px; margin-right: 3px;"></i> Sign in with Google</a>
