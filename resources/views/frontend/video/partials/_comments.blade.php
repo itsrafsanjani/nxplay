@@ -50,17 +50,14 @@
                                 <input type="hidden" name="comment_id" value="{{ $comment->id }}">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                 <input type="hidden" name="status" id="commentLikeBtn{{ $comment->id }}" value="{{ auth()->user()->id }}">
+                                <!-- Comment Like Button -->
                                 <button type="button"
                                         onclick="document.getElementById('commentLikeBtn{{ $comment->id }}').value='1';
                                             document.getElementById('commentLikeForm{{ $comment->id }}').submit();">
                                     <i class="icon ion-md-thumbs-up" style="{{ $comment->isLikedBy(auth()->user()) ? 'color: #00ff70;' : 'color: #fff' }}"></i> {{ $comment->commentLikes->count() }}
                                 </button>
 
-                                <div>
-                                    <p>{{ $comment->isLikedBy(auth()->user()) }}</p>
-                                    <p>{{ $comment->isDislikedBy(auth()->user()) }}</p>
-                                </div>
-
+                                <!-- Comment Dislike Button -->
                                 <button type="button"
                                         onclick="document.getElementById('commentLikeBtn{{ $comment->id }}').value='0';
                                             document.getElementById('commentLikeForm{{ $comment->id }}').submit();">
@@ -106,16 +103,18 @@
                                     <input type="hidden" name="comment_id" value="{{ $reply->id }}">
                                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                     <input type="hidden" name="status" id="commentLikeBtn{{ $reply->id }}" value="{{ auth()->user()->id }}">
+                                    <!-- Reply Like Button -->
                                     <button type="button"
                                             onclick="document.getElementById('commentLikeBtn{{ $reply->id }}').value='1';
                                                 document.getElementById('commentLikeForm{{ $reply->id }}').submit();">
-                                        <i class="icon ion-md-thumbs-up"></i> {{ $reply->commentLikes->count() }}
+                                        <i class="icon ion-md-thumbs-up" style="{{ $reply->isLikedBy(auth()->user()) ? 'color: #00ff70;' : 'color: #fff' }}"></i> {{ $reply->commentLikes->count() }}
                                     </button>
 
+                                    <!-- Reply Dislike Button -->
                                     <button type="button"
                                             onclick="document.getElementById('commentLikeBtn{{ $reply->id }}').value='0';
                                                 document.getElementById('commentLikeForm{{ $reply->id }}').submit();">
-                                        <i class="icon ion-md-thumbs-down"></i> {{ $reply->commentDislikes->count() }}
+                                        <i class="icon ion-md-thumbs-down" style="{{ $reply->isDislikedBy(auth()->user()) ? 'color: #fd6060;' : 'color: #fff' }}"></i> {{ $reply->commentDislikes->count() }}
                                     </button>
                                 </form>
                                 <!-- End Reply Like / Dislike Form -->
