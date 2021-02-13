@@ -90,7 +90,7 @@ class UserController extends Controller
 
         if ($request->hasAny(['old_password', 'password'])) {
             $credentials = [
-                'email' => $user->email,
+                'email' => auth()->user()->email,
                 'password' => $request['old_password']
             ];
             if (auth()->attempt($credentials)) {

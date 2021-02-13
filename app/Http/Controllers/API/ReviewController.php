@@ -17,6 +17,7 @@ class ReviewController extends Controller
         with('user:id,name,avatar')
             ->where('video_id', $video_id)
             ->select('id', 'user_id', 'video_id', 'title', 'body', 'rating', 'created_at')
+            ->latest()
             ->paginate(20);
 
         return response()->json($reviews, 200);

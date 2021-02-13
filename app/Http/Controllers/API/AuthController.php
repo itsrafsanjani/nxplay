@@ -13,18 +13,18 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
-    public function login() : \Illuminate\Http\JsonResponse
+    public function login(): \Illuminate\Http\JsonResponse
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth('api')->attempt($credentials)) {
+        if (!$token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'These credentials do not match our records.'], 401);
         }
 
         return $this->respondWithToken($token);
     }
 
-    public function register(Request $request) : \Illuminate\Http\JsonResponse
+    public function register(Request $request): \Illuminate\Http\JsonResponse
     {
         $input = $request->only('name', 'email', 'password');
         $validator = Validator::make($input, [
@@ -37,7 +37,7 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $grav_url = 'https://www.gravatar.com/avatar/'.md5(strtolower(trim($request->email)));
+        $grav_url = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($request->email)));
 
         try {
             $user = User::create([
@@ -57,24 +57,24 @@ class AuthController extends Controller
         }
     }
 
-    public function me() : \Illuminate\Http\JsonResponse
+    public function me(): \Illuminate\Http\JsonResponse
     {
         return response()->json(auth('api')->user(), 200);
     }
 
-    public function logout() : \Illuminate\Http\JsonResponse
+    public function logout(): \Illuminate\Http\JsonResponse
     {
         auth('api')->logout();
 
         return response()->json(['message' => 'Successfully logged out'], 200);
     }
 
-    public function refresh() : \Illuminate\Http\JsonResponse
+    public function refresh(): \Illuminate\Http\JsonResponse
     {
         return $this->respondWithToken(auth('api')->refresh());
     }
 
-    protected function respondWithToken($token) : \Illuminate\Http\JsonResponse
+    protected function respondWithToken($token): \Illuminate\Http\JsonResponse
     {
         return response()->json([
             'access_token' => $token,
@@ -84,7 +84,7 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function forgotPassword(Request $request) : \Illuminate\Http\JsonResponse
+    public function forgotPassword(Request $request): \Illuminate\Http\JsonResponse
     {
         $input = $request->only('email');
         $validator = Validator::make($input, [
@@ -100,7 +100,7 @@ class AuthController extends Controller
         return response()->json($message, 200);
     }
 
-    public function passwordReset(Request $request) : \Illuminate\Http\JsonResponse
+    public function passwordReset(Request $request): \Illuminate\Http\JsonResponse
     {
         $input = $request->only('email', 'token', 'password', 'password_confirmation');
         $validator = Validator::make($input, [
@@ -129,7 +129,7 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function google(Request $request) : \Illuminate\Http\JsonResponse
+    public function google(Request $request): \Illuminate\Http\JsonResponse
     {
         $input = $request->only('id_token');
 
@@ -144,13 +144,13 @@ class AuthController extends Controller
         $id_token = $request->id_token;
 
         try {
-            $response = Http::get('https://oauth2.googleapis.com/tokeninfo?id_token='.$id_token);
+            $response = Http::get('https://oauth2.googleapis.com/tokeninfo?id_token=' . $id_token);
 
             $data = json_decode($response->body());
 
             $user = User::where('email', '=', $data->email)->first();
 
-            if (! $user) {
+            if (!$user) {
                 $user = new User();
                 $user->name = $data->name;
                 $user->email = $data->email;
@@ -170,7 +170,7 @@ class AuthController extends Controller
         }
     }
 
-    public function github(Request $request) : \Illuminate\Http\JsonResponse
+    public function github(Request $request): \Illuminate\Http\JsonResponse
     {
         $input = $request->only('id_token');
 
@@ -186,11 +186,11 @@ class AuthController extends Controller
 
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'token '.$id_token
+                'Authorization' => 'token ' . $id_token
             ])->get('https://api.github.com/user');
 
             $responseEmails = Http::withHeaders([
-                'Authorization' => 'token '.$id_token
+                'Authorization' => 'token ' . $id_token
             ])->get('https://api.github.com/user/emails');
 
             $data = json_decode($response->body());
@@ -205,17 +205,17 @@ class AuthController extends Controller
             }
             $user = User::where('email', '=', $em)->first();
 
-            if (! $user) {
+            if (!$user) {
                 $user = new User();
                 $user->name = isset($data->name) ? $data->name : $data->login;
                 $user->email = $em;
-                $user->provider_id = (string) $data->id;
+                $user->provider_id = (string)$data->id;
                 $user->avatar = $data->avatar_url;
                 $user->save();
             }
 
             if ($user) {
-                $user->provider_id = (string) $data->id;
+                $user->provider_id = (string)$data->id;
                 $user->avatar = $data->avatar_url;
                 $user->save();
             }
@@ -225,7 +225,7 @@ class AuthController extends Controller
         }
     }
 
-    public function facebook(Request $request) : \Illuminate\Http\JsonResponse
+    public function facebook(Request $request): \Illuminate\Http\JsonResponse
     {
         $input = $request->only('id', 'id_token');
 
@@ -242,13 +242,13 @@ class AuthController extends Controller
         $id_token = $request->id_token;
 
         try {
-            $response = Http::get('https://graph.facebook.com/'.$id.'?fields=id,name,email,picture.type(large)&access_token='.$id_token);
+            $response = Http::get('https://graph.facebook.com/' . $id . '?fields=id,name,email,picture.type(large)&access_token=' . $id_token);
 
             $data = json_decode($response->body());
 
             $user = User::where('email', '=', $data->email)->first();
 
-            if (! $user) {
+            if (!$user) {
                 $user = new User();
                 $user->name = $data->name;
                 $user->email = $data->email;
@@ -272,28 +272,44 @@ class AuthController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $validator = Validator::make($request->only('name', 'password', 'provider_id', 'avatar'), [
+        $validator = Validator::make($request->only('name', 'provider_id', 'avatar', 'old_password', 'password', 'password_confirmation'), [
             'name' => 'sometimes|regex:/(^([a-zA-z ]+)(\d+)?$)/u|min:5',
-            'password' => 'sometimes|min:8',
             'provider_id' => 'sometimes|min:8',
             'avatar' => 'sometimes|max:255',
+            'old_password' => 'sometimes|min:8',
+            'password' => 'sometimes|min:8|confirmed'
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
-        if (! empty($request->password)) {
-            $request->merge(['password' => bcrypt($request['password'])]);
+        if ($request->hasAny(['old_password', 'password'])) {
+            $credentials = [
+                'email' => auth()->user()->email,
+                'password' => $request['old_password']
+            ];
+            if (auth()->attempt($credentials)) {
+                $request->merge(['password' => bcrypt($request['password'])]);
+            } else {
+                return response()->json([
+                    'message' => 'Old password does not match'
+                ], 201);
+            }
         }
 
         try {
-            $user->update($request->only('name', 'password', 'provider_id', 'avatar'));
+            if (auth()->user()->id == $id) {
+                $user->update($request->only('name', 'password', 'provider_id', 'avatar'));
+                return response()->json([
+                    'data' => $user
+                ], 201);
+            }
 
             return response()->json([
-                'data' => $user
+                'message' => 'You do not have permission to update!'
             ], 201);
-        } catch (\PDOException $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'data' => $e->getMessage()
             ], 500);

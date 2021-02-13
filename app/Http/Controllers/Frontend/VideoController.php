@@ -28,13 +28,59 @@ class VideoController extends Controller
             ->where('status', 1)
             ->first();
 
-        $videoGenres = !empty($data['video']['genres']);
+//        $videoGenres = !empty($data['video']['genres']);
+//
+//        $data['similarVideos'] = Video::where('genres', 'LIKE', '%' . $videoGenres . '%')
+//            ->select('id', 'slug', 'title', 'imdb_rating', 'type', 'genres', 'poster')
+//            ->orderBy('views', 'desc')
+//            ->take(6)
+//            ->get();
 
-        $data['similarVideos'] = Video::where('genres', 'LIKE', '%' . $videoGenres . '%')
-            ->select('id', 'slug', 'title', 'imdb_rating', 'type', 'genres', 'poster')
-            ->orderBy('views', 'desc')
-            ->take(6)
-            ->get();
+        //Collection in php is maybe flexible for push, pop or similar operation.
+        $data['similarVideos'] = collect();
+
+        //Pulling 20 videos from the database.
+        $videos = Video::select('id', 'slug', 'title', 'imdb_rating', 'type', 'genres', 'poster', 'views')->take(20)->get();
+
+        //decoding genres for removing extra backslash.
+        $genres = json_decode($data['video']['genres']);
+
+        //Traversing video list then compare all genres
+        foreach ($videos as $video) {
+            $videoGenres = json_decode($video['genres']);
+
+            /*
+            The best method for compare two array elements.
+            It return matching element by comparing two or more arrays.
+            In our methode the main problem is with the array value.
+            * They maybe Lower or upper case.
+            * They may contain extra space.
+            That's why your previous tried method gone failed.
+
+            $result = array_intersect($videoGenres, $genres);
+            if (count($result) > 0) {
+                $similarVideos->push($video);
+            }
+            */
+
+            //This is the temporary solution for this problem given bellow.
+            $isPushed = false;
+            foreach ($genres as $i) {
+                foreach ($videoGenres as $j) {
+                    if (strcmp(trim(strtolower($i)), trim(strtolower($j))) == 0 && $video['id'] != $data['video']['id']) {
+                        $data['similarVideos']->push($video);
+                        $isPushed = true;
+                        break;
+                    }
+                    if ($isPushed) {
+                        break;
+                    }
+                }
+                if ($isPushed) {
+                    break;
+                }
+            }
+        }
 
         if ($data['video'] === null) {
             abort(404);
