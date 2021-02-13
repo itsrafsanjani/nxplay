@@ -5,23 +5,31 @@ NXPlay is an open source streaming entertainment service created with Laravel.
 ## Packages Used
 - 1. `laravel/ui`
 - 2. `laravel/socialite`
-- 3. `google/apiclient`
-- 4. `tymon/jwt-auth`
-- 5. `tymon/jwt-auth`
-- 6. `barryvdh/laravel-debugbar`
+- 3. `tymon/jwt-auth`
+- 4. `barryvdh/laravel-debugbar`
 
 ## Installation Instructions
 
 - Clone the repo.
-- Run `cd nxplay`
-- Run `composer install`
-- Run `php -r "file_exists('.env') || copy('.env.example', '.env');"`
-- Run `php artisan key:generate --ansi`
-- Run `mysql -uroot`
-- Run `create database nxplay;`
-- Edit `.env` file
-- Run `php artisan migrate --seed`
-- Run `npm install && npm run dev`
+```shell
+    cd nxplay
+    
+    composer install
+    
+    php -r "file_exists('.env') || copy('.env.example', '.env');"
+    
+    php artisan key:generate --ansi
+    
+    mysql -uroot
+    
+    create database nxplay;
+```    
+- edit `.env` file
+```shell
+    php artisan migrate --seed
+    
+    npm install && npm run dev
+```
 
 ## Contributing
 
