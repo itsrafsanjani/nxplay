@@ -2,7 +2,7 @@
     <ul class="paginator">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
-            <li class="page-item disabled"><span ><i class="icon ion-ios-arrow-back"></i></span ></li>
+            <li class="paginator__item disabled"><span ><i class="icon ion-ios-arrow-back"></i></span ></li>
         @else
             <li class="paginator__item paginator__item--prev"><a  href="{{ $paginator->previousPageUrl() }}" rel="prev"><i class="icon ion-ios-arrow-back"></i></a></li>
         @endif
