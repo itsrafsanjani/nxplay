@@ -12,63 +12,34 @@
 
                     <!-- header nav -->
                     <ul class="header__nav">
-                        <!-- dropdown -->
                         <li class="header__nav-item">
-                            <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuHome"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
-
-                            <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuHome">
-                                <li><a href="/">Home slideshow bg</a></li>
-                                <li><a href="#">Home static bg</a></li>
-                            </ul>
+                            <a href="{{ route('home') }}" class="header__nav-link">Home</a>
                         </li>
-                        <!-- end dropdown -->
 
-                        <!-- dropdown -->
                         <li class="header__nav-item">
-                            <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalog</a>
-
-                            <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                <li><a href="#">Catalog</a></li>
-                                <li><a href="#">Movie Detail</a></li>
-                            </ul>
+                            <a href="{{ route('videos.index') }}" class="header__nav-link">Catalog</a>
                         </li>
-                        <!-- end dropdown -->
 
                         <li class="header__nav-item">
                             <a href="#" class="header__nav-link">Pricing Plan</a>
                         </li>
 
                         <li class="header__nav-item">
+                            <a href="#" class="header__nav-link">About Us</a>
+                        </li>
+
+                        <li class="header__nav-item">
                             <a href="#" class="header__nav-link">Help</a>
                         </li>
-
-                        <!-- dropdown -->
-                        <li class="dropdown header__nav-item">
-                            <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuMore"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
-
-                            <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore" style="">
-                                <li><a href="#">About</a></li>
-                                <li><a href="#">Profile</a></li>
-                                <li><a href="#">Sign In</a></li>
-                                <li><a href="#">Sign Up</a></li>
-                                <li><a href="#">Forgot password</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Contacts</a></li>
-                                <li><a href="#">404 Page</a></li>
-                            </ul>
-                        </li>
-                        <!-- end dropdown -->
                     </ul>
                     <!-- end header nav -->
 
                     <!-- header auth -->
                     <div class="header__auth">
-                        <form action="#" class="header__search">
-                            <input class="header__search-input" type="text" placeholder="Search...">
-                            <button class="header__search-button" type="button">
+                        <form action="{{ route('frontend.search.index') }}" class="header__search">
+                            <input class="header__search-input" type="text" name="q"
+                                   placeholder="Search..." value="@if(! empty($query)) {{ $query }} @endif">
+                            <button class="header__search-button" type="submit">
                                 <i class="icon ion-ios-search"></i>
                             </button>
                             <button class="header__search-close" type="button">
@@ -101,18 +72,20 @@
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="{{ route('frontend.users.show', auth()->user()->id) }}">
-                                        {{ Auth::user()->name }}
+                                        <i class="icon ion-ios-person" style="margin-right: 5px"></i> {{ Auth::user()->name }}
                                     </a>
                                     @if(auth()->user()->role == 1)
                                         <a class="dropdown-item" href="{{ route('admin') }}">
-                                            Dashboard
+                                            <i class="icon ion-ios-home" style="margin-right: 5px"></i>Dashboard
                                         </a>
                                     @endif
-
+                                    <a class="dropdown-item" href="{{ route('frontend.users.show', auth()->user()->id) }}" style="display: flex; align-items: center">
+                                        <i class="icon ion-ios-settings" style="margin-right: 5px"></i> Settings
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        <i class="icon ion-ios-log-out" style="margin-right: 5px"></i> {{ __('Logout') }}
                                     </a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf

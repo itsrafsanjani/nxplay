@@ -45,6 +45,8 @@ Route::group(['middleware' => 'auth'], function (){
 
         Route::resource('/users', 'UserController')->only('show', 'update');
 
+        Route::get('/search', 'SearchController@index')->name('search.index');
+
         Route::post('/like-or-dislike', 'VideoLikeController@likeOrDislike')
             ->name('video_like_or_dislike');
 
