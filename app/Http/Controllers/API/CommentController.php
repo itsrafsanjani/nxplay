@@ -19,13 +19,13 @@ class CommentController extends Controller
     {
         $video_id = $request->video_id;
 
-        $comments = Comment::
-        with('replies:id,user_id,video_id,comment_text,parent_id,created_at',
-            'user:id,name,avatar', 'replies.user:id,name,avatar',
-            'commentLikes:id,comment_id,user_id,status', 'replies.commentLikes:id,comment_id,user_id,status',
-            'commentDislikes:id,comment_id,user_id,status', 'replies.commentDislikes:id,comment_id,user_id,status')
+        $comments = Comment::select('id', 'user_id', 'video_id', 'comment_text', 'parent_id', 'created_at')
+            ->with('user:id,name,avatar',
+                'commentLikes:id,comment_id,user_id,status',
+                'commentDislikes:id,comment_id,user_id,status')
+            ->withCount('replies', 'commentLikes', 'commentDislikes')
             ->where('video_id', '=', $video_id)
-            ->select('id', 'user_id', 'video_id', 'comment_text', 'parent_id', 'created_at')
+            ->whereNull('parent_id')
             ->latest()
             ->paginate(20);
 
@@ -55,7 +55,7 @@ class CommentController extends Controller
             'user_id' => auth()->user()->id,
             'video_id' => $request->input('video_id'),
             'comment_text' => $request->input('comment_text'),
-            'parent_id' => $request->input('comment_id')
+            'parent_id' => $request->input('parent_id')
         ];
 
         try {
@@ -70,11 +70,20 @@ class CommentController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        //
+        $replies = Comment::
+        with('user:id,name,avatar',
+            'commentLikes:id,comment_id,user_id,status',
+            'commentDislikes:id,comment_id,user_id,status')
+            ->where('parent_id', '=', $id)
+            ->select('id', 'user_id', 'video_id', 'comment_text', 'parent_id', 'created_at')
+            ->latest()
+            ->paginate(20);
+
+        return response()->json($replies, 200);
     }
 
     /**
