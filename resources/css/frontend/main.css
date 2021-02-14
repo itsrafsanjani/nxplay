@@ -55,6 +55,7 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 400;
   background-color: #1a191f;
+  color: #aaaaaa;
   -webkit-font-smoothing: antialiased;
 }
 button {
