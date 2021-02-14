@@ -51,7 +51,8 @@ class VideoController extends Controller
         $user_id = auth()->user()->id;
         $video['likes'] = VideoLike::where('video_id', $id)->where('status', 1)->count();
         $video['dislikes'] = VideoLike::where('video_id', $id)->where('status', 0)->count();
-        $video['likeStatus'] = VideoLike::where('video_id', $id)->where('user_id', $user_id)->get('status');
+        $likeStatus = VideoLike::where('video_id', $id)->where('user_id', $user_id)->get('status');
+        $video['likeStatus'] = count($likeStatus) == 1 ? $likeStatus[0]['status'] : null;
 
         //Collection in php is maybe flexible for push, pop or similar operation.
         $similarVideos = collect();
