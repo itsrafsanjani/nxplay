@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Video;
+use App\Notifications\NewVideoReleased;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -81,6 +84,7 @@ class VideoController extends Controller
             $videoFileName = pathinfo($videoFile, PATHINFO_FILENAME);
             $extension = pathinfo($videoFile, PATHINFO_EXTENSION);
             $videoName = Str::slug($videoFileName) . '-' . Str::orderedUuid() . '.' . $extension;
+            $video->storeAs('videos', $videoName);
 
             $data = [
                 'user_id' => $request->input('user_id'),
@@ -105,11 +109,18 @@ class VideoController extends Controller
         }
 
         try {
-            Video::create($data);
+            $video = Video::create($data);
 
-            if ($video->isValid()) {
-                $video->storeAs('videos', $videoName);
-            }
+            /**
+             * New Video Released Notification to All User
+             */
+
+//            $users = User::all();
+//
+//            $users->notify(new NewVideoReleased($users, $video));
+
+            $users = User::all();
+            Notification::send($users, new NewVideoReleased($video));
 
             session()->flash('message', 'Video upload successful');
             session()->flash('type', 'success');
