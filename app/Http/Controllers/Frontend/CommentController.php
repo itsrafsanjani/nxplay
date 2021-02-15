@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\User;
+use App\Notifications\SomeoneReplied;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -32,7 +34,7 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
@@ -45,25 +47,36 @@ class CommentController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
+        $parent_id = $request->input('comment_id');
+        $user_id = $request->input('user_id');
 
         $data = [
             'user_id' => $request->input('user_id'),
             'video_id' => $request->input('video_id'),
             'comment_text' => $request->input('comment_text'),
-            'parent_id' => $request->input('comment_id')
+            'parent_id' => $parent_id
         ];
 
         try {
-            Comment::create($data);
-            session()->flash('message','Comment added.');
-            session()->flash('type','success');
+            $comment = Comment::create($data);
+
+            if (!empty($parent_id)) {
+                $user = Comment::findOrFail($parent_id)->user_id;
+                $toUser = User::findOrFail($user);
+                $fromUser = User::findOrFail($user_id);
+                $toUser->notify(new SomeoneReplied($fromUser, $comment));
+            }
+
+            session()->flash('message', 'Comment added.');
+            session()->flash('type', 'success');
             return redirect()->back();
         } catch (\Exception $exception) {
             session()->flash('message', $exception->getMessage());
-            session()->flash('type','danger');
+            session()->flash('type', 'danger');
             return redirect()->back();
         }
     }
@@ -71,7 +84,7 @@ class CommentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
@@ -82,7 +95,7 @@ class CommentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -93,8 +106,8 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -105,28 +118,28 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id): \Illuminate\Http\RedirectResponse
     {
         try {
-            if(auth()->user()->id == Comment::find($id)->user_id) {
+            if (auth()->user()->id == Comment::find($id)->user_id) {
                 $comment = Comment::find($id);
                 $comment->delete();
 
-                session()->flash('message','Comment deleted.');
-                session()->flash('type','success');
+                session()->flash('message', 'Comment deleted.');
+                session()->flash('type', 'success');
                 return redirect()->back();
             }
 
             session()->flash('message', 'You do not have permission to delete this comment.');
-            session()->flash('type','danger');
+            session()->flash('type', 'danger');
             return redirect()->back();
 //            dd($id);
         } catch (\Exception $exception) {
             session()->flash('message', $exception->getMessage());
-            session()->flash('type','danger');
+            session()->flash('type', 'danger');
             return redirect()->back();
         }
     }

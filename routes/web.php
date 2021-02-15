@@ -47,6 +47,8 @@ Route::group(['middleware' => 'auth'], function (){
 
         Route::get('/search', 'SearchController@index')->name('search.index');
 
+        Route::get('/notifications', 'NotificationController@index')->name('notifications.index');
+
         Route::post('/like-or-dislike', 'VideoLikeController@likeOrDislike')
             ->name('video_like_or_dislike');
 

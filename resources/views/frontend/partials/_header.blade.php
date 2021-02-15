@@ -51,6 +51,8 @@
                             <i class="icon ion-ios-search"></i>
                         </button>
 
+                        <a href="{{ route('frontend.notifications.index') }}" style="font-size: 32px; margin: 0 10px 0 18px;"><i class="icon ion-ios-notifications"></i></a>
+
                         @guest
                             <a href="{{ route('login') }}" class="header__sign-in">
                                 <i class="icon ion-ios-log-in"></i>
