@@ -48,4 +48,12 @@ return [
         'redirect' => env('GITHUB_CLIENT_CALLBACK_URL'),
     ],
 
+    'imdb' => [
+        'secret' => env('IMDB_API_SECRET')
+    ],
+
+    'omdb' => [
+        'secret' => env('OMDB_API_SECRET')
+    ],
+
 ];

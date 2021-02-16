@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Events\VideoCreated;
+use App\Events\VideoDeleted;
+use App\Events\VideoUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -102,4 +105,17 @@ class Video extends Model
     {
         return $this->hasMany(Review::class);
     }
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => VideoCreated::class,
+        'updated' => VideoUpdated::class,
+        'deleted' => VideoDeleted::class,
+    ];
 }

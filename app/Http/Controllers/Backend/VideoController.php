@@ -57,11 +57,11 @@ class VideoController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $response = Http::get(env('OMDB_API_SECRET') . 'i=' . $request->imdb_id);
+        $response = Http::get('http://www.omdbapi.com/?apikey=' . config('services.omdb.secret') . 'i=' . $request->imdb_id);
 
-        $poster = Http::get('https://imdb-api.com/en/API/Posters/' . env('IMDB_API_SECRET') . '/' . $request->imdb_id);
+        $poster = Http::get('https://imdb-api.com/en/API/Posters/' . config('services.imdb.secret') . '/' . $request->imdb_id);
 
-        $photo = Http::get('https://imdb-api.com/en/API/Images/' . env('IMDB_API_SECRET') . '/' . $request->imdb_id . '/Short');
+        $photo = Http::get('https://imdb-api.com/en/API/Images/' . config('services.imdb.secret') . '/' . $request->imdb_id . '/Short');
 
 
         if ($response) {

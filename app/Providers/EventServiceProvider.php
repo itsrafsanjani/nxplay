@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\VideoCreated;
+use App\Events\VideoDeleted;
+use App\Events\VideoUpdated;
+use App\Listeners\VideoCacheListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,6 +21,15 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        VideoCreated::class => [
+            VideoCacheListener::class
+        ],
+        VideoUpdated::class => [
+            VideoCacheListener::class
+        ],
+        VideoDeleted::class => [
+            VideoCacheListener::class
         ],
     ];
 
