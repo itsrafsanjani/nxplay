@@ -13,6 +13,7 @@
 @import '~bootstrap/scss/_alert';
 @import '~bootstrap/scss/_dropdown';
 @import '~bootstrap/scss/utilities/_display';
+@import '~bootstrap/scss/_list-group';
 
 // installed packages
 @import '~magnific-popup/dist/magnific-popup.css';
@@ -23,3 +24,8 @@
 @import '~photoswipe/dist/default-skin/default-skin.css';
 @import '~plyr/dist/plyr.css';
 @import '~owl.carousel/dist/assets/owl.carousel.min.css';
+
+.list-group-item {
+    background-color: #1a191f;;
+    border: 1px solid rgb(255 255 255 / 13%);
+}

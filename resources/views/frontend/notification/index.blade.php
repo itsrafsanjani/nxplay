@@ -31,18 +31,18 @@
                 <!-- section list -->
                 <div class="col-12">
                     <div class="section__list">
-                        <ol>
+                        <ul class="list-group">
                         @forelse($user->notifications as $notification)
-                                <li>
-                                    <h4>{{ $notification->data['user']['name'] }} Replied to your
-                                        comment {{ $notification->data['reply']['comment_text'] }}</h4>
+                                <li class="list-group-item">
+                                    {{ $notification->data['user']['name'] }} Replied to your
+                                        comment {{ $notification->data['reply']['comment_text'] }}
                                 </li>
                         @empty
-                                <li>
-                                    <h4> No notifications here!</h4>
+                                <li class="list-group-item">
+                                    No notifications here!
                                 </li>
                         @endforelse
-                        </ol>
+                        </ul>
                     </div>
                 </div>
                 <!-- end section list -->

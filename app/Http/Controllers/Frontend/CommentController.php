@@ -53,19 +53,21 @@ class CommentController extends Controller
 
         $parent_id = $request->input('comment_id');
         $user_id = $request->input('user_id');
+        $replied_to_id = $request->input('replied_to_id');
 
         $data = [
             'user_id' => $request->input('user_id'),
             'video_id' => $request->input('video_id'),
             'comment_text' => $request->input('comment_text'),
-            'parent_id' => $parent_id
+            'parent_id' => $parent_id,
+            'replied_to_id' => $replied_to_id
         ];
 
         try {
             $comment = Comment::create($data);
 
-            if (!empty($parent_id)) {
-                $user = Comment::findOrFail($parent_id)->user_id;
+            if (!empty($parent_id && $replied_to_id)) {
+                $user = Comment::findOrFail($replied_to_id)->user_id;
                 $toUser = User::findOrFail($user);
                 $fromUser = User::findOrFail($user_id);
                 $toUser->notify(new SomeoneReplied($fromUser, $comment));
