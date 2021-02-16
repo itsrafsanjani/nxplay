@@ -35,17 +35,20 @@ return [
             'root' => storage_path('app'),
         ],
 
-//        'public' => [
-//            'driver' => 'local',
-//            'root' => storage_path('app/public'),
-//            'url' => env('APP_URL').'/storage',
-//            'visibility' => 'public',
-//        ],
-
         'public' => [
             'driver' => 'local',
-            'root'   => public_path() . '/storage',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
         ],
+
+        /**
+         * If You Can't Create a Symlink to Storage
+         */
+//        'public' => [
+//            'driver' => 'local',
+//            'root'   => public_path() . '/storage',
+//        ],
 
         's3' => [
             'driver' => 's3',
