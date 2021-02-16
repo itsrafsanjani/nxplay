@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\Models\Comment;
 use App\Models\User;
+use App\Models\Video;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -21,16 +22,22 @@ class SomeoneReplied extends Notification implements ShouldQueue
      * @var Comment
      */
     private Comment $comment;
+    /**
+     * @var Video
+     */
+    private Video $video;
 
     /**
      * Create a new notification instance.
      * @param User $fromUser
      * @param Comment $comment
+     * @param Video $video
      */
-    public function __construct(User $fromUser, Comment $comment)
+    public function __construct(User $fromUser, Comment $comment, Video $video)
     {
         $this->user = $fromUser;
         $this->comment = $comment;
+        $this->video = $video;
     }
 
     /**
@@ -54,7 +61,8 @@ class SomeoneReplied extends Notification implements ShouldQueue
     {
         return [
             'user' => $this->user,
-            'reply' => $this->comment
+            'reply' => $this->comment,
+            'video' => $this->video,
         ];
     }
 }

@@ -29,3 +29,17 @@
     background-color: #1a191f;;
     border: 1px solid rgb(255 255 255 / 13%);
 }
+.list-group-item-action {
+    color: #fff;
+}
+
+.list-group-item-action:focus, .list-group-item-action:hover {
+    color: #ffd80e;
+    border-color: #ffd80e;
+    background-color: rgba(210,201,255,.04);
+}
+
+.my-css-notifications {
+    margin: 0;
+    color: #ffed4a;
+}

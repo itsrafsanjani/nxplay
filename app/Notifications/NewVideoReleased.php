@@ -49,7 +49,7 @@ class NewVideoReleased extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                     ->greeting('Dear user')
-                    ->line('New '. $this->video->type .'"'. $this->video->title .'"' . ' released!')
+                    ->line('New '. $this->video->type .' "'. $this->video->title .'" ' . 'released!')
                     ->action('Click to Watch', route('frontend.videos.show', $this->video->slug))
                     ->line('Thank you for using our application!');
     }

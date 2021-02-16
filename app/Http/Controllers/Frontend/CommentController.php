@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\User;
+use App\Models\Video;
 use App\Notifications\SomeoneReplied;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -53,11 +54,12 @@ class CommentController extends Controller
 
         $parent_id = $request->input('comment_id');
         $user_id = $request->input('user_id');
+        $video_id = $request->input('video_id');
         $replied_to_id = $request->input('replied_to_id');
 
         $data = [
             'user_id' => $request->input('user_id'),
-            'video_id' => $request->input('video_id'),
+            'video_id' => $video_id,
             'comment_text' => $request->input('comment_text'),
             'parent_id' => $parent_id,
             'replied_to_id' => $replied_to_id
@@ -70,7 +72,8 @@ class CommentController extends Controller
                 $user = Comment::findOrFail($replied_to_id)->user_id;
                 $toUser = User::findOrFail($user);
                 $fromUser = User::findOrFail($user_id);
-                $toUser->notify(new SomeoneReplied($fromUser, $comment));
+                $video = Video::findOrFail($video_id);
+                $toUser->notify(new SomeoneReplied($fromUser, $comment, $video));
             }
 
             session()->flash('message', 'Comment added.');

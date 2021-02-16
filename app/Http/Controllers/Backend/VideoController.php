@@ -114,13 +114,8 @@ class VideoController extends Controller
             /**
              * New Video Released Notification to All User
              */
-
 //            $users = User::all();
-//
-//            $users->notify(new NewVideoReleased($users, $video));
-
-            $users = User::all();
-            Notification::send($users, new NewVideoReleased($video));
+//            Notification::send($users, new NewVideoReleased($video));
 
             session()->flash('message', 'Video upload successful');
             session()->flash('type', 'success');
