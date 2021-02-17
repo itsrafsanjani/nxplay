@@ -13,6 +13,8 @@
 @import '~bootstrap/scss/_alert';
 @import '~bootstrap/scss/_dropdown';
 @import '~bootstrap/scss/utilities/_display';
+@import '~bootstrap/scss/utilities/_flex';
+@import '~bootstrap/scss/utilities/_spacing';
 @import '~bootstrap/scss/_list-group';
 
 // installed packages
@@ -39,7 +41,6 @@
     background-color: rgba(210,201,255,.04);
 }
 
-.my-css-notifications {
-    margin: 0;
+.notifications {
     color: #ffed4a;
 }

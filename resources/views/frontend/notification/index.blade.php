@@ -33,40 +33,29 @@
                     <div class="section__list">
                         <ul class="list-group">
                             @forelse($user->notifications as $notification)
-                                <div
-                                   class="list-group-item list-group-item-action" aria-current="true">
-                                    <div style="display: flex; align-items: center;">
-                                        <img src="{{ $notification->data['user']['avatar'] }}" alt="{{ $notification->data['user']['name'] }}"
-                                        style="height: 40px; width: auto;">
-                                        <p class="my-css-notifications" style="padding: 10px">
-                                            {{ $notification->data['user']['name'] }}
-                                        </p>
-                                        <p class="my-css-notifications" style="margin-right: 10px">
-                                            Replied to your
-                                            comment {{ str_replace('@'.auth()->user()->name, "", $notification->data['reply']['comment_text']) }}
-                                            {{ $notification->markAsRead() }} On
-                                        </p>
-                                        <a href="{{ route('frontend.videos.show', $notification->data['video']['slug']) }}">
-                                            {{ $notification->data['video']['title'] }}
+                                <div class="d-md-flex align-items-center list-group-item list-group-item-action"
+                                     aria-current="true">
+                                    <img src="{{ $notification->data['user']['avatar'] }}"
+                                         alt="{{ $notification->data['user']['name'] }}"
+                                         style="height: 40px; width: auto;">
+                                    <h4 class="notifications ml-md-2">{{ $notification->data['user']['name'] }}</h4>
+                                    <h4 class="notifications ml-md-2">
+                                        Replied to your
+                                        comment {{ str_replace('@'.auth()->user()->name, "", $notification->data['reply']['comment_text']) }}
+                                        {{ $notification->markAsRead() }} On
+                                    </h4>
+                                    <h4>
+                                        <a href="{{ route('frontend.videos.show', $notification->data['video']['slug']) }}"
+                                           class="notifications ml-md-2">
+                                            "{{ $notification->data['video']['title'] }}"
                                         </a>
-                                    </div>
-
+                                    </h4>
                                 </div>
                             @empty
                                 <li class="list-group-item">
                                     No notifications here!
                                 </li>
                             @endforelse
-{{--                            @forelse($user->unreadNotifications as $notification)--}}
-{{--                                <li class="list-group-item" style="color:  #333">--}}
-{{--                                    {{ $notification->data['user']['name'] }} Replied to your--}}
-{{--                                    comment {{ $notification->data['reply']['comment_text'] }}--}}
-{{--                                </li>--}}
-{{--                            @empty--}}
-{{--                                <li class="list-group-item">--}}
-{{--                                    No unread notifications here!--}}
-{{--                                </li>--}}
-{{--                            @endforelse--}}
                         </ul>
                     </div>
                 </div>
