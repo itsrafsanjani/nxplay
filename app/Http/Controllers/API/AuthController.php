@@ -76,6 +76,11 @@ class AuthController extends Controller
 
     protected function respondWithToken($token): \Illuminate\Http\JsonResponse
     {
+        $user = auth('api')->user();
+        $user->update([
+            'last_login_at' => now(),
+            'last_login_ip' => request()->ip()
+        ]);
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',

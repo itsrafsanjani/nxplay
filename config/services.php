@@ -56,4 +56,12 @@ return [
         'secret' => env('OMDB_API_SECRET')
     ],
 
+    'pusher' => [
+        'beams_instance_id' => env('BEAM_INSTANCE_ID'),
+        'beams_secret_key' => env('BEAMS_SECRET_KEY'),
+    ],
+
+    'fcm' => [
+        'server_key' => env('FCM_SERVER_KEY')
+    ],
 ];

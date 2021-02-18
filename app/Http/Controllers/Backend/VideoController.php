@@ -114,8 +114,15 @@ class VideoController extends Controller
             /**
              * New Video Released Notification to All User
              */
-//            $users = User::all();
-//            Notification::send($users, new NewVideoReleased($video));
+            $users = User::all();
+            Notification::send($users, new NewVideoReleased($video));
+
+            /**
+             * FCM Push Notification using Firebase
+            */
+            $user = User::findOrFail(auth()->user()->id);
+
+            $user->pushNotification('New '. $video->type .' "'. $video->title .'" ' . 'released!', 'Click to Watch Now!', $video->slug, $video);
 
             session()->flash('message', 'Video upload successful');
             session()->flash('type', 'success');

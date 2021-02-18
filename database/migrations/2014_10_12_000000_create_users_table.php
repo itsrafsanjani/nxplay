@@ -22,6 +22,9 @@ class CreateUsersTable extends Migration
             $table->string('provider_id')->nullable();
             $table->string('avatar')->nullable();
             $table->tinyInteger('role')->default(0);
+            $table->text('fcm_token')->nullable();
+            $table->timestamp('last_login_at')->nullable();
+            $table->string('last_login_ip')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

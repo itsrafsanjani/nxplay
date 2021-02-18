@@ -8,6 +8,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\PusherPushNotifications\PusherChannel;
+use NotificationChannels\PusherPushNotifications\PusherMessage;
 
 class NewVideoReleased extends Notification implements ShouldQueue
 {
@@ -36,7 +38,18 @@ class NewVideoReleased extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', PusherChannel::class];
+    }
+
+    public function toPushNotification($notifiable)
+    {
+        return PusherMessage::create()
+            ->android()
+            ->badge(1)
+            ->sound('success')
+            ->title('New '. $this->video->type .' "'. $this->video->title .'" ' . 'released!')
+            ->body('Click to Watch Now!')
+            ->link(route('frontend.videos.show', $this->video->slug));
     }
 
     /**
