@@ -47,7 +47,7 @@ class VideoController extends Controller
      */
     public function show(Request $request, $id): \Illuminate\Http\JsonResponse
     {
-        $video = Video::findOrFail($id);
+        $video = Video::findOrFail($id)->increment('views');
         $user_id = auth()->user()->id;
         $video['likes'] = VideoLike::where('video_id', $id)->where('status', 1)->count();
         $video['dislikes'] = VideoLike::where('video_id', $id)->where('status', 0)->count();
