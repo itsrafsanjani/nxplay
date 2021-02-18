@@ -8,18 +8,15 @@ use Illuminate\Support\Facades\Artisan;
 
 class CommandController extends Controller
 {
-    public function execute(Request $request): \Illuminate\Http\JsonResponse
+    public function clearCache(Request $request): \Illuminate\Http\JsonResponse
     {
         $username = $request->username;
         $password = $request->password;
 
         if($username == "nxplay" && $password == "AreyHogaMarseRe!"){
-            Artisan::call('cache:clear');
-            Artisan::call('route:clear');
-            Artisan::call('config:clear');
-            Artisan::call('view:clear');
+            Artisan::call('optimize:clear');
 
-            return response()->json(['message' => 'All command executed successfully!']);
+            return response()->json(['message' => 'Command executed successfully!']);
         }
 
         return response()->json(['message' => 'username, password mone nai abar command maraite aicho!']);

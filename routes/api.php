@@ -37,7 +37,7 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], func
      * Clear cache, route, config, view from command using any Rest API client
      * You have to send username and password for security reason.
      */
-    Route::post('command', 'CommandController@execute');
+    Route::post('command/clear-cache', 'CommandController@clearCache');
     Route::post('command/refresh-seed', 'CommandController@refreshSeed');
 
     Route::group(['middleware' => 'jwt'], function () {
