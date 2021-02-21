@@ -107,8 +107,8 @@ class CommentController extends Controller
     public function destroy($id)
     {
         try {
-            if (auth()->user()->id == Comment::find($id)->user_id) {
-                $review = Comment::find($id);
+            if (auth()->user()->id == Comment::findOrFail($id)->user_id) {
+                $review = Comment::findOrFail($id);
                 $review->delete();
                 return response()->json(['message' => 'Comment deleted.'], 200);
             }

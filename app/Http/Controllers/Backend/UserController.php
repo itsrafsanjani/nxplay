@@ -59,7 +59,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $data['user'] = User::find($id);
+        $data['user'] = User::findOrFail($id);
         return view('backend.user.edit', $data);
 //        return $data;
     }
@@ -79,7 +79,7 @@ class UserController extends Controller
         ]);
 
         // database update
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $user->update($request->only('name', 'role'));
 
         // redirect
@@ -96,7 +96,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $user->delete();
 
         session()->flash('message', 'User deleted');

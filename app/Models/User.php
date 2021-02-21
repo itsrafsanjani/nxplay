@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -74,44 +75,26 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function pushNotification($title, $body, $click_action, $message)
+    public function topicNotification($to, $title, $body, $click_action = null, $poster = null)
     {
-
-        $token = $this->fcm_token;
-
-
-        if ($token == null) return 0;
-
+        $data['to'] = '/topics/' . $to;
         $data['notification']['title'] = $title;
         $data['notification']['body'] = $body;
-        $data['notification']['sound'] = true;
-        $data['priority'] = 'normal';
-        $data['data']['click_action'] = $click_action;
-        $data['data'] = $message;
-        $data['to'] = $token;
+        $data['notification']['click_action'] = $click_action;
+        $data['data']['poster'] = $poster;
 
-
-        $http = new \GuzzleHttp\Client(['headers' => [
-            'Centent-Type' => 'application/json',
+        $http = new Client(['headers' => [
+            'Content-Type' => 'application/json',
             'Authorization' => 'key=' . config('services.fcm.server_key')
         ]]);
         try {
-            $response = $http->post('https://fcm.googleapis.com/fcm/send', ['json' =>
-                $data
+            $response = $http->post('https://fcm.googleapis.com/fcm/send', [
+                'json' => $data
             ]);
             return $response->getBody();
-        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
-            // return $e->getCode();
-            if ($e->getCode() === 400) {
-                return response()->json(['ok' => '0', 'error' => 'Invalid Request.'], $e->getCode());
-            } else if ($e->getCode() === 401) {
-                return response()->json('Your credentials are incorrect. Please try again', $e->getCode());
-            }
-            return response()->json('Something went wrong on the server.', $e->getCode());
         } catch (GuzzleException $e) {
-            return response()->json('Fucked up', $e->getCode());
+            return $e;
         }
-
     }
 
     public function videos()

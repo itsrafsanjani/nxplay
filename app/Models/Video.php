@@ -50,8 +50,8 @@ class Video extends Model
     {
         parent::boot();
 
-        static::creating(function ($video){
-            $video->slug = Str::slug($video->title.'-'.$video->year);
+        static::creating(function ($video) {
+            $video->slug = Str::slug($video->title . '-' . $video->year);
         });
     }
 
@@ -86,7 +86,7 @@ class Video extends Model
 
     public function isLikedBy(User $user)
     {
-        return (bool) $user->videoLikes()
+        return (bool)$user->videoLikes()
             ->where('video_id', $this->id)
             ->where('status', 1)
             ->count();
@@ -94,7 +94,7 @@ class Video extends Model
 
     public function isDislikedBy(User $user)
     {
-        return (bool) $user->videoLikes()
+        return (bool)$user->videoLikes()
             ->where('video_id', $this->id)
             ->whereNotNull('status')
             ->where('status', 0)

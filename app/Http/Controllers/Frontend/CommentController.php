@@ -129,8 +129,8 @@ class CommentController extends Controller
     public function destroy($id): \Illuminate\Http\RedirectResponse
     {
         try {
-            if (auth()->user()->id == Comment::find($id)->user_id) {
-                $comment = Comment::find($id);
+            if (auth()->user()->id == Comment::findOrFail($id)->user_id) {
+                $comment = Comment::findOrFail($id);
                 $comment->delete();
 
                 session()->flash('message', 'Comment deleted.');

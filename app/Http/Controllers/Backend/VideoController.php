@@ -57,7 +57,7 @@ class VideoController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $response = Http::get('http://www.omdbapi.com/?apikey=' . config('services.omdb.secret') . 'i=' . $request->imdb_id);
+        $response = Http::get('http://www.omdbapi.com/?apikey=' . config('services.omdb.secret') . '&i=' . $request->imdb_id);
 
         $poster = Http::get('https://imdb-api.com/en/API/Posters/' . config('services.imdb.secret') . '/' . $request->imdb_id);
 
@@ -109,20 +109,20 @@ class VideoController extends Controller
         }
 
         try {
-            $video = Video::create($data);
+        $video = Video::create($data);
 
-            /**
-             * New Video Released Notification to All User
-             */
+        /**
+         * New Video Released Mail to All User
+         */
             $users = User::all();
             Notification::send($users, new NewVideoReleased($video));
 
-            /**
-             * FCM Push Notification using Firebase
-            */
-            $user = User::findOrFail(auth()->user()->id);
-
-            $user->pushNotification('New '. $video->type .' "'. $video->title .'" ' . 'released!', 'Click to Watch Now!', $video->slug, $video);
+        /**
+         * FCM Push Notification using Firebase
+         * For mobile users
+         */
+        $user = User::findOrFail($video->user_id);
+        $user->topicNotification('nxPlay', 'New ' . $video->type . ' "' . $video->title . '" released', 'Watch it here now!', route('videos.show', $video->id), 'https://image.tmdb.org/t/p/w45/' . $video->poster);
 
             session()->flash('message', 'Video upload successful');
             session()->flash('type', 'success');
@@ -153,7 +153,7 @@ class VideoController extends Controller
      */
     public function edit($id)
     {
-        $data['video'] = Video::select('id', 'title', 'description', 'year', 'runtime', 'country', 'genres', 'imdb_id', 'imdb_rating', 'type', 'status')->find($id);
+        $data['video'] = Video::select('id', 'title', 'description', 'year', 'runtime', 'country', 'genres', 'imdb_id', 'imdb_rating', 'type', 'status')->findOrFail($id);
         return view('backend.video.edit', $data);
 //        return $data;
     }
@@ -178,7 +178,7 @@ class VideoController extends Controller
         ]);
 
         // database update
-        $video = Video::find($id);
+        $video = Video::findOrFail($id);
         $video->update($request->only('user_id', 'title', 'description', 'runtime', 'year', 'imdb_rating', 'type', 'status'));
 
         // redirect
@@ -197,7 +197,7 @@ class VideoController extends Controller
      */
     public function destroy($id)
     {
-        $video = Video::find($id);
+        $video = Video::findOrFail($id);
         $videoVideo = public_path() . 'storage/videos' . $video->video;
 
         if (file_exists($videoVideo)) {

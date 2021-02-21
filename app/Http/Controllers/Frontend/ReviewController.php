@@ -70,8 +70,8 @@ class ReviewController extends Controller
     public function destroy($id): \Illuminate\Http\RedirectResponse
     {
         try {
-            if(auth()->user()->id == Review::find($id)->user_id) {
-                $review = Review::find($id);
+            if(auth()->user()->id == Review::findOrFail($id)->user_id) {
+                $review = Review::findOrFail($id);
                 $review->delete();
 
                 session()->flash('message','Review deleted.');
