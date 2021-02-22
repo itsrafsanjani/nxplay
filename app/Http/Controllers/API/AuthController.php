@@ -277,12 +277,13 @@ class AuthController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $validator = Validator::make($request->only('name', 'provider_id', 'avatar', 'old_password', 'password', 'password_confirmation'), [
+        $validator = Validator::make($request->only('name', 'provider_id', 'avatar', 'old_password', 'password', 'password_confirmation', 'fcm_token'), [
             'name' => 'sometimes|regex:/(^([a-zA-z ]+)(\d+)?$)/u|min:5',
             'provider_id' => 'sometimes|min:8',
             'avatar' => 'sometimes|max:255',
             'old_password' => 'sometimes|min:8',
-            'password' => 'sometimes|min:8|confirmed'
+            'password' => 'sometimes|min:8|confirmed',
+            'fcm_token' => 'sometimes'
         ]);
 
         if ($validator->fails()) {
@@ -305,7 +306,7 @@ class AuthController extends Controller
 
         try {
             if (auth()->user()->id == $id) {
-                $user->update($request->only('name', 'password', 'provider_id', 'avatar'));
+                $user->update($request->only('name', 'password', 'provider_id', 'avatar', 'fcm_token'));
                 return response()->json([
                     'data' => $user
                 ], 201);
