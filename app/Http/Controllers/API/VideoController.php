@@ -14,7 +14,7 @@ class VideoController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request): \Illuminate\Http\JsonResponse
+    public function index(Request $request) : \Illuminate\Http\JsonResponse
     {
         $query = Video::where('status', 1)->select('id', 'title', 'imdb_rating', 'type', 'genres', 'poster');
 
@@ -45,7 +45,7 @@ class VideoController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, $id): \Illuminate\Http\JsonResponse
+    public function show(Request $request, $id) : \Illuminate\Http\JsonResponse
     {
         $video = Video::findOrFail($id)->increment('views');
         $user_id = auth()->user()->id;
@@ -53,6 +53,10 @@ class VideoController extends Controller
         $video['dislikes'] = VideoLike::where('video_id', $id)->where('status', 0)->count();
         $likeStatus = VideoLike::where('video_id', $id)->where('user_id', $user_id)->get('status');
         $video['likeStatus'] = count($likeStatus) == 1 ? $likeStatus[0]['status'] : null;
+
+        if (isset($video)) {
+            $video->increment('views');
+        }
 
         //Collection in php is maybe flexible for push, pop or similar operation.
         $similarVideos = collect();
