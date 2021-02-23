@@ -17,7 +17,7 @@
                         </li>
 
                         <li class="header__nav-item">
-                            <a href="{{ route('videos.index') }}" class="header__nav-link">Catalog</a>
+                            <a href="{{ route('frontend.videos.index') }}" class="header__nav-link">Catalog</a>
                         </li>
 
                         <li class="header__nav-item">
@@ -51,7 +51,12 @@
                             <i class="icon ion-ios-search"></i>
                         </button>
 
-                        <a href="{{ route('frontend.notifications.index') }}" style="font-size: 32px; margin: 0 10px 0 18px;"><i class="icon ion-ios-notifications"></i></a>
+{{--                        <a href="{{ route('frontend.notifications.index') }}" style="font-size: 32px; margin: 0 10px 0 18px;"><i class="icon ion-ios-notifications"></i><span class="badge badge-light">@auth {{ auth()->user()->unreadNotifications->count() }} @endauth</span></a>--}}
+                        @auth
+                            <button type="button" class="btn btn-primary btn-sm d-none d-md-block" onclick="window.location.href='{{ route('frontend.notifications.index') }}'">
+                            <i class="icon ion-ios-notifications" style="font-size: 20px;"></i>  @if(auth()->user()->unreadNotifications->count() > 0)<span class="badge badge-light">{{ auth()->user()->unreadNotifications->count() }} </span>@endif
+                        </button>
+                        @endauth
 
                         @guest
                             <a href="{{ route('login') }}" class="header__sign-in">
@@ -81,6 +86,9 @@
                                             <i class="icon ion-ios-home" style="margin-right: 5px"></i>Dashboard
                                         </a>
                                     @endif
+                                    <a class="dropdown-item" href="{{ route('frontend.notifications.index') }}" style="display: flex; align-items: center">
+                                        <i class="icon ion-ios-notifications" style="margin-right: 5px"></i> Notifications @if(auth()->user()->unreadNotifications->count() > 0)<span class="badge badge-dark ml-2">{{ auth()->user()->unreadNotifications->count() }} </span>@endif
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('frontend.users.show', auth()->user()->id) }}" style="display: flex; align-items: center">
                                         <i class="icon ion-ios-settings" style="margin-right: 5px"></i> Settings
                                     </a>
