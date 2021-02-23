@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\User;
+use App\Models\Video;
+use App\Notifications\SomeoneReplied;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -40,27 +43,37 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'video_id' => 'required',
-            'comment_text' => 'required|max:255'
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        $data = [
-            'user_id' => auth()->user()->id,
-            'video_id' => $request->input('video_id'),
-            'comment_text' => $request->input('comment_text'),
-            'parent_id' => $request->input('parent_id')
-        ];
-
         try {
-            Comment::create($data);
-            return response()->json($data, 201);
+            $user_id = auth()->user()->id;
+            $video_id = $request->input('video_id');
+            $parent_id = $request->input('parent_id');
+            $comment_text = $request->input('comment_text');
+            $replied_to_id = $request->input('replied_to_id');
+
+            $this->validate($request, [
+                'video_id' => 'required',
+                'comment_text' => 'required|max:255',
+                'parent_id' => 'sometimes',
+                'replied_to_id' => 'sometimes'
+            ]);
+
+            $comment = Comment::create([
+                'user_id' => $user_id,
+                'video_id' => $video_id,
+                'comment_text' => $comment_text,
+                'parent_id' => $parent_id,
+                'replied_to_id' => $replied_to_id
+            ]);
+
+            if (!empty($parent_id && $replied_to_id)) {
+                $user = Comment::findOrFail($replied_to_id)->user_id;
+                $toUser = User::findOrFail($user);
+                $fromUser = User::findOrFail($user_id);
+                $video = Video::findOrFail($video_id);
+                $toUser->notify(new SomeoneReplied($fromUser, $comment, $video));
+                $toUser->commentPushNotification($fromUser, $comment, $video);
+            }
+            return response()->json($comment, 201);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 500);
         }

@@ -122,7 +122,7 @@ class VideoController extends Controller
          * For mobile users
          */
         $user = User::findOrFail($video->user_id);
-        $user->topicNotification('nxPlay', 'New ' . $video->type . ' "' . $video->title . '" released', 'Watch it here now!', route('videos.show', $video->id), 'https://image.tmdb.org/t/p/w45/' . $video->poster);
+        $user->topicNotification('nxPlay', 'New ' . $video->type . ' "' . $video->title . '" released', 'Watch it here now!', route('app.videos.show', $video->id), 'https://image.tmdb.org/t/p/w45/' . $video->poster);
 
             session()->flash('message', 'Video upload successful');
             session()->flash('type', 'success');

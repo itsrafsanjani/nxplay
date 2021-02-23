@@ -74,6 +74,7 @@ class CommentController extends Controller
                 $fromUser = User::findOrFail($user_id);
                 $video = Video::findOrFail($video_id);
                 $toUser->notify(new SomeoneReplied($fromUser, $comment, $video));
+                $toUser->commentPushNotification($fromUser, $comment, $video);
             }
 
             session()->flash('message', 'Comment added.');

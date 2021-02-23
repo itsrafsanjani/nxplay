@@ -19,7 +19,8 @@ class Comment extends Model
         'user_id',
         'video_id',
         'comment_text',
-        'parent_id'
+        'parent_id',
+        'replied_to_id'
     ];
 
     /**

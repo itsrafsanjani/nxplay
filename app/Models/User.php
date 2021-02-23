@@ -97,6 +97,34 @@ class User extends Authenticatable implements JWTSubject
         }
     }
 
+    public function commentPushNotification($fromUser, $comment, $video)
+    {
+        $to = $this->fcm_token;
+
+        if (!empty($to)) {
+            $data['to'] = $to;
+            $data['notification']['title'] = $fromUser->name . ' replied to your comment on ' . $video->title;
+            $data['notification']['body'] = $comment;
+            $data['notification']['click_action'] = route('app.videos.show', $video->id);
+            $data['data']['poster'] = 'https://image.tmdb.org/t/p/w45/' . $video->poster;
+
+            $http = new Client(['headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'key=' . config('services.fcm.server_key')
+            ]]);
+            try {
+                $response = $http->post('https://fcm.googleapis.com/fcm/send', [
+                    'json' => $data
+                ]);
+                return $response->getBody();
+            } catch (GuzzleException $e) {
+                return $e;
+            }
+        }
+
+        return 0;
+    }
+
     public function videos()
     {
         return $this->hasMany(Video::class);
