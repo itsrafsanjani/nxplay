@@ -50,5 +50,6 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], func
         Route::apiResource('reviews', 'ReviewController', ['as' => 'app']);
         Route::post('comments/like', 'CommentLikeController@commentLikeOrDislike')->name('app.comments.like');
         Route::get('search', 'SearchController@index')->name('app.search.like');
+        Route::get('notifications', 'NotificationController@index')->name('app.notifications.index');
     });
 });
