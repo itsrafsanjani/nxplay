@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Video;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class SomeoneReplied extends Notification implements ShouldQueue
@@ -60,9 +59,15 @@ class SomeoneReplied extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'user' => $this->user,
-            'reply' => $this->comment,
-            'video' => $this->video,
+            'user_id' => $this->user->id,
+            'user_name' => $this->user->name,
+            'user_avatar' => $this->user->avatar,
+            'video_id' => $this->video->id,
+            'video_slug' => $this->video->slug,
+            'video_title' => $this->video->title,
+            'comment_id' => $this->comment->id,
+            'comment_comment_text' => $this->comment->comment_text,
+            'comment_created_at' => $this->comment->created_at
         ];
     }
 }

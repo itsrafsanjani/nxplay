@@ -3,16 +3,12 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 
 class NotificationController extends Controller
 {
     public function index()
     {
-        $id = auth()->user()->id;
-        $user = User::findOrFail($id);
-
-        $data['user'] = $user;
+        $data['notifications'] = auth()->user()->notifications()->paginate(20);
 
         return view('frontend.notification.index', $data);
     }

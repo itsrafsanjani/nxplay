@@ -32,22 +32,22 @@
                 <div class="col-12">
                     <div class="section__list">
                         <ul class="list-group">
-                            @forelse($user->notifications as $notification)
+                            @forelse($notifications as $notification)
                                 <div class="d-md-flex align-items-center list-group-item list-group-item-action"
                                      aria-current="true">
-                                    <img src="{{ $notification->data['user']['avatar'] }}"
-                                         alt="{{ $notification->data['user']['name'] }}"
+                                    <img src="{{ $notification->data['user_avatar'] }}"
+                                         alt="{{ $notification->data['user_name'] }}"
                                          style="height: 40px; width: auto;">
-                                    <h4 class="notifications ml-md-2">{{ $notification->data['user']['name'] }}</h4>
+                                    <h4 class="notifications ml-md-2">{{ $notification->data['user_name'] }}</h4>
                                     <h4 class="notifications ml-md-2">
                                         Replied to your
-                                        comment {{ str_replace('@'.auth()->user()->name, "", $notification->data['reply']['comment_text']) }}
+                                        comment {{ str_replace('@'.auth()->user()->name, "", $notification->data['comment_comment_text']) }}
                                         {{ $notification->markAsRead() }} On
                                     </h4>
                                     <h4>
-                                        <a href="{{ route('frontend.videos.show', $notification->data['video']['slug']) }}"
+                                        <a href="{{ route('frontend.videos.show', $notification->data['video_slug']) }}"
                                            class="notifications ml-md-2">
-                                            "{{ $notification->data['video']['title'] }}"
+                                            "{{ $notification->data['video_title'] }}"
                                         </a>
                                     </h4>
                                 </div>
@@ -60,6 +60,18 @@
                     </div>
                 </div>
                 <!-- end section list -->
+                <!-- paginator -->
+                <div class="col-12">
+                    <div class="paginator-wrap">
+                        @if($notifications->total() > 20)
+                            <span>20 from {{ $notifications->total() }}</span>
+                        @else
+                            <span>{{ $notifications->total() }} from {{ $notifications->total() }}</span>
+                        @endif
+                        {{ $notifications->links('backend.bulma') }}
+                    </div>
+                </div>
+                <!-- end paginator -->
             </div>
         </div>
     </section>
