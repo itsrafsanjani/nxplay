@@ -16,7 +16,7 @@ class VideoController extends Controller
      */
     public function index(Request $request) : \Illuminate\Http\JsonResponse
     {
-        $query = Video::where('status', 1)->select('id', 'title', 'imdb_rating', 'type', 'genres', 'poster');
+        $query = Video::where('status', 1)->select('id', 'slug', 'description', 'title', 'views', 'imdb_rating', 'type', 'genres', 'poster');
 
         if ($request->has('sort')) {
             {

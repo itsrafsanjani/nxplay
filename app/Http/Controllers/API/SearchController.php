@@ -17,7 +17,7 @@ class SearchController extends Controller
             ->orWhere('country', 'LIKE', '%' . $query . '%')
             ->orWhere('directors', 'LIKE', '%' . $query . '%')
             ->orWhere('actors', 'LIKE', '%' . $query . '%')
-            ->select('id', 'slug', 'title', 'views', 'runtime', 'year', 'imdb_rating', 'type', 'genres', 'country', 'directors', 'actors', 'poster', 'runtime', 'age_rating')
+            ->select('id', 'slug', 'description', 'title', 'views', 'runtime', 'year', 'imdb_rating', 'type', 'genres', 'country', 'directors', 'actors', 'poster', 'runtime', 'age_rating')
             ->orderBy('views', 'DESC')
             ->paginate(20);
 
