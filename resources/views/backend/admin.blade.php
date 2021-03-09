@@ -16,8 +16,8 @@
             <!-- stats -->
             <div class="col-12 col-sm-6 col-xl-3">
                 <div class="stats">
-                    <span>Unique views this month</span>
-                    <p>5 678</p>
+                    <span>Views this month</span>
+                    <p>{{ $viewsThisMonth }}</p>
                     <i class="icon ion-ios-stats"></i>
                 </div>
             </div>
@@ -27,7 +27,7 @@
             <div class="col-12 col-sm-6 col-xl-3">
                 <div class="stats">
                     <span>Items added this month</span>
-                    <p>172</p>
+                    <p>{{ $itemsAddedThisMonth }}</p>
                     <i class="icon ion-ios-film"></i>
                 </div>
             </div>
@@ -37,7 +37,7 @@
             <div class="col-12 col-sm-6 col-xl-3">
                 <div class="stats">
                     <span>New comments</span>
-                    <p>2 573</p>
+                    <p>{{ $newComments }}</p>
                     <i class="icon ion-ios-chatbubbles"></i>
                 </div>
             </div>
@@ -47,7 +47,7 @@
             <div class="col-12 col-sm-6 col-xl-3">
                 <div class="stats">
                     <span>New reviews</span>
-                    <p>1 021</p>
+                    <p>{{ $newReviews }}</p>
                     <i class="icon ion-ios-star-half"></i>
                 </div>
             </div>
@@ -61,7 +61,7 @@
 
                         <div class="dashbox__wrap">
                             <a class="dashbox__refresh" href="#"><i class="icon ion-ios-refresh"></i></a>
-                            <a class="dashbox__more" href="#">View All</a>
+                            <a class="dashbox__more" href="{{ route('videos.index') }}">View All</a>
                         </div>
                     </div>
 
@@ -76,76 +76,23 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($topVideos as $topVideo)
                             <tr>
                                 <td>
-                                    <div class="main__table-text">321</div>
+                                    <div class="main__table-text">{{ $topVideo->id }}</div>
                                 </td>
                                 <td>
-                                    <div class="main__table-text">I Dream in Another Language</div>
+                                    <div class="main__table-text">{{ $topVideo->title }}</div>
                                 </td>
                                 <td>
-                                    <div class="main__table-text">Movie</div>
+                                    <div class="main__table-text">{{ ucfirst($topVideo->type) }}</div>
                                 </td>
                                 <td>
-                                    <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 9.2</div>
+                                    <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i>
+                                        {{ $topVideo->imdb_rating }}</div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">54</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Benched</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Movie</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 9.1</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">670</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Whitney</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">TV Series</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 9.0</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">241</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Blindspotting 2</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">TV Series</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 8.9</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">22</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Blindspotting</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">TV Series</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 8.9</div>
-                                </td>
-                            </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -161,7 +108,7 @@
 
                         <div class="dashbox__wrap">
                             <a class="dashbox__refresh" href="#"><i class="icon ion-ios-refresh"></i></a>
-                            <a class="dashbox__more" href="#">View All</a>
+                            <a class="dashbox__more" href="{{ route('videos.index') }}">View All</a>
                         </div>
                     </div>
 
@@ -176,76 +123,22 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($latestVideos as $latestVideo)
                             <tr>
                                 <td>
-                                    <div class="main__table-text">26</div>
+                                    <div class="main__table-text">{{ $latestVideo->id }}</div>
                                 </td>
                                 <td>
-                                    <div class="main__table-text">I Dream in Another Language</div>
+                                    <div class="main__table-text">{{ $latestVideo->title }}</div>
                                 </td>
                                 <td>
-                                    <div class="main__table-text">Movie</div>
+                                    <div class="main__table-text">{{ ucfirst($latestVideo->type) }}</div>
                                 </td>
                                 <td>
-                                    <div class="main__table-text main__table-text--green">Visible</div>
+                                    <div class="main__table-text @if($latestVideo->status == 1) main__table-text--green"> Published @else main__table-text--red"> Unpublished @endif</div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">25</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Benched</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Movie</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--green">Visible</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">24</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Whitney</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">TV Series</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--green">Visible</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">23</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Blindspotting 2</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">TV Series</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--green">Visible</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">22</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Blindspotting</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">TV Series</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--green">Visible</div>
-                                </td>
-                            </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -261,7 +154,7 @@
 
                         <div class="dashbox__wrap">
                             <a class="dashbox__refresh" href="#"><i class="icon ion-ios-refresh"></i></a>
-                            <a class="dashbox__more" href="#">View All</a>
+                            <a class="dashbox__more" href="{{ route('users.index') }}">View All</a>
                         </div>
                     </div>
 
@@ -272,80 +165,26 @@
                                 <th>ID</th>
                                 <th>FULL NAME</th>
                                 <th>EMAIL</th>
-                                <th>USERNAME</th>
+                                <th>Last Login At</th>
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($latestUsers as $latestUser)
                             <tr>
                                 <td>
-                                    <div class="main__table-text">23</div>
+                                    <div class="main__table-text">{{ $latestUser->id }}</div>
                                 </td>
                                 <td>
-                                    <div class="main__table-text">John Doe</div>
+                                    <div class="main__table-text">{{ $latestUser->name }}</div>
                                 </td>
                                 <td>
-                                    <div class="main__table-text main__table-text--grey">email@email.com</div>
+                                    <div class="main__table-text main__table-text--grey">{{ $latestUser->email }}</div>
                                 </td>
                                 <td>
-                                    <div class="main__table-text">Username</div>
+                                    <div class="main__table-text">{{ $latestUser->last_login_at->diffForHumans() }}</div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">23</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">John Doe</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--grey">email@email.com</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Username</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">23</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">John Doe</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--grey">email@email.com</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Username</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">23</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">John Doe</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--grey">email@email.com</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Username</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">23</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">John Doe</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--grey">email@email.com</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Username</div>
-                                </td>
-                            </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -361,7 +200,7 @@
 
                         <div class="dashbox__wrap">
                             <a class="dashbox__refresh" href="#"><i class="icon ion-ios-refresh"></i></a>
-                            <a class="dashbox__more" href="#">View All</a>
+                            <a class="dashbox__more" href="{{ route('reviews.index') }}">View All</a>
                         </div>
                     </div>
 
@@ -376,76 +215,23 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($latestReviews as $latestReview)
                             <tr>
                                 <td>
-                                    <div class="main__table-text">23</div>
+                                    <div class="main__table-text">{{ $latestReview->id }}</div>
                                 </td>
                                 <td>
-                                    <div class="main__table-text">I Dream in Another Language</div>
+                                    <div class="main__table-text">{{ $latestReview->title }}</div>
                                 </td>
                                 <td>
-                                    <div class="main__table-text">John Doe</div>
+                                    <div class="main__table-text">{{ $latestReview->user->name }}</div>
                                 </td>
                                 <td>
-                                    <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 7.2</div>
+                                    <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i>
+                                        {{ $latestReview->rating }}</div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">24</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Benched</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">John Doe</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 6.3</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">25</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Whitney</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">John Doe</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 8.4</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">26</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">Blindspotting</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">John Doe</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 9.0</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="main__table-text">27</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">I Dream in Another Language</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text">John Doe</div>
-                                </td>
-                                <td>
-                                    <div class="main__table-text main__table-text--rate"><i class="icon ion-ios-star"></i> 7.7</div>
-                                </td>
-                            </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
