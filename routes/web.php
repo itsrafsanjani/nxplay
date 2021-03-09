@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+/**
+ * About Us Page
+ */
+Route::view('/about-us', 'frontend/static-pages/about-us')->name('about_us');
+
 // Login/Signup Routes
 Auth::routes();
 

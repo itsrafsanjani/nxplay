@@ -166,3 +166,8 @@ $(document).ready(function () {
 	});
 
 });
+
+Echo.channel('video-created')
+    .listen('VideoCreated', (e) => {
+        console.log(e);
+    });

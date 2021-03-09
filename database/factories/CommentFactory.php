@@ -34,6 +34,7 @@ class CommentFactory extends Factory
             'comment_text' => $this->faker->realText(120),
 //            'parent_id' => Comment::all()->random()->id,
             'parent_id' => null,
+            'replied_to_id' => User::all()->random()->id
         ];
     }
 }

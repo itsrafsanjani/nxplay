@@ -48,21 +48,5 @@
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.3/plyr.min.js"></script>--}}
 @stack('javascripts')
 <script src="{{ asset('js/frontend.js') }}"></script>
-<script>
-    Echo.channel('video-created')
-        .listen('VideoCreated', (e) => {
-            $.notify({
-                icon: 'https://image.tmdb.org/t/p/w92/' + e.video.poster,
-                message: e.video.title + ' ' + e.video.type + ' has been published now',
-                url: e.video.slug,
-                target: "_self"
-            },{
-                icon_type: 'image',
-                showProgressbar: true,
-                delay: 5000,
-                mouse_over: 'pause',
-            });
-        });
-</script>
 </body>
 </html>

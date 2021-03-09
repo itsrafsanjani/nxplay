@@ -43,4 +43,9 @@ class HomeController extends Controller
         return view('frontend.frontend', $data);
 //        return $data;
     }
+
+    public function aboutUs()
+    {
+        return view('frontend.static-pages.about-us');
+    }
 }

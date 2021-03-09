@@ -75,12 +75,12 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function topicNotification($to, $title, $body, $click_action = null, $poster = null)
+    public function topicPushNotification($to, $title, $body, $video_id, $poster)
     {
         $data['to'] = '/topics/' . $to;
         $data['notification']['title'] = $title;
         $data['notification']['body'] = $body;
-        $data['notification']['click_action'] = $click_action;
+        $data['data']['video_id'] = $video_id;
         $data['data']['poster'] = $poster;
 
         $http = new Client(['headers' => [
@@ -103,9 +103,13 @@ class User extends Authenticatable implements JWTSubject
 
         if (!empty($to)) {
             $data['to'] = $to;
-            $data['notification']['title'] = $fromUser->name . ' replied to your comment on ' . $video->title;
-            $data['notification']['body'] = $comment;
-            $data['notification']['click_action'] = route('app.videos.show', $video->id);
+            $data['notification']['title'] = $fromUser->name . ' replied to your comment';
+            $data['notification']['body'] = 'on "' . $video->title . '" ' . str_replace('@' . $this->name, "", $comment->comment_text);
+            $data['notification']['click_action'] = "FLUTTER_NOTIFICATION_CLICK";
+            $data['data']['sound'] = "default";
+            $data['data']['status'] = "done";
+            $data['data']['screen'] = "/single_video";
+            $data['data']['video_id'] = $video->id;
             $data['data']['poster'] = 'https://image.tmdb.org/t/p/w45/' . $video->poster;
 
             $http = new Client(['headers' => [

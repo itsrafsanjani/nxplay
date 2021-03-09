@@ -520,3 +520,18 @@ $(document).ready(function () {
 	}
 	$(window).on('load', initializeThirdSlider());
 });
+
+Echo.channel('video-created')
+    .listen('VideoCreated', (e) => {
+        $.notify({
+            icon: 'https://image.tmdb.org/t/p/w92/' + e.video.poster,
+            message: e.video.title + ' ' + e.video.type + ' has been published now',
+            url: '/videos/' + e.video.slug,
+            target: "_self"
+        },{
+            icon_type: 'image',
+            showProgressbar: true,
+            delay: 5000,
+            mouse_over: 'pause',
+        });
+    });

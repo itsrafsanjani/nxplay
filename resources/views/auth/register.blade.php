@@ -49,7 +49,7 @@
                         </div>
 
                         <div class="sign__group sign__group--checkbox">
-                            <input id="policy" name="policy" type="checkbox" class="@error('password') is-invalid @enderror" >
+                            <input id="policy" name="policy" type="checkbox" class="@error('password') is-invalid @enderror" required>
                             <label for="policy">I agree to the <a href="#">Privacy Policy</a></label>
 
                             @error('policy')
