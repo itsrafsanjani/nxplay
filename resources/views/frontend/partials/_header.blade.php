@@ -28,9 +28,9 @@
                             <a href="{{ route('about_us') }}" class="header__nav-link">About Us</a>
                         </li>
 
-{{--                        <li class="header__nav-item">--}}
-{{--                            <a href="#" class="header__nav-link">Help</a>--}}
-{{--                        </li>--}}
+                        <li class="header__nav-item">
+                            <a href="{{ route('subscriptions.index') }}" class="header__nav-link">Subscription</a>
+                        </li>
                     </ul>
                     <!-- end header nav -->
 

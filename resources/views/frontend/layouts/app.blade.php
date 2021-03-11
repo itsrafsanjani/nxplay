@@ -48,5 +48,10 @@
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.6.3/plyr.min.js"></script>--}}
 @stack('javascripts')
 <script src="{{ asset('js/frontend.js') }}"></script>
+<script>
+    @if(session('message'))
+        $.notify("{{ session('message') }}");
+    @endif
+</script>
 </body>
 </html>
