@@ -101,7 +101,7 @@ class VideoController extends Controller
                 'box_office' => isset($videoInfo->BoxOffice) ? $videoInfo->BoxOffice : null,
                 'poster' => $firstPoster,
                 'type' => $videoInfo->Type,
-                'video' => $videoName,
+                'video' => '/storage/videos/' . $videoName,
                 'photos' => json_encode($allPhotos),
                 'age_rating' => $videoInfo->Rated,
                 'status' => $request->input('status'),
@@ -109,20 +109,20 @@ class VideoController extends Controller
         }
 
         try {
-        $video = Video::create($data);
+            $video = Video::create($data);
 
-        /**
-         * New Video Released Mail to All User
-         */
+            /**
+             * New Video Released Mail to All User
+             */
             $users = User::all();
             Notification::send($users, new NewVideoReleased($video));
 
-        /**
-         * FCM Push Notification using Firebase
-         * For mobile users
-         */
-        $user = User::findOrFail($video->user_id);
-        $user->topicPushNotification('nxPlay', 'New ' . $video->type . ' "' . $video->title . '" released', 'Watch it here now!', $video->id, 'https://image.tmdb.org/t/p/w45/' . $video->poster);
+            /**
+             * FCM Push Notification using Firebase
+             * For mobile users
+             */
+            $user = User::findOrFail($video->user_id);
+            $user->topicPushNotification('nxPlay', 'New ' . $video->type . ' "' . $video->title . '" released', 'Watch it here now!', $video->id, 'https://image.tmdb.org/t/p/w45/' . $video->poster);
 
             session()->flash('message', 'New ' . $video->type . ' ' . $video->title . ' uploaded successfully!');
             session()->flash('type', 'success');
