@@ -1,22 +1,29 @@
-## NXPlay
+# NXPlay
 
 NXPlay is an open source streaming entertainment service created with Laravel.
+> Don't forget to give a star! ⭐
 
-## Packages Used
-- 1. `laravel/ui`
-- 2. `laravel/socialite`
-- 3. `tymon/jwt-auth`
-- 4. `barryvdh/laravel-debugbar`
+### Packages Used
 
-## Installation Instructions
+1. `laravel/ui`
+2. `laravel/socialite`
+3. `tymon/jwt-auth`
+4. `barryvdh/laravel-debugbar`
+5. `barryvdh/laravel-ide-helper`
+6. `beyondcode/laravel-query-detector`
+7. `pusher/pusher-php-server`
+8. `laravel-notification-channels/pusher-push-notifications`
+
+### Installation Instructions
 
 - Clone the repo.
+
 ```shell
     cd nxplay
     
     composer install
     
-    php -r "file_exists('.env') || copy('.env.example', '.env');"
+    cp .env.example .env / php -r "file_exists('.env') || copy('.env.example', '.env');"
     
     php artisan key:generate --ansi
     
@@ -24,18 +31,20 @@ NXPlay is an open source streaming entertainment service created with Laravel.
     
     create database nxplay;
 ```    
+
 - edit `.env` file
+
 ```shell
     php artisan migrate --seed
     
     npm install && npm run dev
 ```
 
-## Contributing
+### Contributing
 
 Thank you for considering contributing to the NXPlay!
 
-## Contribution Guideline
+### Contribution Guideline
 
 - Fork the repo.
 - Clone the repo.
@@ -46,6 +55,6 @@ Thank you for considering contributing to the NXPlay!
 - When work tested, done or ready, push to remote
 - Merge to dev
 
-## License
+### License
 
 The NXPlay is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
