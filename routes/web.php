@@ -39,7 +39,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::view('/about-us', 'frontend/static-pages/about-us')->name('about_us');
 
 // Login/Signup Routes
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 // Google login
 Route::get('login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
@@ -53,7 +53,7 @@ Route::get('login/facebook/callback', [LoginController::class, 'handleFacebookCa
 Route::get('login/github', [LoginController::class, 'redirectToGithub'])->name('login.github');
 Route::get('login/github/callback', [LoginController::class, 'handleGithubCallback']);
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'verified']], function () {
 
     /**
      * Frontend Routes
