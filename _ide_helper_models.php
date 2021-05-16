@@ -31,6 +31,7 @@ namespace App\Models{
  * @property-read int|null $replies_count
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Video $video
+ * @method static \Database\Factories\CommentFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Comment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Comment newQuery()
  * @method static \Illuminate\Database\Query\Builder|Comment onlyTrashed()
@@ -62,6 +63,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Video $video
+ * @method static \Database\Factories\CommentLikeFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|CommentLike newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CommentLike newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CommentLike query()
@@ -123,6 +125,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Video $video
+ * @method static \Database\Factories\ReviewFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Review newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Review newQuery()
  * @method static \Illuminate\Database\Query\Builder|Review onlyTrashed()
@@ -171,10 +174,13 @@ namespace App\Models{
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
  * @property-read int|null $reviews_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read int|null $tokens_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\VideoLike[] $videoLikes
  * @property-read int|null $video_likes_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Video[] $videos
  * @property-read int|null $videos_count
+ * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Query\Builder|User onlyTrashed()
@@ -197,7 +203,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|User withTrashed()
  * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
  */
-	class User extends \Eloquent implements \Tymon\JWTAuth\Contracts\JWTSubject {}
+	class User extends \Eloquent implements \Tymon\JWTAuth\Contracts\JWTSubject, \Illuminate\Contracts\Auth\MustVerifyEmail {}
 }
 
 namespace App\Models{
@@ -238,6 +244,7 @@ namespace App\Models{
  * @property-read int|null $video_dislikes_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\VideoLike[] $videoLikes
  * @property-read int|null $video_likes_count
+ * @method static \Database\Factories\VideoFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Video newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Video newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Video query()
@@ -280,6 +287,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Video $video
+ * @method static \Database\Factories\VideoLikeFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|VideoLike newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|VideoLike newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|VideoLike query()
