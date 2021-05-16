@@ -15,7 +15,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data['users'] = User::select('id', 'name', 'email', 'role', 'created_at')->orderBy('id', 'desc')->paginate(20);
+        $data['users'] = User::select('id', 'name', 'email', 'role', 'created_at')
+            ->orderBy('id', 'desc')
+            ->paginate(20);
         return view('backend.user.index', $data);
     }
 
@@ -32,7 +34,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -43,7 +45,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -54,21 +56,20 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit($id)
     {
         $data['user'] = User::findOrFail($id);
         return view('backend.user.edit', $data);
-//        return $data;
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
@@ -80,6 +81,15 @@ class UserController extends Controller
 
         // database update
         $user = User::findOrFail($id);
+
+        if ($user == auth()->user()) {
+            $user->update($request->only('name'));
+
+            session()->flash('message', 'Name updated and you can not change your own role!');
+            session()->flash('type', 'success');
+            return redirect()->route('users.index');
+        }
+
         $user->update($request->only('name', 'role'));
 
         // redirect
@@ -91,17 +101,24 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
         $user = User::findOrFail($id);
+
+        if ($user == auth()->user()) {
+            session()->flash('message', 'You can not delete your own account!');
+            session()->flash('type', 'danger');
+            return back();
+        }
+
         $user->delete();
 
         session()->flash('message', 'User deleted');
         session()->flash('type', 'success');
 
-        return redirect()->back();
+        return back();
     }
 }

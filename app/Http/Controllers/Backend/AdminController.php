@@ -49,7 +49,8 @@ class AdminController extends Controller
             ->get();
 
         // latest users
-        $latestUsers = User::select('id', 'name', 'email', 'last_login_at')
+        $latestUsers = User::whereNotNull('last_login_at')
+            ->select('id', 'name', 'email', 'last_login_at')
             ->latest()
             ->take(5)
             ->get();

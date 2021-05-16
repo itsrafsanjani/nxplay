@@ -45,8 +45,9 @@
                                         {{ $notification->markAsRead() }} On
                                     </h4>
                                     <h4>
-                                        <a href="{{ route('frontend.videos.show', $notification->data['video_slug']) }}"
-                                           class="notifications ml-md-2">
+                                        <a
+                                            href="{{ route('frontend.videos.show', $notification->data['video_slug']).'#reply'.$notification->data['comment_id'] }}"
+                                            class="notifications ml-md-2">
                                             "{{ $notification->data['video_title'] }}"
                                         </a>
                                     </h4>
