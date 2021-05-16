@@ -15,11 +15,13 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel-notification-channels/pusher-push-notifications": "^2.3",
         "laravel/framework": "^8.12",
+        "laravel/sanctum": "^2.10",
         "laravel/socialite": "^5.1",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.1",
         "pusher/pusher-php-server": "~4.0",
-        "tymon/jwt-auth": "^1.0.2"
+        "tymon/jwt-auth": "^1.0.2",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
