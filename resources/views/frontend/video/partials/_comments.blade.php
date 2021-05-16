@@ -37,10 +37,9 @@
                         <img class="comments__avatar"
                              src="{{ $comment->user->avatar? $comment->user->avatar : 'https://ui-avatars.com/api/?name='.$comment->user->name }}"
                              alt="">
-                        <span class="comments__name">{{ $comment->user->name }}
+                        <a href="{{ route('frontend.users.show', $comment->user->id) }}" class="comments__name">{{ $comment->user->name }}</a>
                         <span class="comments__time"
                               title="{{ $comment->created_at }}">{{ $comment->created_at->diffForHumans() }}</span>
-                        </span>
                     </div>
                     <p class="comments__text">{{ $comment->comment_text }}</p>
                     <div class="comments__actions">

@@ -2,7 +2,7 @@
 <li class="comments__item comments__item--answer">
     <div class="comments__autor">
         <img class="comments__avatar" src="{{ $reply->user->avatar? $reply->user->avatar : 'https://ui-avatars.com/api/?name='.$reply->user->name }}" alt="">
-        <span class="comments__name">{{ $reply->user->name }}</span>
+        <a href="{{ route('frontend.users.show', $reply->user->id) }}" class="comments__name">{{ $reply->user->name }}</a>
         <span class="comments__time" title="{{ $reply->created_at }}">{{ $reply->created_at->diffForHumans() }}</span>
     </div>
     <p class="comments__text">{{ $reply->comment_text }}</p>

@@ -51,8 +51,8 @@
                                  src="{{ $review->user->avatar? $review->user->avatar : 'https://ui-avatars.com/api/?name='.$review->user->name }}"
                                  alt="">
                             <span class="reviews__name">{{ $review->title }}</span>
-                            <span class="reviews__time" title="{{ $review->created_at }}">{{ $review->created_at->diffForHumans() }} by
-                            {{ $review->user->name }}
+                            <span class="reviews__time"><span title="{{ $review->created_at }}">{{ $review->created_at->diffForHumans() }}</span> by
+                                <a href="{{ route('frontend.users.show', $review->user->id) }}">{{ $review->user->name }}</a>
                         </span>
 
                             <span class="reviews__rating @if($review->rating>=7)reviews__rating--green @else reviews__rating--red @endif">{{ $review->rating }}</span>
