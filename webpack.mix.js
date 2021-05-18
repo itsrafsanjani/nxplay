@@ -26,7 +26,8 @@ mix.js('resources/js/app.js', 'public/js/app.js')
         'resources/js/frontend/jquery.morelines.min.js',
         'resources/js/frontend/main.js',
     ], 'public/js/frontend.js')
-    .sourceMaps();
+    .sourceMaps()
+    .version();
 
 
 // 'resources/css/frontend/owl.carousel.min.css',
