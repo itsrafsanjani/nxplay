@@ -26,7 +26,7 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], func
     Route::post('github', 'AuthController@github');
     Route::post('facebook', 'AuthController@facebook');
 
-    Route::resource('home', 'HomeController')->only('index');
+    Route::apiResource('home', 'HomeController', ['as' => 'api.v1'])->only('index');
 
     /**
      * Clear cache, route, config, view from command using any Rest API client
@@ -39,13 +39,13 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v1'], func
         Route::post('logout', 'AuthController@logout');
         Route::get('me', 'AuthController@me');
         Route::patch('users/{user}', 'AuthController@update');
-        Route::apiResource('videos', 'VideoController', ['as' => 'app'])->only('index', 'show');
-        Route::apiResource('comments', 'CommentController', ['as' => 'app']);
-        Route::post('videos/like', 'VideoLikeController@likeOrDislike')->name('app.videos.like');
-        Route::apiResource('reviews', 'ReviewController', ['as' => 'app']);
-        Route::post('comments/like', 'CommentLikeController@commentLikeOrDislike')->name('app.comments.like');
-        Route::get('search', 'SearchController@index')->name('app.search.like');
-        Route::get('notifications', 'NotificationController@index')->name('app.notifications.index');
+        Route::apiResource('videos', 'VideoController', ['as' => 'api.v1'])->only('index', 'show');
+        Route::apiResource('comments', 'CommentController', ['as' => 'api.v1']);
+        Route::post('videos/like', 'VideoLikeController@likeOrDislike');
+        Route::apiResource('reviews', 'ReviewController', ['as' => 'api.v1']);
+        Route::post('comments/like', 'CommentLikeController@commentLikeOrDislike');
+        Route::get('search', 'SearchController@index');
+        Route::get('notifications', 'NotificationController@index');
     });
 });
 
@@ -65,7 +65,7 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v2'], func
     Route::post('github', 'AuthController@github');
     Route::post('facebook', 'AuthController@facebook');
 
-    Route::resource('home', 'HomeController')->only('index');
+    Route::apiResource('home', 'HomeController', ['as' => 'api.v2'])->only('index');
 
     /**
      * Clear cache, route, config, view from command using any Rest API client
@@ -82,12 +82,12 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v2'], func
         });
 
         Route::patch('users/{user}', 'AuthController@update');
-        Route::apiResource('videos', 'VideoController', ['as' => 'app'])->only('index', 'show');
-        Route::apiResource('comments', 'CommentController', ['as' => 'app']);
-        Route::post('videos/like', 'VideoLikeController@likeOrDislike')->name('app.videos.like');
-        Route::apiResource('reviews', 'ReviewController', ['as' => 'app']);
-        Route::post('comments/like', 'CommentLikeController@commentLikeOrDislike')->name('app.comments.like');
-        Route::get('search', 'SearchController@index')->name('app.search.like');
-        Route::get('notifications', 'NotificationController@index')->name('app.notifications.index');
+        Route::apiResource('videos', 'VideoController', ['as' => 'api.v2'])->only('index', 'show');
+        Route::apiResource('comments', 'CommentController', ['as' => 'api.v2']);
+        Route::post('videos/like', 'VideoLikeController@likeOrDislike');
+        Route::apiResource('reviews', 'ReviewController', ['as' => 'api.v2']);
+        Route::post('comments/like', 'CommentLikeController@commentLikeOrDislike');
+        Route::get('search', 'SearchController@index');
+        Route::get('notifications', 'NotificationController@index');
     });
 });
