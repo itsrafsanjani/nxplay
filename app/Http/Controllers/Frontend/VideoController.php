@@ -9,16 +9,18 @@ class VideoController extends Controller
 {
     public function index()
     {
-        $data['videos'] = Video::where('status', 1)->select('id', 'slug', 'title', 'imdb_rating', 'type', 'genres', 'poster')->latest()->paginate(18);
+        $data['videos'] = Video::where('status', 1)
+            ->select(['id', 'slug', 'title', 'imdb_rating', 'type', 'genres', 'poster'])
+            ->latest()
+            ->paginate(18);
         return view('frontend.video.index', $data);
     }
 
     public function show($slug)
     {
-        $data['video'] = Video::
-        where('slug', $slug)
+        $data['video'] = Video::where('slug', $slug)
             ->where('status', 1)
-            ->with(
+            ->with([
                 'comments:id,user_id,video_id,comment_text,parent_id,created_at',
                 'comments.replies:id,user_id,video_id,comment_text,parent_id,created_at',
                 'reviews:id,user_id,video_id,title,body,rating,created_at',
@@ -29,7 +31,7 @@ class VideoController extends Controller
                 'comments.replies.commentLikes:id,comment_id,user_id,status',
                 'comments.commentDislikes:id,comment_id,user_id,status',
                 'comments.replies.commentDislikes:id,comment_id,user_id,status'
-            )
+            ])
             ->first();
 
         if ($data['video'] === null) {
@@ -52,7 +54,9 @@ class VideoController extends Controller
         $data['similarVideos'] = collect();
 
         //Pulling 20 videos from the database.
-        $videos = Video::select('id', 'slug', 'title', 'imdb_rating', 'type', 'genres', 'poster', 'views')->take(20)->get();
+        $videos = Video::select(['id', 'slug', 'title', 'imdb_rating', 'type', 'genres', 'poster', 'views'])
+            ->take(20)
+            ->get();
 
         //decoding genres for removing extra backslash.
         $genres = json_decode($data['video']['genres']);
