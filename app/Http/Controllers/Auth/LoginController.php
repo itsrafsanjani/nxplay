@@ -118,11 +118,21 @@ class LoginController extends Controller
         Auth::login($user);
     }
 
-    function authenticated(Request $request, $user)
+    /**
+     * @param Request $request
+     * @param mixed $user
+     * @return mixed
+     * @throws \Illuminate\Auth\AuthenticationException
+     */
+    protected function authenticated(Request $request, $user)
     {
         $user->update([
             'last_login_at' => now(),
             'last_login_ip' => $request->ip()
         ]);
+
+        Auth::logoutOtherDevices($request->password);
+
+        $user->tokens()->delete();
     }
 }
