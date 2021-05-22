@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\NotificationController;
 use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Controllers\Frontend\SearchController;
+use App\Http\Controllers\Frontend\SubscriptionController;
 use App\Http\Controllers\Frontend\UserController;
 use App\Http\Controllers\Frontend\VideoController;
 use App\Http\Controllers\Frontend\VideoLikeController;
@@ -42,5 +43,7 @@ Route::group(['middleware' => ['auth', 'verified'], 'as' => 'frontend.'], functi
 
     Route::post('/comment-like-or-dislike', [CommentLikeController::class, 'commentLikeOrDislike'])
         ->name('comment_like_or_dislike');
+
+    Route::resource('/subscriptions', SubscriptionController::class)->only(['index', 'store']);
 });
 

@@ -37,8 +37,8 @@ Route::get('login/github/callback', [LoginController::class, 'handleGithubCallba
  */
 Route::group(['middleware' => ['auth', 'verified']], function () {
 
-    Route::get('/subscriptions', [SslCommerzPaymentController::class, 'index'])
-        ->name('subscriptions.index');
+//    Route::get('/subscriptions', [SslCommerzPaymentController::class, 'index'])
+//        ->name('subscriptions.index');
 
     Route::post('/pay', [SslCommerzPaymentController::class, 'store'])
         ->name('subscriptions.store');

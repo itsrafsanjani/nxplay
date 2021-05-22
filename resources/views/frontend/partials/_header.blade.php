@@ -29,7 +29,7 @@
                         </li>
 
                         <li class="header__nav-item">
-                            <a href="{{ route('subscriptions.index') }}" class="header__nav-link">Subscription</a>
+                            <a href="{{ route('frontend.subscriptions.index') }}" class="header__nav-link">Subscription</a>
                         </li>
                     </ul>
                     <!-- end header nav -->

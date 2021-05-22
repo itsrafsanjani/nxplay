@@ -45,14 +45,14 @@
             <ul class="list-group mb-3">
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
-                        <h6 class="my-0">1 Year Subscription</h6>
-                        <small class="text-muted">500 x 12 - 250</small>
+                        <h6 class="my-0">1 Month {{ $data['planType'] }} Subscription</h6>
+                        <small class="text-muted">{{ $data['subtotal'] }} x {{ $data['taxPercentage'] }}% VAT</small>
                     </div>
-                    <span class="text-muted">5775</span>
+                    <span class="text-muted">{{ $data['total'] }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
                     <span>Total (BDT)</span>
-                    <strong>5775 TK</strong>
+                    <strong>{{ $data['total'] }} TK</strong>
                 </li>
             </ul>
         </div>
@@ -60,6 +60,7 @@
             <h4 class="mb-3">Billing address</h4>
             <form action="{{ route('subscriptions.store') }}" method="POST" class="needs-validation">
                 <input type="hidden" value="{{ csrf_token() }}" name="_token"/>
+                <input type="hidden" name="plan" value="{{ $plan }}"/>
                 <div class="row">
                     <div class="col-md-12 mb-3">
                         <label for="firstName">Full name</label>

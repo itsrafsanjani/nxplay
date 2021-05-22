@@ -8,19 +8,49 @@ use Illuminate\Support\Facades\DB;
 
 class SslCommerzPaymentController extends Controller
 {
-    public function index()
+    public function paymentInfo($plan)
     {
-        return view('hosted-checkout');
+        switch ($plan) {
+            case 1:
+                $data['subtotal'] = 100;
+                $data['planType'] = 'Basic';
+                break;
+            case 2:
+                $data['subtotal'] = 150;
+                $data['planType'] = 'Standard';
+                break;
+            case 3:
+                $data['subtotal'] = 200;
+                $data['planType'] = 'Premium';
+                break;
+            default:
+                $data['subtotal'] = 10;
+        }
+
+        $data['taxPercentage'] = 0.15;
+        $data['tax'] = $data['subtotal'] * $data['taxPercentage'];
+        $data['total'] = floor($data['subtotal'] + $data['tax']);
+
+        return $data;
+    }
+
+    public function index($plan)
+    {
+        return view('hosted-checkout', [
+            'data' =>  $this->paymentInfo($plan),
+            'plan' => $plan
+        ]);
     }
 
     public function store(Request $request)
     {
         # Here you have to receive all the order data to initiate the payment.
         # Let's say, your oder transaction information are saving in a table called "orders"
-        # In "orders" table, order unique identity is "transaction_id". "status" field contain status of the transaction, "amount" is the order amount to be paid and "currency" is for storing Site Currency which will be checked with paid currency.
+        # In "orders" table, order unique identity is "transaction_id". "status" field contain status of the transaction,
+        # "amount" is the order amount to be paid and "currency" is for storing Site Currency which will be checked with paid currency.
 
         $post_data = [];
-        $post_data['total_amount'] = $request->input('total_amount'); // You cant not pay less than 10
+        $post_data['total_amount'] = $this->paymentInfo($request->plan)['total']; // You cant not pay less than 10
         $post_data['currency'] = "BDT";
         $post_data['tran_id'] = uniqid(); // tran_id must be unique
 
@@ -28,13 +58,13 @@ class SslCommerzPaymentController extends Controller
         $post_data['cus_name'] = $request->input('customer_name');
         $post_data['cus_email'] = $request->input('customer_email');
         $post_data['cus_add1'] = $request->input('customer_add1');
-        $post_data['cus_add2'] = $request->input('customer_add2');
-        $post_data['cus_city'] = $request->input('customer_city');
-        $post_data['cus_state'] = $request->input('customer_state');
-        $post_data['cus_postcode'] = $request->input('customer_postcode');
+        $post_data['cus_add2'] = $request->input('customer_add2'); // nullable
+        $post_data['cus_city'] = $request->input('customer_city'); // nullable
+        $post_data['cus_state'] = $request->input('customer_state'); // nullable
+        $post_data['cus_postcode'] = $request->input('customer_postcode'); // nullable
         $post_data['cus_country'] = $request->input('customer_country');
         $post_data['cus_phone'] = $request->input('customer_phone');
-        $post_data['cus_fax'] = "";
+        $post_data['cus_fax'] = ""; // nullable
 
         # SHIPMENT INFORMATION
         $post_data['ship_name'] = "Store Test";
@@ -57,7 +87,7 @@ class SslCommerzPaymentController extends Controller
         $post_data['value_c'] = "ref003";
         $post_data['value_d'] = "ref004";
 
-        #Before  going to initiate the payment order status need to insert or update as Pending.
+        # Before  going to initiate the payment order status need to insert or update as Pending.
         $update_product = DB::table('orders')
             ->where('transaction_id', $post_data['tran_id'])
             ->updateOrInsert([
