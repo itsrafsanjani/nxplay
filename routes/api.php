@@ -76,9 +76,10 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'prefix' => 'v2'], func
 
     Route::group(['middleware' => 'auth:sanctum'], function () {
 
+
         Route::group(['namespace' => 'V2'], function () {
             Route::post('logout', 'AuthController@logout');
-            Route::get('me', 'AuthController@me');
+            Route::get('user', 'AuthController@me');
         });
 
         Route::patch('users/{user}', 'AuthController@update');
