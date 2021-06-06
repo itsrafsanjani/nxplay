@@ -50,7 +50,7 @@
                 <!-- price -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="price">
-                        <div class="price__item price__item--first"><span>Basic: Monthly BDT. 100</span></div>
+                        <div class="price__item price__item--first"><span>Basic: Monthly BDT 100</span></div>
                         <div class="price__item"><span>480p Resolution</span></div>
                         <div class="price__item"><span>Good Video Quality</span></div>
                         <div class="price__item"><span>Watch from anywhere</span></div>
@@ -65,7 +65,7 @@
                 <!-- price -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="price price--premium">
-                        <div class="price__item price__item--first"><span>Standard: Monthly BDT. 150</span></div>
+                        <div class="price__item price__item--first"><span>Standard: Monthly BDT 150</span></div>
                         <div class="price__item"><span>720p Resolution</span></div>
                         <div class="price__item"><span>Good Video Quality</span></div>
                         <div class="price__item"><span>Watch from anywhere</span></div>
@@ -80,7 +80,7 @@
                 <!-- price -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="price">
-                        <div class="price__item price__item--first"><span>Premium: Monthly BDT. 200</span></div>
+                        <div class="price__item price__item--first"><span>Premium: Monthly BDT 200</span></div>
                         <div class="price__item"><span>1080p+4K Resolution</span></div>
                         <div class="price__item"><span>Good Video Quality</span></div>
                         <div class="price__item"><span>Watch from anywhere</span></div>
