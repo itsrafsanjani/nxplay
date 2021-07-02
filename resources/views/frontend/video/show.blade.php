@@ -19,7 +19,8 @@
                             <!-- card cover -->
                             <div class="col-12 col-sm-5 col-lg-6 col-xl-5">
                                 <div class="card__cover">
-                                    <img src="https://imdb-api.com/posters/w300/{{ $video->poster }}" alt="{{ $video->title }}">
+                                    <img src="https://imdb-api.com/posters/w300/{{ $video->poster }}"
+                                         alt="{{ $video->title }}">
                                     <span
                                         class="card__rate @if($video->imdb_rating>=7)card__rate--green @else card__rate--red @endif"
                                     >{{ $video->imdb_rating }}</span>
@@ -99,9 +100,16 @@
                     <video controls crossorigin playsinline
                            poster="https://imdb-api.com/posters/w300/{{ $video->poster }}" id="player">
                         <!-- Video files -->
-{{--                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4" size="576">--}}
-{{--                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" size="720">--}}
-                        <source src="{{ asset($video->video) }}" type="video/mp4" size="1080">
+                        {{-- <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4" size="576">--}}
+                        {{-- <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" size="720">--}}
+
+                        {{--
+                            If 'http' found in the url string at postion 0 it will load that directly. Else it will add 'storage/videos/' before the url.
+                        --}}
+
+                        <source
+                            src="@if(strpos($video->video, 'http') == 0) {{ $video->video }} @else {{ asset('storage/videos/'.$video->video) }} @endif"
+                            type="video/mp4" size="1080">
                         <!-- Caption files -->
                         <track kind="captions" label="English" srclang="en"
                                src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
