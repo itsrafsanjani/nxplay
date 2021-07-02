@@ -147,6 +147,18 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Subscription
+ *
+ * @method static \Database\Factories\SubscriptionFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscription newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscription newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscription query()
+ */
+	class Subscription extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\User
  *
  * @property int $id
