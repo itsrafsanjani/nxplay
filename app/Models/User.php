@@ -77,6 +77,36 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return [];
     }
 
+    public function videos()
+    {
+        return $this->hasMany(Video::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function videoLikes()
+    {
+        return $this->hasMany(VideoLike::class);
+    }
+
+    public function commentLikes()
+    {
+        return $this->hasMany(CommentLike::class);
+    }
+
+    public function commentDislikes()
+    {
+        return $this->hasMany(CommentLike::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     public function topicPushNotification($to, $title, $body, $video_id, $poster)
     {
         $data['to'] = '/topics/' . $to;
@@ -129,36 +159,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         }
 
         return 0;
-    }
-
-    public function videos()
-    {
-        return $this->hasMany(Video::class);
-    }
-
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
-
-    public function videoLikes()
-    {
-        return $this->hasMany(VideoLike::class);
-    }
-
-    public function commentLikes()
-    {
-        return $this->hasMany(CommentLike::class);
-    }
-
-    public function commentDislikes()
-    {
-        return $this->hasMany(CommentLike::class);
-    }
-
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
     }
 
 }
