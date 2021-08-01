@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -95,5 +96,49 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Successfully logged out!'
         ]);
+    }
+
+    public function github(Request $request): JsonResponse
+    {
+        $socialUser = Socialite::driver('github')->stateless()->userFromToken($request->access_token);
+
+        try {
+            $user = User::where('email', $socialUser->getEmail())->first();
+
+            if (!$user) {
+                $user = User::create([
+                    'name' => $socialUser->getName(),
+                    'email' => $socialUser->getEmail(),
+                    'provider_id' => $socialUser->getId(),
+                    'avatar' => $socialUser->getAvatar(),
+                ]);
+            } else {
+                $user->update([
+                    'provider_id' => (string)$socialUser->getId(),
+                    'avatar' => $socialUser->getAvatar(),
+                ]);
+            }
+
+            $user->update([
+                'last_login_at' => now(),
+                'last_login_ip' => request()->ip()
+            ]);
+
+            $token = $user->createToken($request->device_name ?? Str::random(10))->plainTextToken;
+
+            return response()->json([
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'expires_in' => config('sanctum.expiration'),
+                'data' => [
+                    'user' => $user
+                ]
+            ]);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'message' => 'Not found or access token expired!',
+                'errors' => $exception->getMessage()
+            ], 400);
+        }
     }
 }
