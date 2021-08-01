@@ -4,19 +4,20 @@ namespace App\Http\Controllers\API\V2;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
-    public function login(Request $request): \Illuminate\Http\JsonResponse
+    public function login(Request $request): JsonResponse
     {
         $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-            'device_name' => 'sometimes'
+            'email' => ['required'],
+            'password' => ['required'],
+            'device_name' => ['sometimes']
         ]);
 
         $credentials = $request->only(['email', 'password']);
@@ -34,43 +35,40 @@ class AuthController extends Controller
             'last_login_ip' => request()->ip()
         ]);
 
-        $token = $user->createToken($request->device_name ?? 'NXPlay Mobile')->plainTextToken;
+        $token = $user->createToken($request->device_name ?? Str::random(10))->plainTextToken;
 
         return response()->json([
             'access_token' => $token,
-            'token_type' => 'bearer',
+            'token_type' => 'Bearer',
             'expires_in' => config('sanctum.expiration'),
-            'data' => $user
-        ], 200);
+            'data' => [
+                'user' => $user
+            ]
+        ]);
     }
 
-    public function register(Request $request): \Illuminate\Http\JsonResponse
+    public function register(Request $request): JsonResponse
     {
-        $input = $request->only('name', 'email', 'password');
-        $validator = Validator::make($input, [
+        $request->validate([
             'name' => ['required', 'regex:/(^([a-zA-z ]+)(\d+)?$)/u', 'min:5'],
-            'email' => 'required|email|min:5|unique:users',
+            'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', Password::min(8)->letters()->numbers()],
         ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
-        $grav_url = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($request->email)));
+        $gravatarUrl = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($request->email)));
 
         try {
             $user = User::create([
-                'name' => trim($request->input('name')),
-                'email' => strtolower(trim($request->input('email'))),
-                'password' => Hash::make($request->input('password')),
-                'avatar' => $grav_url,
+                'name' => trim($request->name),
+                'email' => strtolower(trim($request->email)),
+                'password' => Hash::make($request->password),
+                'avatar' => $gravatarUrl,
             ]);
 
             return response()->json([
                 'data' => [
                     'user' => $user
-                ],
+                ]
             ], 201);
         } catch (\PDOException $e) {
             return response()->json([
@@ -79,17 +77,23 @@ class AuthController extends Controller
         }
     }
 
-    public function me(): \Illuminate\Http\JsonResponse
+    public function me(): JsonResponse
     {
-        return response()->json(auth()->user(), 200);
+        return response()->json([
+            'data' => [
+                'user' => auth()->user()
+            ]
+        ]);
     }
 
-    public function logout(): \Illuminate\Http\JsonResponse
+    public function logout(): JsonResponse
     {
         $user = auth()->user();
 
         $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
 
-        return response()->json(['message' => 'Successfully logged out!'], 200);
+        return response()->json([
+            'message' => 'Successfully logged out!'
+        ]);
     }
 }
