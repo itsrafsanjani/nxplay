@@ -63,19 +63,15 @@
                                         <li>
                                             <div class="comments__rate"
                                                  style="position: relative; left: 0; top: 0; margin-top: 5px; border: 2px solid rgba(26,25,31,.7); border-radius: 3px; padding: 5px 30px; background: rgba(26,25,31,.7);">
-                                                <form action="{{ route('frontend.videos.like_or_dislike', $video) }}"
-                                                      method="post" id="likeDislikeForm" style="display: inline-flex">
-                                                    @csrf
-                                                    <input type="hidden" name="status" id="status">
-                                                    <button type="button" title="I Like this" id="likebtn"
-                                                            onclick="document.getElementById('status').value='1';
-                                                            document.getElementById('likeDislikeForm').submit();">
+                                                <form id="videoLikeDislikeForm" style="display: inline-flex">
+                                                    <input type="hidden" name="status" id="likeStatus">
+                                                    <button type="submit" title="I Like this" id="likeBtn"
+                                                            onclick="document.getElementById('likeStatus').value='1';">
                                                         <i class="icon ion-md-thumbs-up"
                                                            style="font-size: 20px; margin-right: 6px; {{ $video->islikedBy(auth()->user()) ? 'color: #00ff70;' : 'color: #fff' }}"></i>
                                                         {{ $video->videoLikes->count() }}</button>
-                                                    <button type="button" title="I Don't Like this" id="dislikebtn"
-                                                            onclick="document.getElementById('status').value='0';
-                                                            document.getElementById('likeDislikeForm').submit();">
+                                                    <button type="submit" title="I Don't Like this" id="dislikeBtn"
+                                                            onclick="document.getElementById('likeStatus').value='0';">
                                                         <i class="icon ion-md-thumbs-down"
                                                            style="font-size: 20px; margin-left: 6px; margin-right: 6px; {{ $video->isDislikedBy(auth()->user()) ? 'color: #fd6060;' : 'color: #ffffff' }}"></i> {{ $video->videoDislikes->count() }}
                                                     </button>
@@ -126,55 +122,29 @@
     @include('frontend.video.discover')
 @endsection
 
-{{--@push('javascripts')--}}
-{{--    <script type="text/javascript">--}}
+@push('javascripts')
+    <script>
 
-{{--        $.ajaxSetup({--}}
-{{--            headers: {--}}
-{{--                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
-{{--            }--}}
-{{--        });--}}
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
-{{--        $("#likebtn").click(function(e){--}}
+        $("#videoLikeDislikeForm").submit(function (e) {
+            e.preventDefault();
 
-{{--            let video_id = $("input[name=video_id]").val();--}}
-{{--            let status = 1;--}}
-{{--            let user_id = $("input[name=user_id]").val();--}}
+            let status = $("#likeStatus").val();
 
-{{--            $.ajax({--}}
-{{--                type:'POST',--}}
-{{--                url:"{{ route('frontend.videos.like_or_dislike', $video) }}",--}}
-{{--                data:{video_id:video_id, status:status, user_id:user_id},--}}
-{{--                // success:function(data){--}}
-{{--                //     alert(data.success);--}}
-{{--                // }--}}
-{{--            });--}}
-
-{{--            $(document).ajaxStop(function(){--}}
-{{--                window.location.reload();--}}
-{{--            });--}}
-
-{{--        });--}}
-
-{{--        $("#dislikebtn").click(function(e){--}}
-
-{{--            let video_id = $("input[name=video_id]").val();--}}
-{{--            let status = 0;--}}
-{{--            let user_id = $("input[name=user_id]").val();--}}
-
-{{--            $.ajax({--}}
-{{--                type:'POST',--}}
-{{--                url:"{{ route('frontend.videos.like_or_dislike', $video) }}",--}}
-{{--                data:{video_id:video_id, status:status, user_id:user_id},--}}
-{{--                // success:function(data){--}}
-{{--                //     alert(data.success);--}}
-{{--                // }--}}
-{{--            });--}}
-
-{{--            $(document).ajaxStop(function(){--}}
-{{--                window.location.reload();--}}
-{{--            });--}}
-
-{{--        });--}}
-{{--    </script>--}}
-{{--@endpush--}}
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('frontend.videos.like_or_dislike', $video) }}",
+                data: {status: status},
+                success: function (data) {
+                    $("#likeBtn").html(`<i class="icon ion-md-thumbs-up" style="font-size: 20px; margin-right: 6px; ${data.status === 1 ? 'color: #00ff70;' : 'color: #fff'} + "></i>` + data.likes);
+                    $("#dislikeBtn").html(`<i class="icon ion-md-thumbs-down" style="font-size: 20px; margin-left: 6px; margin-right: 6px; ${data.status === 0 ? 'color: #fd6060;' : 'color: #ffffff'}"></i>` + data.dislikes)
+                }
+            });
+        });
+    </script>
+@endpush

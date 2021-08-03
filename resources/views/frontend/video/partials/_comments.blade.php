@@ -122,7 +122,11 @@
         });
 
         $("#dislikebtn").click(function(e){
+
+            let video_id = $("input[name=video_id]").val();
             let status = 0;
+            let user_id = $("input[name=user_id]").val();
+
             $.ajax({
                 type:'POST',
                 url:"{{ route('frontend.comments.like_or_dislike', $comment) }}",
