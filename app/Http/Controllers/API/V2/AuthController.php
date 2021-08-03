@@ -67,11 +67,12 @@ class AuthController extends Controller
             ]);
 
             return response()->json([
+                'message' => 'Sign up successful!',
                 'data' => [
                     'user' => $user
                 ]
             ], 201);
-        } catch (\PDOException $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
             ], 500);
