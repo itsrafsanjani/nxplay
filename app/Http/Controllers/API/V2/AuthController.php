@@ -72,7 +72,7 @@ class AuthController extends Controller
         }
     }
 
-    public function me(): JsonResponse
+    public function user(): JsonResponse
     {
         return response()->json([
             'data' => [
