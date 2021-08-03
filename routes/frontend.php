@@ -38,11 +38,11 @@ Route::group(['middleware' => ['auth', 'verified'], 'as' => 'frontend.'], functi
     Route::get('/notifications', [NotificationController::class, 'index'])
         ->name('notifications.index');
 
-    Route::post('/like-or-dislike', [VideoLikeController::class, 'likeOrDislike'])
-        ->name('video_like_or_dislike');
+    Route::post('/videos/like-or-dislike', [VideoLikeController::class, 'likeOrDislike'])
+        ->name('videos.like_or_dislike');
 
-    Route::post('/comment-like-or-dislike', [CommentLikeController::class, 'commentLikeOrDislike'])
-        ->name('comment_like_or_dislike');
+    Route::post('/comments/like-or-dislike', [CommentLikeController::class, 'commentLikeOrDislike'])
+        ->name('comments.like_or_dislike');
 
     Route::resource('/subscriptions', SubscriptionController::class)->only(['index', 'store']);
 });

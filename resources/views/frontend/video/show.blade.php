@@ -63,7 +63,7 @@
                                         <li>
                                             <div class="comments__rate"
                                                  style="position: relative; left: 0; top: 0; margin-top: 5px; border: 2px solid rgba(26,25,31,.7); border-radius: 3px; padding: 5px 30px; background: rgba(26,25,31,.7);">
-                                                <form action="{{ route('frontend.video_like_or_dislike') }}"
+                                                <form action="{{ route('frontend.videos.like_or_dislike') }}"
                                                       method="post" id="likeDislikeForm" style="display: inline-flex">
                                                     @csrf
                                                     <input type="hidden" name="video_id" value="{{ $video->id }}">
@@ -146,7 +146,7 @@
 
 {{--            $.ajax({--}}
 {{--                type:'POST',--}}
-{{--                url:"{{ route('frontend.video_like_or_dislike') }}",--}}
+{{--                url:"{{ route('frontend.videos.like_or_dislike') }}",--}}
 {{--                data:{video_id:video_id, status:status, user_id:user_id},--}}
 {{--                // success:function(data){--}}
 {{--                //     alert(data.success);--}}
@@ -167,7 +167,7 @@
 
 {{--            $.ajax({--}}
 {{--                type:'POST',--}}
-{{--                url:"{{ route('frontend.video_like_or_dislike') }}",--}}
+{{--                url:"{{ route('frontend.videos.like_or_dislike') }}",--}}
 {{--                data:{video_id:video_id, status:status, user_id:user_id},--}}
 {{--                // success:function(data){--}}
 {{--                //     alert(data.success);--}}

@@ -45,7 +45,7 @@
                     <div class="comments__actions">
                         <div class="comments__rate">
                             <!-- Comment Like / Dislike Form-->
-                            <form action="{{ route('frontend.comment_like_or_dislike') }}" method="post" id="commentLikeForm{{ $comment->id }}" style="display: inline-flex">
+                            <form action="{{ route('frontend.comments.like_or_dislike') }}" method="post" id="commentLikeForm{{ $comment->id }}" style="display: inline-flex">
                                 @csrf
                                 <input type="hidden" name="comment_id" value="{{ $comment->id }}">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
@@ -114,7 +114,7 @@
 
             $.ajax({
                 type:'POST',
-                url:"{{ route('frontend.comment_like_or_dislike') }}",
+                url:"{{ route('frontend.comments.like_or_dislike') }}",
                 data:{video_id:video_id, status:status, user_id:user_id},
                 // success:function(data){
                 //     alert(data.success);
@@ -135,7 +135,7 @@
 
             $.ajax({
                 type:'POST',
-                url:"{{ route('frontend.comment_like_or_dislike') }}",
+                url:"{{ route('frontend.comments.like_or_dislike') }}",
                 data:{video_id:video_id, status:status, user_id:user_id},
                 // success:function(data){
                 //     alert(data.success);
