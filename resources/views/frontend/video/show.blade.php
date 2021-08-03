@@ -63,12 +63,9 @@
                                         <li>
                                             <div class="comments__rate"
                                                  style="position: relative; left: 0; top: 0; margin-top: 5px; border: 2px solid rgba(26,25,31,.7); border-radius: 3px; padding: 5px 30px; background: rgba(26,25,31,.7);">
-                                                <form action="{{ route('frontend.videos.like_or_dislike') }}"
+                                                <form action="{{ route('frontend.videos.like_or_dislike', $video) }}"
                                                       method="post" id="likeDislikeForm" style="display: inline-flex">
                                                     @csrf
-                                                    <input type="hidden" name="video_id" value="{{ $video->id }}">
-                                                    <input type="hidden" name="user_id"
-                                                           value="{{ auth()->user()->id }}">
                                                     <input type="hidden" name="status" id="status">
                                                     <button type="button" title="I Like this" id="likebtn"
                                                             onclick="document.getElementById('status').value='1';
@@ -146,7 +143,7 @@
 
 {{--            $.ajax({--}}
 {{--                type:'POST',--}}
-{{--                url:"{{ route('frontend.videos.like_or_dislike') }}",--}}
+{{--                url:"{{ route('frontend.videos.like_or_dislike', $video) }}",--}}
 {{--                data:{video_id:video_id, status:status, user_id:user_id},--}}
 {{--                // success:function(data){--}}
 {{--                //     alert(data.success);--}}
@@ -167,7 +164,7 @@
 
 {{--            $.ajax({--}}
 {{--                type:'POST',--}}
-{{--                url:"{{ route('frontend.videos.like_or_dislike') }}",--}}
+{{--                url:"{{ route('frontend.videos.like_or_dislike', $video) }}",--}}
 {{--                data:{video_id:video_id, status:status, user_id:user_id},--}}
 {{--                // success:function(data){--}}
 {{--                //     alert(data.success);--}}

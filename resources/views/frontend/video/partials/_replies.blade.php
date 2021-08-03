@@ -9,10 +9,8 @@
     <div class="comments__actions">
         <div class="comments__rate">
             <!-- Reply Like / Dislike Form -->
-            <form action="{{ route('frontend.comments.like_or_dislike') }}" method="post" id="commentLikeForm{{ $reply->id }}" style="display: inline-flex">
+            <form action="{{ route('frontend.comments.like_or_dislike', $reply) }}" method="post" id="commentLikeForm{{ $reply->id }}" style="display: inline-flex">
                 @csrf
-                <input type="hidden" name="comment_id" value="{{ $reply->id }}">
-                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                 <input type="hidden" name="status" id="commentLikeBtn{{ $reply->id }}" value="{{ auth()->user()->id }}">
                 <!-- Reply Like Button -->
                 <button type="button"

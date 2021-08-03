@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Video;
 use App\Models\VideoLike;
 use Illuminate\Http\Request;
 
@@ -14,11 +15,11 @@ class VideoLikeController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function likeOrDislike(Request $request): \Illuminate\Http\RedirectResponse
+    public function likeOrDislike(Video $video, Request $request): \Illuminate\Http\RedirectResponse
     {
         $likeIdCheck = VideoLike::where([
             'user_id' => auth()->user()->id,
-            'video_id' => $request->input('video_id')
+            'video_id' => $video->id
         ])->first();
 
         $status = $request->input('status');
@@ -26,7 +27,7 @@ class VideoLikeController extends Controller
         if ($likeIdCheck == null) {
             VideoLike::create([
                 'user_id' => auth()->user()->id,
-                'video_id' => $request->input('video_id'),
+                'video_id' => $video->id,
                 'status' => $status
             ]);
         } else if ($likeIdCheck->status == $status) {

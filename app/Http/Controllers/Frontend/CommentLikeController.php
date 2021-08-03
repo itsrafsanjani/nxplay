@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\CommentLike;
 use Illuminate\Http\Request;
 
@@ -14,11 +15,11 @@ class CommentLikeController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function commentLikeOrDislike(Request $request)
+    public function commentLikeOrDislike(Comment $comment, Request $request)
     {
         $likeIdCheck = CommentLike::where([
             'user_id' => auth()->user()->id,
-            'comment_id' => $request->input('comment_id')
+            'comment_id' => $comment->id
         ])->first();
 
         $status = $request->input('status');
@@ -26,7 +27,7 @@ class CommentLikeController extends Controller
         if ($likeIdCheck == null) {
             CommentLike::create([
                 'user_id' => auth()->user()->id,
-                'comment_id' => $request->input('comment_id'),
+                'comment_id' => $comment->id,
                 'status' => $status
             ]);
         }   else if ($likeIdCheck->status == $status) {

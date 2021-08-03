@@ -45,10 +45,8 @@
                     <div class="comments__actions">
                         <div class="comments__rate">
                             <!-- Comment Like / Dislike Form-->
-                            <form action="{{ route('frontend.comments.like_or_dislike') }}" method="post" id="commentLikeForm{{ $comment->id }}" style="display: inline-flex">
+                            <form action="{{ route('frontend.comments.like_or_dislike', $comment) }}" method="post" id="commentLikeForm{{ $comment->id }}" style="display: inline-flex">
                                 @csrf
-                                <input type="hidden" name="comment_id" value="{{ $comment->id }}">
-                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                 <input type="hidden" name="status" id="commentLikeBtn{{ $comment->id }}" value="{{ auth()->user()->id }}">
                                 <!-- Comment Like Button -->
                                 <button type="button"
@@ -107,15 +105,11 @@
         });
 
         $("#likebtn").click(function(e){
-
-            let video_id = $("input[name=video_id]").val();
             let status = 1;
-            let user_id = $("input[name=user_id]").val();
-
             $.ajax({
                 type:'POST',
-                url:"{{ route('frontend.comments.like_or_dislike') }}",
-                data:{video_id:video_id, status:status, user_id:user_id},
+                url:"{{ route('frontend.comments.like_or_dislike', $comment) }}",
+                data:{status:status},
                 // success:function(data){
                 //     alert(data.success);
                 // }
@@ -128,14 +122,10 @@
         });
 
         $("#dislikebtn").click(function(e){
-
-            let video_id = $("input[name=video_id]").val();
             let status = 0;
-            let user_id = $("input[name=user_id]").val();
-
             $.ajax({
                 type:'POST',
-                url:"{{ route('frontend.comments.like_or_dislike') }}",
+                url:"{{ route('frontend.comments.like_or_dislike', $comment) }}",
                 data:{video_id:video_id, status:status, user_id:user_id},
                 // success:function(data){
                 //     alert(data.success);
