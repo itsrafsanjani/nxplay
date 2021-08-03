@@ -92,9 +92,9 @@ class AuthController extends Controller
         ]);
     }
 
-    public function github(Request $request): JsonResponse
+    public function social(Request $request): JsonResponse
     {
-        $socialUser = Socialite::driver('github')->stateless()->userFromToken($request->access_token);
+        $socialUser = Socialite::driver($request->provider)->stateless()->userFromToken($request->access_token);
 
         try {
             $user = User::where('email', $socialUser->getEmail())->first();
