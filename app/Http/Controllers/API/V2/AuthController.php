@@ -38,14 +38,7 @@ class AuthController extends Controller
 
         $token = $user->createToken($request->device_name ?? Str::random(10))->plainTextToken;
 
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-            'expires_in' => config('sanctum.expiration'),
-            'data' => [
-                'user' => $user
-            ]
-        ]);
+        return $this->loggedInResponse($token, $user);
     }
 
     public function register(Request $request): JsonResponse
@@ -127,19 +120,29 @@ class AuthController extends Controller
 
             $token = $user->createToken($request->device_name ?? Str::random(10))->plainTextToken;
 
-            return response()->json([
-                'access_token' => $token,
-                'token_type' => 'Bearer',
-                'expires_in' => config('sanctum.expiration'),
-                'data' => [
-                    'user' => $user
-                ]
-            ]);
+            return $this->loggedInResponse($token, $user);
         } catch (\Exception $exception) {
             return response()->json([
                 'message' => 'Not found or access token expired!',
                 'errors' => $exception->getMessage()
             ], 400);
         }
+    }
+
+    /**
+     * @param string $token
+     * @param $user
+     * @return JsonResponse
+     */
+    public function loggedInResponse(string $token, $user): JsonResponse
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            'expires_in' => config('sanctum.expiration'),
+            'data' => [
+                'user' => $user
+            ]
+        ]);
     }
 }
