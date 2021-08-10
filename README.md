@@ -1,43 +1,60 @@
 # NXPlay
 
 NXPlay is an open source streaming entertainment service created with Laravel.
-> Don't forget to give a star! ⭐
 
-### Packages Used
-
-1. `laravel/ui`
-2. `laravel/socialite`
-3. `tymon/jwt-auth`
-4. `barryvdh/laravel-debugbar`
-5. `barryvdh/laravel-ide-helper`
-6. `beyondcode/laravel-query-detector`
-7. `pusher/pusher-php-server`
-8. `laravel-notification-channels/pusher-push-notifications`
+> If you like this repo don't forget to give a star! ⭐
 
 ### Installation Instructions
 
-- Clone the repo.
+-   Clone the repo.
 
 ```shell
     cd nxplay
-    
-    composer install
-    
-    cp .env.example .env / php -r "file_exists('.env') || copy('.env.example', '.env');"
-    
-    php artisan key:generate --ansi
-    
-    mysql -uroot
-    
-    create database nxplay;
-```    
 
-- edit `.env` file
+    composer install
+
+    cp .env.example .env
+
+    php artisan key:generate
+
+    php artisan jwt:secret
+
+    php artisan storage:link
+```
+
+-   Edit `.env` file with your `database`, `Pusher` and other credentials.
+-   check `.env.example` file for details.
 
 ```shell
     php artisan migrate --seed
-    
+```
+
+-   If you are using `npm`
+
+```shell
     npm install && npm run dev
+```
+
+-   Or if you are using `yarn`
+
+```shell
+    yarn install && yarn run dev
+```
+
+-   Run the application
+
+```shell
+    php artisan serve
+```
+
+-   Check [http://localhost:8000/](http://localhost:8000/)
+
+-   Also run these commands in seperate console tab for queues, and schedules to work:
+
+```shell
+    php artisan schedule:work
+
+    php artisan queue:work
 ```
 
 ### Contributing
@@ -46,14 +63,14 @@ Thank you for considering contributing to the NXPlay!
 
 ### Contribution Guideline
 
-- Fork the repo.
-- Clone the repo.
-- Run `git checkout dev`
-- Create a new local branch
-- Work on your local branch
-- Push to remote
-- When work tested, done or ready, push to remote
-- Merge to dev
+-   Fork the repo.
+-   Clone the repo.
+-   Run `git checkout dev`
+-   Create a new local branch
+-   Work on your local branch
+-   Push to remote
+-   When work tested, done or ready, push to remote
+-   Merge to dev
 
 ### License
 
