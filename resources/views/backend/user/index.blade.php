@@ -15,12 +15,15 @@
                         <div class="filter" id="filter__sort">
                             <span class="filter__item-label">Sort by:</span>
 
-                            <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-sort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="filter__item-btn dropdown-toggle"
+                                 role="navigation" id="filter-sort" data-toggle="dropdown"
+                                 aria-haspopup="true" aria-expanded="false">
                                 <input type="button" value="Date created">
                                 <span></span>
                             </div>
 
-                            <ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-sort">
+                            <ul class="filter__item-menu dropdown-menu scrollbar-dropdown"
+                                aria-labelledby="filter-sort">
                                 <li>Date created</li>
                                 <li>Pricing plan</li>
                                 <li>Status</li>
@@ -58,7 +61,9 @@
                             <th>BASIC INFO</th>
                             <th>STATUS</th>
                             <th>ROLE</th>
-                            <th>CREATED DATE</th>
+                            <th>CREATED AT</th>
+                            <th>LAST LOGIN AT</th>
+                            <th>LAST LOGIN IP</th>
                             <th>ACTIONS</th>
                         </tr>
                         </thead>
@@ -74,7 +79,7 @@
                             <td>
                                 <div class="main__user">
                                     <div class="main__avatar">
-                                        <img src="{{ asset('img/user.svg') }}" alt="">
+                                        <img src="{{ $user->avatar }}" alt="">
                                     </div>
                                     <div class="main__meta">
                                         <h3>{{ $user->name }}</h3>
@@ -89,18 +94,35 @@
                                 <div class="main__table-text">@if($user->role == 1) Admin @else User @endif</div>
                             </td>
                             <td>
-                                <div class="main__table-text" title="{{ $user->created_at }}">{{ $user->created_at->diffForHumans() }}</div>
+                                <div class="main__table-text" title="{{ $user->created_at }}">
+                                    {{ $user->created_at->diffForHumans() }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="main__table-text" title="{{ $user->last_login_at }}">
+                                    {{ $user->last_login_at->diffForHumans() }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="main__table-text @if(!$user->last_login_ip) main__table-text--red @endif">
+                                    {{ $user->last_login_ip ?? 'Not Available!' }}
+                                </div>
                             </td>
                             <td>
                                 <div class="main__table-btns">
                                     <a href="#" class="main__table-btn main__table-btn--banned">
                                         <i class="icon ion-ios-lock"></i>
                                     </a>
-                                    <a href="{{ route('users.edit', $user->id) }}" class="main__table-btn main__table-btn--edit">
+                                    <a href="#" class="main__table-btn main__table-btn--view">
+                                        <i class="icon ion-ios-eye"></i>
+                                    </a>
+                                    <a href="{{ route('users.edit', $user->id) }}"
+                                       class="main__table-btn main__table-btn--edit">
                                         <i class="icon ion-ios-create"></i>
                                     </a>
 
-                                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure to delete data?')">
+                                    <form action="{{ route('users.destroy', $user->id) }}"
+                                          method="POST" onsubmit="return confirm('Are you sure to delete data?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="main__table-btn main__table-btn--delete">
