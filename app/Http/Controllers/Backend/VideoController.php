@@ -7,9 +7,8 @@ use App\Models\User;
 use App\Models\Video;
 use App\Notifications\NewVideoReleased;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 class VideoController extends Controller
@@ -44,18 +43,12 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
+        $request->validate([
             'user_id' => 'required',
             'imdb_id' => 'required|unique:videos',
             'video' => 'required|mimes:mp4|max:102400', // Max 100 MB File
             'status' => 'required',
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        ]);
 
         $response = Http::get('http://www.omdbapi.com/?apikey=' . config('services.omdb.secret') . '&i=' . $request->imdb_id);
 
@@ -98,7 +91,7 @@ class VideoController extends Controller
                 'country' => json_encode(explode(',', $videoInfo->Country)),
                 'directors' => json_encode(explode(',', $videoInfo->Director)),
                 'actors' => json_encode(explode(',', $videoInfo->Actors)),
-                'box_office' => isset($videoInfo->BoxOffice) ? $videoInfo->BoxOffice : null,
+                'box_office' => $videoInfo->BoxOffice ?? null,
                 'poster' => $firstPoster,
                 'type' => $videoInfo->Type,
                 'video' => '/storage/videos/' . $videoName,
