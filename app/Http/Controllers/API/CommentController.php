@@ -7,8 +7,9 @@ use App\Models\Comment;
 use App\Models\User;
 use App\Models\Video;
 use App\Notifications\SomeoneReplied;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
@@ -16,39 +17,39 @@ class CommentController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index(Request $request): \Illuminate\Http\JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $video_id = $request->video_id;
 
-        $comments = Comment::select('id', 'user_id', 'video_id', 'comment_text', 'parent_id', 'created_at')
-            ->with('user:id,name,avatar',
-                'commentLikes:id,comment_id,user_id,status',
-                'commentDislikes:id,comment_id,user_id,status')
+        $comments = Comment::with('user:id,name,avatar',
+            'commentLikes:id,comment_id,user_id,status',
+            'commentDislikes:id,comment_id,user_id,status')
+            ->select(['id', 'user_id', 'video_id', 'comment_text', 'parent_id', 'created_at'])
             ->withCount('replies', 'commentLikes', 'commentDislikes')
-            ->where('video_id', '=', $video_id)
+            ->where('video_id', $video_id)
             ->whereNull('parent_id')
             ->latest()
             ->paginate(20);
 
-        return response()->json($comments, 200);
+        return response()->json($comments);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         try {
             $user_id = auth()->user()->id;
-            $video_id = $request->input('video_id');
-            $parent_id = $request->input('parent_id');
-            $comment_text = $request->input('comment_text');
-            $replied_to_id = $request->input('replied_to_id');
+            $video_id = $request->video_id;
+            $parent_id = $request->parent_id;
+            $comment_text = $request->comment_text;
+            $replied_to_id = $request->replied_to_id;
 
             $this->validate($request, [
                 'video_id' => 'required',
@@ -74,7 +75,7 @@ class CommentController extends Controller
                 $toUser->commentPushNotification($fromUser, $comment, $video);
             }
             return response()->json($comment, 201);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json($exception->getMessage(), 500);
         }
     }
@@ -83,12 +84,11 @@ class CommentController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function show($id)
+    public function show($id): JsonResponse
     {
-        $replies = Comment::
-        with('user:id,name,avatar',
+        $replies = Comment::with('user:id,name,avatar',
             'commentLikes:id,comment_id,user_id,status',
             'commentDislikes:id,comment_id,user_id,status')
             ->where('parent_id', '=', $id)
@@ -96,13 +96,13 @@ class CommentController extends Controller
             ->latest()
             ->paginate(20);
 
-        return response()->json($replies, 200);
+        return response()->json($replies);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
      * @return \Illuminate\Http\Response
      */
@@ -115,9 +115,9 @@ class CommentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         try {
             if (auth()->user()->id == Comment::findOrFail($id)->user_id) {
@@ -128,7 +128,7 @@ class CommentController extends Controller
             return response()->json([
                 'message' => 'You do not have permission to delete this comment.'
             ], 403);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json($exception->getMessage(), 500);
         }
     }
