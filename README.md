@@ -57,6 +57,25 @@ NXPlay is an open source streaming entertainment service created with Laravel.
     php artisan queue:work
 ```
 
+### Screenshots
+![Image](./public/images/screenshots/01-min.png)
+![Image](./public/images/screenshots/02-min.png)
+![Image](./public/images/screenshots/03-min.png)
+![Image](./public/images/screenshots/04-min.png)
+![Image](./public/images/screenshots/05-min.png)
+![Image](./public/images/screenshots/06-min.png)
+![Image](./public/images/screenshots/07-min.png)
+![Image](./public/images/screenshots/08-min.png)
+![Image](./public/images/screenshots/09-min.png)
+![Image](./public/images/screenshots/10-min.png)
+![Image](./public/images/screenshots/11-min.png)
+![Image](./public/images/screenshots/12-min.png)
+![Image](./public/images/screenshots/13-min.png)
+![Image](./public/images/screenshots/14-min.png)
+![Image](./public/images/screenshots/15-min.png)
+![Image](./public/images/screenshots/16-min.png)
+![Image](./public/images/screenshots/17-min.png)
+
 ### Contributing
 
 Thank you for considering contributing to the NXPlay!
