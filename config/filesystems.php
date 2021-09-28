@@ -60,6 +60,33 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'cloudinary' => [
+            'driver'         => 'cloudinary',
+            'api_key'        => env('CLOUDINARY_API_KEY'),
+            'api_secret'     => env('CLOUDINARY_API_SECRET'),
+            'cloud_name'     => env('CLOUDINARY_CLOUD_NAME'),
+            'secure'         => env('CLOUDINARY_SECURE', true),
+            'resource_types' => [
+                'image' => [
+                    'png',
+                    'jpeg',
+                    'jpg',
+                ],
+                'video' => [
+                    'mp4',
+                    'avi',
+                    'mp3',
+                    'flac',
+                ],
+                'raw'   => [
+                    'pdf',
+                    'xlsx',
+                    'csv',
+                    'txt',
+                ],
+            ],
+        ],
+
     ],
 
     /*

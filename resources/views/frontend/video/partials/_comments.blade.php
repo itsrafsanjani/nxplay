@@ -95,7 +95,7 @@
     </div>
 </div>
 
-@push('javascripts')
+{{--@push('javascripts')
     <script type="text/javascript">
 
         $.ajaxSetup({
@@ -142,4 +142,4 @@
 
         });
     </script>
-@endpush
+@endpush--}}
