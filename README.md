@@ -87,7 +87,6 @@ Thank you for considering contributing to the NXPlay!
 -   Run `git checkout dev`
 -   Create a new local branch
 -   Work on your local branch
--   Push to remote
 -   When work tested, done or ready, push to remote
 -   Merge to dev
 
