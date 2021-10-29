@@ -65,7 +65,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $grav_url = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($data['email'])));
+        $grav_url = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($data['email']))) . '?d=robohash';
 
         return User::create([
             'name' => $data['name'],
