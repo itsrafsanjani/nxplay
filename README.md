@@ -4,6 +4,10 @@ NXPlay is an open source streaming entertainment service created with Laravel.
 
 > If you like this repo don't forget to give a star! ⭐
 
+### Mobile App Github Repository
+
+[NXPlay Mobile Repository](https://github.com/imamhossain94/nxplay-mobile)
+
 ### Installation Instructions
 
 -   Clone the repo.
@@ -58,6 +62,7 @@ NXPlay is an open source streaming entertainment service created with Laravel.
 ```
 
 ### Screenshots
+
 ![Image](./public/images/screenshots/01-min.png)
 ![Image](./public/images/screenshots/02-min.png)
 ![Image](./public/images/screenshots/03-min.png)
