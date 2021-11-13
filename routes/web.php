@@ -5,8 +5,8 @@ use App\Http\Controllers\SslCommerzPaymentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-require __DIR__ . '/frontend.php';
-require __DIR__ . '/backend.php';
+require __DIR__ . '/web/frontend.php';
+require __DIR__ . '/web/backend.php';
 
 /**
  * About Us Page
@@ -27,7 +27,7 @@ Route::get('login/facebook', [LoginController::class, 'redirectToFacebook'])
     ->name('login.facebook');
 Route::get('login/facebook/callback', [LoginController::class, 'handleFacebookCallback']);
 
-// Github login
+// GitHub login
 Route::get('login/github', [LoginController::class, 'redirectToGithub'])
     ->name('login.github');
 Route::get('login/github/callback', [LoginController::class, 'handleGithubCallback']);
