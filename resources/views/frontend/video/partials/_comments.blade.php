@@ -21,8 +21,6 @@
         @endif
         <form action="{{ route('frontend.comments.store') }}" class="form" method="post" id="commentForm" style="margin-bottom: 20px;">
             @csrf
-            <input type="hidden" name="user_id" id="userId"
-                   value="{{ auth()->user()->id }}">
             <input type="hidden" name="video_id" id="videoId" value="{{ $video->id }}">
             <input type="hidden" name="comment_id" id="commentId">
             <input type="hidden" name="replied_to_id" id="repliedToId">
