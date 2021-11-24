@@ -53,9 +53,9 @@
 
 {{--                        <a href="{{ route('frontend.notifications.index') }}" style="font-size: 32px; margin: 0 10px 0 18px;"><i class="icon ion-ios-notifications"></i><span class="badge badge-light">@auth {{ auth()->user()->unreadNotifications->count() }} @endauth</span></a>--}}
                         @auth
-                            <button type="button" class="btn btn-primary btn-sm d-none d-md-block" onclick="window.location.href='{{ route('frontend.notifications.index') }}'">
-                            <i class="icon ion-ios-notifications" style="font-size: 20px;"></i>  @if(auth()->user()->unreadNotifications->count() > 0)<span class="badge badge-light">{{ auth()->user()->unreadNotifications->count() }} </span>@endif
-                        </button>
+                            <button type="button" class="btn btn-primary btn-sm d-none d-md-block ml-2" onclick="window.location.href='{{ route('frontend.notifications.index') }}'">
+                                <i class="icon ion-ios-notifications px-1" style="font-size: 20px;"></i>  @if(auth()->user()->unreadNotifications->count() > 0)<span class="badge badge-light">{{ auth()->user()->unreadNotifications->count() }} </span>@endif
+                            </button>
                         @endauth
 
                         @guest
@@ -65,16 +65,16 @@
                             </a>
 
                         @else
-                            <div class="dropdown" style="margin-left: 10px">
+                            <div class="dropdown ml-2">
                                 <button type="button"
                                         id="dropdownMenuButton"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @if(auth()->user()->avatar)
                                         <img src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->name }}"
-                                             style="border: 2px solid #1eff0e; border-radius: 50%; width: 39px; height: auto; float: left; margin-right: 7px;">
+                                             style="border: 2px solid #1eff0e; border-radius: 50%; width: auto; height: 40px;">
                                     @else
                                         <img src="https://ui-avatars.com/api/?name={{ auth()->user()->name }}" alt="{{ auth()->user()->name }}"
-                                             style="border: 2px solid #1eff0e; border-radius: 50%; width: 39px; height: auto; float: left; margin-right: 7px;">
+                                             style="border: 2px solid #1eff0e; border-radius: 50%; width: auto; height: 40px;">
                                     @endif
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
