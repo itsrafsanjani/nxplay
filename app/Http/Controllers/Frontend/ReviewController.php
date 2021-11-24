@@ -17,47 +17,32 @@ class ReviewController extends Controller
      */
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
-        $rules = [
-            'user_id' => 'required',
+        $validated = $request->validate([
             'video_id' => 'required',
             'title' => 'required|max:50',
             'body' => 'required',
             'rating' => 'required'
-        ];
+        ]);
 
-        $validator = Validator::make($request->all(), $rules);
+        $userId = auth()->id();
+        $videoId = $request->video_id;
 
-        if($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $user_id = $request->input('user_id');
-        $video_id = $request->input('video_id');
-
-        $review = Review::where('user_id', $user_id)->where('video_id', $video_id)->first();
-
-        $data = [
-            'user_id' => $user_id,
-            'video_id' => $video_id,
-            'title' => $request->input('title'),
-            'body' => $request->input('body'),
-            'rating' => $request->input('rating')
-        ];
+        $review = Review::where('user_id', $userId)->where('video_id', $videoId)->first();
 
         try {
             if (!$review) {
-                Review::create($data);
+                auth()->user()->reviews()->create($validated);
                 session()->flash('message','Review added.');
                 session()->flash('type','success');
-                return redirect()->back();
+                return back();
             }
             session()->flash('message', 'You can not review twice. Delete old review to give a new one.');
             session()->flash('type','danger');
-            return redirect()->back();
+            return back();
         } catch (\Exception $exception) {
             session()->flash('message', $exception->getMessage());
             session()->flash('type','danger');
-            return redirect()->back();
+            return back();
         }
     }
 

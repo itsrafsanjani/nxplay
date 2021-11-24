@@ -74,7 +74,6 @@
 
         <form action="{{ route('frontend.reviews.store') }}" class="form" method="POST">
             @csrf
-            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}" required>
             <input type="hidden" name="video_id" value="{{ $video->id }}" required>
             <input type="text" name="title" class="form__input" placeholder="Title" required>
             <textarea name="body" class="form__textarea" placeholder="Review" style="margin-bottom: 8px;"
