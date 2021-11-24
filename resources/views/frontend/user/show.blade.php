@@ -132,10 +132,10 @@
                             @endif
                         </div>
 
-                        @if(auth()->user()->id == $user->id)
+                        @if(auth()->id() == $user->id)
                             <!-- details form -->
                                 <div class="col-12 col-lg-6">
-                                    <form action="{{ route('frontend.users.update', auth()->user()->id) }}" class="profile__form" method="POST">
+                                    <form action="{{ route('frontend.users.update', auth()->id()) }}" class="profile__form" method="POST">
                                         @csrf
                                         @method('PATCH')
                                         <div class="row">
@@ -167,7 +167,7 @@
                                                 </div>
                                             </div>
 
-                                            @if(auth()->user()->id == $user->id)
+                                            @if(auth()->id() == $user->id)
                                                 <div class="col-12">
                                                     <button class="profile__btn" type="submit">Update</button>
                                                 </div>
@@ -241,7 +241,7 @@
                                                 </div>
                                             </div>
 
-                                            @if(auth()->user()->id == $user->id)
+                                            @if(auth()->id() == $user->id)
                                                 <div class="col-12">
                                                     <button class="profile__btn" type="submit">Update</button>
                                                 </div>

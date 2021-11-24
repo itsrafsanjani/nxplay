@@ -78,7 +78,7 @@
                                     @endif
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="{{ route('frontend.users.show', auth()->user()->id) }}">
+                                    <a class="dropdown-item" href="{{ route('frontend.users.show', auth()->id()) }}">
                                         <i class="icon ion-ios-person" style="margin-right: 5px"></i> {{ Auth::user()->name }}
                                     </a>
                                     @if(auth()->user()->role == 1)
@@ -89,7 +89,7 @@
                                     <a class="dropdown-item" href="{{ route('frontend.notifications.index') }}" style="display: flex; align-items: center">
                                         <i class="icon ion-ios-notifications" style="margin-right: 5px"></i> Notifications @if(auth()->user()->unreadNotifications->count() > 0)<span class="badge badge-dark ml-2">{{ auth()->user()->unreadNotifications->count() }} </span>@endif
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('frontend.users.show', auth()->user()->id) }}" style="display: flex; align-items: center">
+                                    <a class="dropdown-item" href="{{ route('frontend.users.show', auth()->id()) }}" style="display: flex; align-items: center">
                                         <i class="icon ion-ios-settings" style="margin-right: 5px"></i> Settings
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"

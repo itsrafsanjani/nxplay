@@ -21,7 +21,7 @@
         @endif
         <ul class="reviews__list">
             @foreach($video->reviews as $review)
-                @if(auth()->user()->id == $review->user_id)
+                @if(auth()->id() == $review->user_id)
                     <li class="reviews__item" style="border: 1px solid #ffd80e; border-radius: 6px; padding: 20px;">
                         <div class="reviews__autor">
                             <img class="reviews__avatar"
@@ -34,7 +34,7 @@
                             <span class="reviews__rating reviews__rating--green">{{ $review->rating }}</span>
                         </div>
                         <p class="reviews__text">{{ $review->body }}</p>
-                        @if(auth()->user()->id == $review->user_id)
+                        @if(auth()->id() == $review->user_id)
                             <div class="comments__actions">
                                 <form action="{{ route('frontend.reviews.destroy', $review->id) }}" method="post">
                                     @csrf
@@ -58,7 +58,7 @@
                             <span class="reviews__rating @if($review->rating>=7)reviews__rating--green @else reviews__rating--red @endif">{{ $review->rating }}</span>
                         </div>
                         <p class="reviews__text">{{ $review->body }}</p>
-                        @if(auth()->user()->id == $review->user_id)
+                        @if(auth()->id() == $review->user_id)
                             <div class="comments__actions">
                                 <form action="{{ route('frontend.reviews.destroy', $review->id) }}" method="post">
                                     @csrf
