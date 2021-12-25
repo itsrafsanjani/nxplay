@@ -21,7 +21,7 @@
         @endif
         <ul class="reviews__list">
             @foreach($video->reviews as $review)
-                @if(auth()->user()->id == $review->user_id)
+                @if(auth()->id() == $review->user_id)
                     <li class="reviews__item" style="border: 1px solid #ffd80e; border-radius: 6px; padding: 20px;">
                         <div class="reviews__autor">
                             <img class="reviews__avatar"
@@ -34,7 +34,7 @@
                             <span class="reviews__rating reviews__rating--green">{{ $review->rating }}</span>
                         </div>
                         <p class="reviews__text">{{ $review->body }}</p>
-                        @if(auth()->user()->id == $review->user_id)
+                        @if(auth()->id() == $review->user_id)
                             <div class="comments__actions">
                                 <form action="{{ route('frontend.reviews.destroy', $review->id) }}" method="post">
                                     @csrf
@@ -58,7 +58,7 @@
                             <span class="reviews__rating @if($review->rating>=7)reviews__rating--green @else reviews__rating--red @endif">{{ $review->rating }}</span>
                         </div>
                         <p class="reviews__text">{{ $review->body }}</p>
-                        @if(auth()->user()->id == $review->user_id)
+                        @if(auth()->id() == $review->user_id)
                             <div class="comments__actions">
                                 <form action="{{ route('frontend.reviews.destroy', $review->id) }}" method="post">
                                     @csrf
@@ -74,7 +74,6 @@
 
         <form action="{{ route('frontend.reviews.store') }}" class="form" method="POST">
             @csrf
-            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}" required>
             <input type="hidden" name="video_id" value="{{ $video->id }}" required>
             <input type="text" name="title" class="form__input" placeholder="Title" required>
             <textarea name="body" class="form__textarea" placeholder="Review" style="margin-bottom: 8px;"

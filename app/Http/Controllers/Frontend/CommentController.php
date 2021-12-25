@@ -40,50 +40,37 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'user_id' => 'required',
+        $validated = $request->validate([
             'video_id' => 'required',
-            'comment_text' => 'required|max:255'
-        ];
+            'comment_text' => 'required|max:255',
+            'comment_id' => 'sometimes',
+            'replied_to_id' => 'sometimes',
+        ]);
 
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $parent_id = $request->input('comment_id');
-        $user_id = $request->input('user_id');
-        $video_id = $request->input('video_id');
-        $replied_to_id = $request->input('replied_to_id');
-
-        $data = [
-            'user_id' => $request->input('user_id'),
-            'video_id' => $video_id,
-            'comment_text' => $request->input('comment_text'),
-            'parent_id' => $parent_id,
-            'replied_to_id' => $replied_to_id
-        ];
+        $parentId = $request->comment_id;
+        $userId = auth()->id();
+        $videoId = $request->video_id;
+        $repliedToId = $request->replied_to_id;
 
         try {
-            $comment = Comment::create($data);
+            $comment = auth()->user()->comments()->create($validated);
 
-            if (!empty($parent_id && $replied_to_id)) {
-                $user = Comment::findOrFail($replied_to_id)->user_id;
+            if (!empty($parentId && $repliedToId)) {
+                $user = Comment::findOrFail($repliedToId)->user_id;
                 $toUser = User::findOrFail($user);
-                $fromUser = User::findOrFail($user_id);
-                $video = Video::findOrFail($video_id);
+                $fromUser = User::findOrFail($userId);
+                $video = Video::findOrFail($videoId);
                 $toUser->notify(new SomeoneReplied($fromUser, $comment, $video));
                 $toUser->commentPushNotification($fromUser, $comment, $video);
             }
 
             session()->flash('message', 'Comment added.');
             session()->flash('type', 'success');
-            return redirect()->back();
+            return back();
         } catch (\Exception $exception) {
             session()->flash('message', $exception->getMessage());
             session()->flash('type', 'danger');
-            return redirect()->back();
+            return back();
         }
     }
 

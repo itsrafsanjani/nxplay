@@ -21,8 +21,6 @@
         @endif
         <form action="{{ route('frontend.comments.store') }}" class="form" method="post" id="commentForm" style="margin-bottom: 20px;">
             @csrf
-            <input type="hidden" name="user_id" id="userId"
-                   value="{{ auth()->user()->id }}">
             <input type="hidden" name="video_id" id="videoId" value="{{ $video->id }}">
             <input type="hidden" name="comment_id" id="commentId">
             <input type="hidden" name="replied_to_id" id="repliedToId">
@@ -47,7 +45,7 @@
                             <!-- Comment Like / Dislike Form-->
                             <form action="{{ route('frontend.comments.like_or_dislike', $comment) }}" method="post" id="commentLikeForm{{ $comment->id }}" style="display: inline-flex">
                                 @csrf
-                                <input type="hidden" name="status" id="commentLikeBtn{{ $comment->id }}" value="{{ auth()->user()->id }}">
+                                <input type="hidden" name="status" id="commentLikeBtn{{ $comment->id }}" value="{{ auth()->id() }}">
                                 <!-- Comment Like Button -->
                                 <button type="button"
                                         onclick="document.getElementById('commentLikeBtn{{ $comment->id }}').value='1';
@@ -76,7 +74,7 @@
                             <i class="icon ion-ios-share-alt"></i>
                             Reply
                         </button>
-                        @if(auth()->user()->id == $comment->user_id)
+                        @if(auth()->id() == $comment->user_id)
                             <form action="{{ route('frontend.comments.destroy', $comment->id) }}" method="post">
                                 @csrf
                                 @method('DELETE')

@@ -11,7 +11,7 @@
             <!-- Reply Like / Dislike Form -->
             <form action="{{ route('frontend.comments.like_or_dislike', $reply) }}" method="post" id="commentLikeForm{{ $reply->id }}" style="display: inline-flex">
                 @csrf
-                <input type="hidden" name="status" id="commentLikeBtn{{ $reply->id }}" value="{{ auth()->user()->id }}">
+                <input type="hidden" name="status" id="commentLikeBtn{{ $reply->id }}" value="{{ auth()->id() }}">
                 <!-- Reply Like Button -->
                 <button type="button"
                         onclick="document.getElementById('commentLikeBtn{{ $reply->id }}').value='1';
@@ -38,7 +38,7 @@
             <i class="icon ion-ios-share-alt"></i>
             Reply
         </button>
-        @if(auth()->user()->id == $reply->user_id)
+        @if(auth()->id() == $reply->user_id)
             <form action="{{ route('frontend.comments.destroy', $reply->id) }}" method="post">
                 @csrf
                 @method('DELETE')
