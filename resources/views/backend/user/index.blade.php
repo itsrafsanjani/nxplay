@@ -99,8 +99,9 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="main__table-text" title="{{ $user->last_login_at }}">
-                                    {{ $user->last_login_at->diffForHumans() }}
+                                <div class="main__table-text @if(!$user->last_login_at) main__table-text--red @endif"
+                                     title="{{ $user->last_login_at }}">
+                                    {{ $user->last_login_at ? $user->last_login_at->diffForHumans() : 'Never' }}
                                 </div>
                             </td>
                             <td>
