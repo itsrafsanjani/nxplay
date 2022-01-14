@@ -24,27 +24,27 @@ class DatabaseSeeder extends Seeder
             'name' => 'Md Rafsan Jani Rafin',
             'email' => 'mdrafsanjanirafin@gmail.com',
             'email_verified_at' => now(),
-            'password' => bcrypt(11111111), // password
+            'password' => bcrypt('password'), // password
             'remember_token' => Str::random(10),
-            'avatar' => 'https://www.gravatar.com/avatar/' . md5(strtolower(trim('mdrafsanjanirafin@gmail.com'))),
+            'avatar' => 'https://www.gravatar.com/avatar/' . md5('mdrafsanjanirafin@gmail.com'),
             'role' => 1
         ]);
         User::create([
             'name' => 'Md Imam Hossain',
             'email' => 'imamagun94@gmail.com',
             'email_verified_at' => now(),
-            'password' => bcrypt(11111111), // password
+            'password' => bcrypt('password'), // password
             'remember_token' => Str::random(10),
-            'avatar' => 'https://www.gravatar.com/avatar/' . md5(strtolower(trim('imamagun94@gmail.com'))),
+            'avatar' => 'https://www.gravatar.com/avatar/' . md5('imamagun94@gmail.com'),
             'role' => 1
         ]);
         User::create([
             'name' => 'Radoanul Haider',
             'email' => 'radoan@gmail.com',
             'email_verified_at' => now(),
-            'password' => bcrypt(11111111), // password
+            'password' => bcrypt('password'), // password
             'remember_token' => Str::random(10),
-            'avatar' => 'https://www.gravatar.com/avatar/' . md5(strtolower(trim('radoan@gmail.com'))),
+            'avatar' => 'https://www.gravatar.com/avatar/' . md5('radoan@gmail.com'),
             'role' => 1
         ]);
 
