@@ -9,7 +9,10 @@
     "license": "MIT",
     "require": {
         "php": "^7.4|^8.0",
+        "ext-gd": "^7.3",
         "ext-json": "*",
+        "ext-pdo": "*",
+        "fakerphp/faker": "^1.9.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -20,15 +23,13 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.1",
         "pusher/pusher-php-server": "~4.0",
-        "tymon/jwt-auth": "^1.0.2",
-        "ext-pdo": "*"
+        "tymon/jwt-auth": "^1.0.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
         "barryvdh/laravel-ide-helper": "^2.9",
         "beyondcode/laravel-query-detector": "^1.5",
         "facade/ignition": "^2.5",
-        "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
