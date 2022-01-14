@@ -3,6 +3,13 @@
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
+/**
+ * Overriding Laravel's default helper functions.
+ */
+function route($name, $parameters = [], $absolute = false) {
+    return app('url')->route($name, $parameters, $absolute);
+}
+
 define('LARAVEL_START', microtime(true));
 
 /*
