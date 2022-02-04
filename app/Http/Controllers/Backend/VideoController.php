@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ConvertForStreaming;
 use App\Models\User;
 use App\Models\Video;
 use App\Notifications\NewVideoReleased;
@@ -103,6 +104,11 @@ class VideoController extends Controller
 
         try {
             $video = Video::create($data);
+
+            /**
+             * Convert For Streaming
+             */
+            $this->dispatch(new ConvertForStreaming($video));
 
             /**
              * New Video Released Mail to All User
