@@ -90,19 +90,22 @@
 
                 <!-- player -->
                 <div class="col-12 col-lg-6">
-                    <video controls crossorigin playsinline
+                    {{--<video controls crossorigin playsinline
                            poster="https://imdb-api.com/posters/w300/{{ $video->poster }}" id="player">
                         <!-- Video files -->
-                        {{-- <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4" size="576">--}}
-                        {{-- <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" size="720">--}}
+                        --}}{{-- <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4" size="576">--}}{{--
+                        --}}{{-- <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" size="720">--}}{{--
 
-                        {{--
+                        --}}{{--
                             If 'http' found in the url string at postion 0 it will load that directly. Else it will add 'storage/videos/' before the url.
-                        --}}
+                        --}}{{--
+
+                        --}}{{--<source
+                            src="@if(strpos($video->video, 'http') == 0) {{ $video->video }} @else {{ asset('storage/videos/'.$video->video) }} @endif"
+                            type="video/mp4" size="1080">--}}{{--
 
                         <source
-                            src="@if(strpos($video->video, 'http') == 0) {{ $video->video }} @else {{ asset('storage/videos/'.$video->video) }} @endif"
-                            type="video/mp4" size="1080">
+                            src="{{ asset('videos/'.$video->id . '/' . $video->id . '.m3u8') }}" type="application/x-mpegURL">
                         <!-- Caption files -->
                         <track kind="captions" label="English" srclang="en"
                                src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
@@ -111,7 +114,10 @@
                                src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
                         <!-- Fallback for browsers that don't support the <video> element -->
                         <a href="{{ asset($video->video) }}" download>Download</a>
-                    </video>
+                    </video>--}}
+                    <video-js id="video" class="video-js" controls preload="auto">
+                        <source src="{{ asset('storage/videos/'.$video->id . '/' . $video->id . '.m3u8') }}" type="application/x-mpegURL">
+                    </video-js>
                 </div>
                 <!-- end player -->
             </div>
@@ -119,10 +125,20 @@
         <!-- end details content -->
     </section>
     <!-- end details -->
-    @include('frontend.video.discover')
+    {{--@include('frontend.video.discover')--}}
+@endsection
+
+@section('styles')
+    <link href="https://vjs.zencdn.net/7.4.1/video-js.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/tube.css') }}">
 @endsection
 
 @push('javascripts')
+    <script src='https://vjs.zencdn.net/7.5.4/video.js'></script>
+    <script>
+        videojs('video')
+    </script>
+
     <script>
 
         $.ajaxSetup({
