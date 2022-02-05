@@ -51,56 +51,58 @@ class VideoController extends Controller
             'status' => 'required',
         ]);
 
-        $response = Http::get('http://www.omdbapi.com/?apikey=' . config('services.omdb.secret') . '&i=' . $request->imdb_id);
+//        $response = Http::get('//www.omdbapi.com/?apikey=' . config('services.omdb.secret') . '&i=' . $request->imdb_id);
+//
+//        $poster = Http::get('//imdb-api.com/en/API/Posters/' . config('services.imdb.secret') . '/' . $request->imdb_id);
+//
+//        $photo = Http::get('//imdb-api.com/en/API/Images/' . config('services.imdb.secret') . '/' . $request->imdb_id . '/Short');
 
-        $poster = Http::get('https://imdb-api.com/en/API/Posters/' . config('services.imdb.secret') . '/' . $request->imdb_id);
 
-        $photo = Http::get('https://imdb-api.com/en/API/Images/' . config('services.imdb.secret') . '/' . $request->imdb_id . '/Short');
+//        if ($response) {
+//            $videoInfo = json_decode($response->body());
+//
+//            $posters = json_decode($poster->body());
+//
+//            $firstPoster = $posters->posters[0]->id;
+//
+//            $photos = json_decode($photo->body());
+//
+//            $allPhotos = [];
+//
+//            foreach ($photos->items as $photo) {
+//                $allPhotos[] = str_replace('//imdb-api.com/images/original/', '', $photo->image);
+//            }
+//
+//
+//        }
 
+        $video = $request->file('video');
+        $videoFile = $video->getClientOriginalName();
+        $videoFileName = pathinfo($videoFile, PATHINFO_FILENAME);
+        $extension = pathinfo($videoFile, PATHINFO_EXTENSION);
+        $videoName = Str::slug($videoFileName) . '-' . Str::orderedUuid() . '.' . $extension;
+        $video->storeAs('videos', $videoName);
 
-        if ($response) {
-            $videoInfo = json_decode($response->body());
-
-            $posters = json_decode($poster->body());
-
-            $firstPoster = $posters->posters[0]->id;
-
-            $photos = json_decode($photo->body());
-
-            $allPhotos = [];
-
-            foreach ($photos->items as $photo) {
-                $allPhotos[] = str_replace('https://imdb-api.com/images/original/', '', $photo->image);
-            }
-
-            $video = $request->file('video');
-            $videoFile = $video->getClientOriginalName();
-            $videoFileName = pathinfo($videoFile, PATHINFO_FILENAME);
-            $extension = pathinfo($videoFile, PATHINFO_EXTENSION);
-            $videoName = Str::slug($videoFileName) . '-' . Str::orderedUuid() . '.' . $extension;
-            $video->storeAs('videos', $videoName);
-
-            $data = [
-                'user_id' => $request->input('user_id'),
-                'title' => $videoInfo->Title,
-                'description' => $videoInfo->Plot,
-                'runtime' => $videoInfo->Runtime,
-                'year' => $videoInfo->Year,
-                'imdb_id' => $request->input('imdb_id'),
-                'imdb_rating' => $videoInfo->imdbRating,
-                'genres' => json_encode(explode(',', $videoInfo->Genre)),
-                'country' => json_encode(explode(',', $videoInfo->Country)),
-                'directors' => json_encode(explode(',', $videoInfo->Director)),
-                'actors' => json_encode(explode(',', $videoInfo->Actors)),
-                'box_office' => $videoInfo->BoxOffice ?? null,
-                'poster' => $firstPoster,
-                'type' => $videoInfo->Type,
-                'video' => '/storage/videos/' . $videoName,
-                'photos' => json_encode($allPhotos),
-                'age_rating' => $videoInfo->Rated,
-                'status' => $request->input('status'),
-            ];
-        }
+        $data = [
+            'user_id' => $request->input('user_id'),
+            'title' => Str::random(),
+            'description' => 'Plot',
+            'runtime' => 'Runtime',
+            'year' => 'Year',
+            'imdb_id' => $request->input('imdb_id'),
+            'imdb_rating' => 8.5,
+            'genres' => json_encode(explode(',', 'Genre')),
+            'country' => json_encode(explode(',', 'Country')),
+            'directors' => json_encode(explode(',', 'Director')),
+            'actors' => json_encode(explode(',', 'Actors')),
+            'box_office' => 5000 ?? null,
+            'poster' => 'FirstPoster',
+            'type' => 'Movie',
+            'video' => 'videos/' . $videoName,
+            'photos' => json_encode('AllPhotos'),
+            'age_rating' => 'Rated',
+            'status' => $request->input('status'),
+        ];
 
         try {
             $video = Video::create($data);
@@ -110,18 +112,18 @@ class VideoController extends Controller
              */
             $this->dispatch(new ConvertForStreaming($video));
 
-            /**
-             * New Video Released Mail to All User
-             */
-            $users = User::all();
-            Notification::send($users, new NewVideoReleased($video));
-
-            /**
-             * FCM Push Notification using Firebase
-             * For mobile users
-             */
-            $user = User::findOrFail($video->user_id);
-            $user->topicPushNotification('nxPlay', 'New ' . $video->type . ' "' . $video->title . '" released', 'Watch it here now!', $video->id, 'https://image.tmdb.org/t/p/w45/' . $video->poster);
+//            /**
+//             * New Video Released Mail to All User
+//             */
+//            $users = User::all();
+//            Notification::send($users, new NewVideoReleased($video));
+//
+//            /**
+//             * FCM Push Notification using Firebase
+//             * For mobile users
+//             */
+//            $user = User::findOrFail($video->user_id);
+//            $user->topicPushNotification('nxPlay', 'New ' . $video->type . ' "' . $video->title . '" released', 'Watch it here now!', $video->id, 'https://image.tmdb.org/t/p/w45/' . $video->poster);*/
 
             session()->flash('message', 'New ' . $video->type . ' ' . $video->title . ' uploaded successfully!');
             session()->flash('type', 'success');
