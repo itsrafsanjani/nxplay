@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5118f2ef3685eb14356b26ee04f54674",
+    "content-hash": "8f26574b0e9a6b1bee1d13df5ec1f82f",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -187,6 +187,64 @@
                 }
             ],
             "time": "2021-08-15T20:50:18+00:00"
+        },
+        {
+            "name": "cloudinary/cloudinary_php",
+            "version": "1.20.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cloudinary/cloudinary_php.git",
+                "reference": "94516fe6d0a43645e964b38d78d5f4555dbd192d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cloudinary/cloudinary_php/zipball/94516fe6d0a43645e964b38d78d5f4555dbd192d",
+                "reference": "94516fe6d0a43645e964b38d78d5f4555dbd192d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "ext-zip": "*",
+                "phpunit/phpunit": "4.8.*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Helpers.php"
+                ],
+                "classmap": [
+                    "src"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cloudinary",
+                    "homepage": "https://github.com/cloudinary/cloudinary_php/graphs/contributors"
+                }
+            ],
+            "description": "Cloudinary PHP SDK",
+            "homepage": "https://github.com/cloudinary/cloudinary_php",
+            "keywords": [
+                "cdn",
+                "cloud",
+                "cloudinary",
+                "image management",
+                "sdk"
+            ],
+            "support": {
+                "email": "info@cloudinary.com",
+                "issues": "https://github.com/cloudinary/cloudinary_php/issues",
+                "source": "https://github.com/cloudinary/cloudinary_php/tree/1.20.1"
+            },
+            "time": "2022-02-01T08:35:49+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -7066,6 +7124,71 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.10.0"
             },
             "time": "2021-03-09T10:59:23+00:00"
+        },
+        {
+            "name": "yoelpc4/laravel-cloudinary",
+            "version": "v2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yoelpc4/laravel-cloudinary.git",
+                "reference": "4e22574c9f062c703fccf18b5efb0caee270cfb2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yoelpc4/laravel-cloudinary/zipball/4e22574c9f062c703fccf18b5efb0caee270cfb2",
+                "reference": "4e22574c9f062c703fccf18b5efb0caee270cfb2",
+                "shasum": ""
+            },
+            "require": {
+                "cloudinary/cloudinary_php": "^1.18.0",
+                "illuminate/contracts": "8.*|7.*|6.*",
+                "illuminate/filesystem": "8.*|7.*|6.*",
+                "illuminate/http": "8.*|7.*|6.*",
+                "illuminate/support": "8.*|7.*|6.*",
+                "league/flysystem": "^1.1.5",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "6.*|5.*|4.*",
+                "phpunit/phpunit": "9.*|8.4.*|8.3.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Yoelpc4\\LaravelCloudinary\\CloudinaryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Yoelpc4\\LaravelCloudinary\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yoel Peter Chandra",
+                    "email": "yoelpc4@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Cloudinary filesystem cloud driver.",
+            "homepage": "https://github.com/yoelpc4/laravel-cloudinary",
+            "keywords": [
+                "cloud",
+                "cloudinary",
+                "filesystem",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/yoelpc4/laravel-cloudinary/issues",
+                "source": "https://github.com/yoelpc4/laravel-cloudinary/tree/v2.1.1"
+            },
+            "time": "2021-10-24T17:44:43+00:00"
         }
     ],
     "packages-dev": [
