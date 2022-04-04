@@ -22,8 +22,10 @@
         "laravel/socialite": "^5.1",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.1",
+        "pbmedia/laravel-ffmpeg": "^7.7",
         "pusher/pusher-php-server": "~4.0",
-        "tymon/jwt-auth": "^1.0.2"
+        "tymon/jwt-auth": "^1.0.2",
+        "yoelpc4/laravel-cloudinary": "^2.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
@@ -33,6 +35,7 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
+        "orangehill/iseed": "^3.0",
         "phpunit/phpunit": "^9.3.3"
     },
     "config": {
