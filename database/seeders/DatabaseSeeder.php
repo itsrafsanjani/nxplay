@@ -48,8 +48,9 @@ class DatabaseSeeder extends Seeder
             'role' => 1
         ]);
 
-//        User::factory(10)->create();
-        Video::factory(10)->create();
+        // User::factory(10)->create();
+        // Video::factory(10)->create();
+        $this->call(GeneratedVideosTableSeeder::class);
         Review::factory(10)->create();
         Comment::factory(10)->create();
         VideoLike::factory(10)->create();
