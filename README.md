@@ -13,42 +13,36 @@ NXPlay is an open source streaming entertainment service created with Laravel.
 -   Clone the repo.
 
 ```shell
-    cd nxplay
+cd nxplay
 
-    composer install
+composer install
 
-    cp .env.example .env
+cp .env.example .env
 
-    php artisan key:generate
+php artisan key:generate
 
-    php artisan jwt:secret
+php artisan jwt:secret
 
-    php artisan storage:link
+php artisan storage:link
 ```
 
 -   Edit `.env` file with your `database`, `Pusher` and other credentials.
 -   check `.env.example` file for details.
 
 ```shell
-    php artisan migrate --seed
+php artisan migrate --seed
 ```
 
--   If you are using `npm`
+-   Install and build
 
 ```shell
-    npm install && npm run dev
-```
-
--   Or if you are using `yarn`
-
-```shell
-    yarn install && yarn run dev
+npm install && npm run production
 ```
 
 -   Run the application
 
 ```shell
-    php artisan serve
+php artisan serve
 ```
 
 -   Check [http://localhost:8000/](http://localhost:8000/)
@@ -56,9 +50,9 @@ NXPlay is an open source streaming entertainment service created with Laravel.
 -   Also run these commands in seperate console tab for queues, and schedules to work:
 
 ```shell
-    php artisan schedule:work
+php artisan schedule:work
 
-    php artisan queue:work
+php artisan queue:work
 ```
 
 ## 📷 Screenshots

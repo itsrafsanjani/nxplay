@@ -8,8 +8,8 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.4|^8.0",
-        "ext-gd": "^7.3",
+        "php": "^8.0",
+        "ext-gd": "*",
         "ext-json": "*",
         "ext-pdo": "*",
         "fakerphp/faker": "^1.9.1",
@@ -41,7 +41,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "8.0"
+        }
     },
     "extra": {
         "laravel": {
