@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Video;
 use App\Notifications\NewVideoReleased;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
@@ -45,36 +46,18 @@ class VideoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required',
-            'imdb_id' => 'required|unique:videos',
+            'tmdb_id' => 'required|integer',
             'video' => 'required|mimes:mp4|max:102400', // Max 100 MB File
             'status' => 'required',
         ]);
 
-//        $response = Http::get('//www.omdbapi.com/?apikey=' . config('services.omdb.secret') . '&i=' . $request->imdb_id);
-//
-//        $poster = Http::get('//imdb-api.com/en/API/Posters/' . config('services.imdb.secret') . '/' . $request->imdb_id);
-//
-//        $photo = Http::get('//imdb-api.com/en/API/Images/' . config('services.imdb.secret') . '/' . $request->imdb_id . '/Short');
+        $movie = Http::withToken(config('services.tmdb.token'))
+            ->get('//api.themoviedb.org/3/movie/'.$request->tmdb_id.'?append_to_response=credits')
+            ->json();
 
-
-//        if ($response) {
-//            $videoInfo = json_decode($response->body());
-//
-//            $posters = json_decode($poster->body());
-//
-//            $firstPoster = $posters->posters[0]->id;
-//
-//            $photos = json_decode($photo->body());
-//
-//            $allPhotos = [];
-//
-//            foreach ($photos->items as $photo) {
-//                $allPhotos[] = str_replace('//imdb-api.com/images/original/', '', $photo->image);
-//            }
-//
-//
-//        }
+        $images = Http::withToken(config('services.tmdb.token'))
+            ->get('//api.themoviedb.org/3/movie/'.$request->tmdb_id.'/images')
+            ->json();
 
         $video = $request->file('video');
         $videoFile = $video->getClientOriginalName();
@@ -84,23 +67,23 @@ class VideoController extends Controller
         $video->storeAs('videos', $videoName);
 
         $data = [
-            'user_id' => $request->input('user_id'),
-            'title' => Str::random(),
-            'description' => 'Plot',
-            'runtime' => 'Runtime',
-            'year' => 'Year',
-            'imdb_id' => $request->input('imdb_id'),
-            'imdb_rating' => 8.5,
-            'genres' => json_encode(explode(',', 'Genre')),
-            'country' => json_encode(explode(',', 'Country')),
-            'directors' => json_encode(explode(',', 'Director')),
-            'actors' => json_encode(explode(',', 'Actors')),
-            'box_office' => 5000 ?? null,
-            'poster' => 'FirstPoster',
+            'user_id' => auth()->id(),
+            'title' => $movie['title'],
+            'description' => $movie['overview'],
+            'runtime' => $movie['runtime'],
+            'year' => Carbon::parse($movie['release_date'])->format('Y'),
+            'imdb_id' => $movie['imdb_id'],
+            'imdb_rating' => $movie['vote_average'],
+            'genres' => json_encode(collect($movie['genres'])->pluck('name')->take(5)->toArray()),
+            'country' => json_encode(collect($movie['production_countries'])->pluck('name')->take(5)->toArray()),
+            'directors' => json_encode(collect($movie['credits']['crew'])->pluck('name')->take(3)->toArray()),
+            'actors' => json_encode(collect($movie['credits']['cast'])->pluck('name')->take(5)->toArray()),
+            'box_office' => $movie['revenue'] ?? null,
+            'poster' => $movie['poster_path'],
             'type' => 'Movie',
             'video' => 'videos/' . $videoName,
-            'photos' => json_encode('AllPhotos'),
-            'age_rating' => 'Rated',
+            'photos' => json_encode(collect($images['backdrops'])->pluck('file_path')->toArray()),
+            'age_rating' => $movie['adult'] ? 'Rated' : 'Not Rated',
             'status' => $request->input('status'),
         ];
 

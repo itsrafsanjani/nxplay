@@ -64,4 +64,8 @@ return [
     'fcm' => [
         'server_key' => env('FCM_SERVER_KEY')
     ],
+
+    'tmdb' => [
+        'token' => env('TMDB_API_TOKEN'),
+    ],
 ];

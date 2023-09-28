@@ -42,10 +42,8 @@
                     <div class="row">
                         <div class="col-12 col-md-7 form__content">
                             <div class="row">
-                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-
                                 <div class="col-12 col-sm-6">
-                                    <input type="text" name="imdb_id" class="form__input" placeholder="IMDb Id" value="{{ old('imdb_id') }}">
+                                    <input type="text" name="tmdb_id" class="form__input" placeholder="TMDb Id" value="{{ old('tmdb_id') }}">
                                 </div>
                             </div>
                         </div>

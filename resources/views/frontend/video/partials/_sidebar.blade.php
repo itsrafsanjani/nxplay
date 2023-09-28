@@ -11,7 +11,7 @@
             <div class="col-6 col-sm-4 col-lg-6">
                 <div class="card">
                     <div class="card__cover">
-                        <img src="https://imdb-api.com/posters/w300/{{ $similarVideo->poster }}" alt="{{ $similarVideo->title }}">
+                        <img src="{{ $similarVideo->poster_url }}" alt="{{ $similarVideo->title }}">
                         <a href="{{ route('frontend.videos.show', $similarVideo->slug) }}" class="card__play">
                             <i class="icon ion-ios-play"></i>
                         </a>

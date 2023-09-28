@@ -34,7 +34,7 @@
                     <div class="col-6 col-sm-4 col-md-3 col-xl-2">
                         <div class="card">
                             <div class="card__cover">
-                                <img src="https://imdb-api.com/posters/w300/{{ $result->poster }}"
+                                <img src="{{ $result->poster_url }}"
                                      alt="{{ $result->title }}"/>
                                 <a href="{{ route('frontend.videos.show', $result->slug) }}" class="card__play">
                                     <i class="icon ion-ios-play"></i>

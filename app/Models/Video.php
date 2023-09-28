@@ -13,6 +13,11 @@ class Video extends Model
 {
     use HasFactory;
 
+    protected $appends = [
+        'poster_url',
+        'photo_urls',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -118,4 +123,26 @@ class Video extends Model
         'updated' => VideoUpdated::class,
         'deleted' => VideoDeleted::class,
     ];
+
+    public function getPosterUrlAttribute()
+    {
+        return '//image.tmdb.org/t/p/w500' . $this->poster;
+    }
+
+    public function getPhotoUrlsAttribute()
+    {
+        if (!$this->photos) {
+            return [];
+        }
+
+        $photos = json_decode($this->photos);
+
+        $photoUrls = [];
+
+        foreach ($photos as $photo) {
+            $photoUrls[] = '//image.tmdb.org/t/p/w500' . $photo;
+        }
+
+        return $photoUrls;
+    }
 }

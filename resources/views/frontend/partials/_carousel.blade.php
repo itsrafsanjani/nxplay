@@ -29,7 +29,7 @@
                     <!-- card -->
                     <div class="card card--big">
                         <div class="card__cover">
-                            <img src="https://imdb-api.com/posters/w300/{{ $newVideo->poster }}" alt="{{ $newVideo->title }}"/>
+                            <img src="{{ $newVideo->poster_url }}" alt="{{ $newVideo->title }}"/>
                             <a href="{{ route('frontend.videos.show', $newVideo->slug) }}" class="card__play">
                                 <i class="icon ion-ios-play"></i>
                             </a>
