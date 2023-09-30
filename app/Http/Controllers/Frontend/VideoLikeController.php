@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Video;
 use App\Models\VideoLike;
 use Illuminate\Http\Request;
+use Mockery\Exception;
 
 class VideoLikeController extends Controller
 {
@@ -29,8 +30,8 @@ class VideoLikeController extends Controller
                 'video_id' => $video->id
             ])->first();
 
-            if ($likeIdCheck == null) {
-                VideoLike::create([
+            if (empty($likeIdCheck)) {
+                $likeIdCheck = VideoLike::create([
                     'user_id' => auth()->id(),
                     'video_id' => $video->id,
                     'status' => $status
@@ -58,7 +59,7 @@ class VideoLikeController extends Controller
 
             return response()->json($statusUpdate);
         } catch (\Exception $exception) {
-            return response()->json($exception->getMessage(), 500);
+            throw new Exception($exception);
         }
     }
 }

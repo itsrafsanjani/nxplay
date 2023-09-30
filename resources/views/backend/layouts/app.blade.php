@@ -35,6 +35,7 @@
     <link href="{{ mix('css/admin.css') }}" rel="stylesheet">
     <link href="https://unpkg.com/ionicons@4.3.0/dist/css/ionicons.min.css" rel="stylesheet">
     @yield('styles')
+    @stack('styles')
 </head>
 <body>
 @include('backend.partials._header')

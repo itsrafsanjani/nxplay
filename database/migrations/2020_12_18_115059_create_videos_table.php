@@ -23,6 +23,7 @@ class CreateVideosTable extends Migration
             $table->string('runtime', 10);
             $table->string('year', 10);
             $table->string('imdb_id',9)->unique();
+            $table->integer('tmdb_id')->unique();
             $table->decimal('imdb_rating', 3,1);
             $table->string('genres');
             $table->string('country');

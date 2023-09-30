@@ -9,9 +9,15 @@ use App\Models\Video;
 use App\Notifications\NewVideoReleased;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Pion\Laravel\ChunkUpload\Exceptions\UploadFailedException;
+use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
+use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 
 class VideoController extends Controller
 {
@@ -44,52 +50,62 @@ class VideoController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function store(Request $request)
     {
         $request->validate([
-            'tmdb_id' => 'required|integer',
-            'video' => 'required|mimes:mp4|max:102400', // Max 100 MB File
+            'tmdb_id' => 'required|integer|unique:videos',
+            'video' => 'required',
             'status' => 'required',
         ]);
 
-        $movie = Http::withToken(config('services.tmdb.token'))
-            ->get('//api.themoviedb.org/3/movie/'.$request->tmdb_id.'?append_to_response=credits')
-            ->json();
+        $video = $request->get('video');
 
-        $images = Http::withToken(config('services.tmdb.token'))
-            ->get('//api.themoviedb.org/3/movie/'.$request->tmdb_id.'/images')
-            ->json();
-
-        $video = $request->file('video');
-        $videoFile = $video->getClientOriginalName();
-        $videoFileName = pathinfo($videoFile, PATHINFO_FILENAME);
-        $extension = pathinfo($videoFile, PATHINFO_EXTENSION);
-        $videoName = Str::slug($videoFileName) . '-' . Str::orderedUuid() . '.' . $extension;
-        $video->storeAs('videos', $videoName);
-
-        $data = [
-            'user_id' => auth()->id(),
-            'title' => $movie['title'],
-            'description' => $movie['overview'],
-            'runtime' => $movie['runtime'],
-            'year' => Carbon::parse($movie['release_date'])->format('Y'),
-            'imdb_id' => $movie['imdb_id'],
-            'imdb_rating' => $movie['vote_average'],
-            'genres' => json_encode(collect($movie['genres'])->pluck('name')->take(5)->toArray()),
-            'country' => json_encode(collect($movie['production_countries'])->pluck('name')->take(5)->toArray()),
-            'directors' => json_encode(collect($movie['credits']['crew'])->pluck('name')->take(3)->toArray()),
-            'actors' => json_encode(collect($movie['credits']['cast'])->pluck('name')->take(5)->toArray()),
-            'box_office' => $movie['revenue'] ?? null,
-            'poster' => $movie['poster_path'],
-            'type' => 'Movie',
-            'video' => 'videos/' . $videoName,
-            'photos' => json_encode(collect($images['backdrops'])->pluck('file_path')->toArray()),
-            'age_rating' => $movie['adult'] ? 'Rated' : 'Not Rated',
-            'status' => $request->input('status'),
-        ];
+        if (!File::exists(Storage::path($video))) {
+            throw new \Exception('File does not exists!');
+        }
 
         try {
+            $movie = Http::withToken(config('services.tmdb.token'))
+                ->get('//api.themoviedb.org/3/movie/' . $request->tmdb_id . '?append_to_response=credits')
+                ->throw()
+                ->json();
+
+            $images = Http::withToken(config('services.tmdb.token'))
+                ->get('//api.themoviedb.org/3/movie/' . $request->tmdb_id . '/images')
+                ->throw()
+                ->json();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return back()->withErrors([
+                'video' => 'The provided TMDB ID is invalid.'
+            ]);
+        }
+
+        try {
+            $data = [
+                'user_id' => auth()->id(),
+                'title' => $movie['title'],
+                'description' => $movie['overview'],
+                'runtime' => $movie['runtime'],
+                'year' => Carbon::parse($movie['release_date'])->format('Y'),
+                'imdb_id' => $movie['imdb_id'],
+                'tmdb_id' => $request->input('tmdb_id'),
+                'imdb_rating' => $movie['vote_average'],
+                'genres' => json_encode(collect($movie['genres'])->pluck('name')->take(5)->toArray()),
+                'country' => json_encode(collect($movie['production_countries'])->pluck('name')->take(5)->toArray()),
+                'directors' => json_encode(collect($movie['credits']['crew'])->pluck('name')->take(3)->toArray()),
+                'actors' => json_encode(collect($movie['credits']['cast'])->pluck('name')->take(5)->toArray()),
+                'box_office' => $movie['revenue'] ?? null,
+                'poster' => $movie['poster_path'],
+                'type' => 'Movie',
+                'video' => $video,
+                'photos' => json_encode(collect($images['backdrops'])->pluck('file_path')->toArray()),
+                'age_rating' => $movie['adult'] ? 'Rated' : 'Not Rated',
+                'status' => $request->input('status'),
+            ];
+
             $video = Video::create($data);
 
             /**
@@ -116,7 +132,9 @@ class VideoController extends Controller
         } catch (\Exception $e) {
             session()->flash('message', $e->getMessage());
             session()->flash('type', 'danger');
-            return redirect()->back();
+            return back()->withErrors([
+                'video' => $request->input('video'),
+            ]);
         }
     }
 
@@ -194,5 +212,39 @@ class VideoController extends Controller
         session()->flash('message', 'Video deleted');
         session()->flash('type', 'success');
         return redirect()->back();
+    }
+
+    /**
+     * @throws UploadFailedException
+     */
+    public function uploadLargeFiles(Request $request)
+    {
+        $receiver = new FileReceiver('file', $request, HandlerFactory::classFromRequest($request));
+
+        if (!$receiver->isUploaded()) {
+            // file not uploaded
+        }
+
+        $fileReceived = $receiver->receive(); // receive file
+        if ($fileReceived->isFinished()) { // file uploading is complete / all chunks are uploaded
+            $file = $fileReceived->getFile(); // get file
+            $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension(); // a unique file name
+
+            $path = Storage::disk('local')->putFileAs('videos', $file, $fileName);
+
+            // delete chunked file
+            unlink($file->getPathname());
+            return [
+                'path' => $path,
+                // 'url' => Storage::url($path),
+            ];
+        }
+
+        // otherwise return percentage information
+        $handler = $fileReceived->handler();
+        return [
+            'done' => $handler->getPercentageDone(),
+            'status' => true
+        ];
     }
 }

@@ -31,6 +31,7 @@ class Video extends Model
         'runtime',
         'year',
         'imdb_id',
+        'tmdb_id',
         'imdb_rating',
         'genres',
         'country',

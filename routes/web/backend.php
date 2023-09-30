@@ -17,4 +17,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified', 'role']]
     Route::resource('/comments', CommentController::class);
 
     Route::resource('/reviews', ReviewController::class);
+
+    Route::post('file-upload/upload-large-files', [VideoController::class, 'uploadLargeFiles'])->name('files.upload.large');
 });

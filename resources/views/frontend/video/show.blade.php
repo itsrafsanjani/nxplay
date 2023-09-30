@@ -115,8 +115,9 @@
                         <!-- Fallback for browsers that don't support the <video> element -->
                         <a href="{{ asset($video->video) }}" download>Download</a>
                     </video>--}}
-                    <video-js id="video" class="video-js" controls preload="auto">
-                        <source src="{{ asset('storage/videos/'.$video->id . '/' . $video->id . '.m3u8') }}" type="application/x-mpegURL">
+                    <video-js id="video" class="video-js" controls preload="auto" width="480" height="auto">
+                        {{--<source src="{{ \Illuminate\Support\Facades\Storage::url($video->video) }}" type="video/mp4">--}}
+                        <source src="{{ asset('storage/videos/'.$video->id . '/' . $video->id . '.m3u8') }}" type="application/x-mpegURL" size="1080">
                     </video-js>
                 </div>
                 <!-- end player -->

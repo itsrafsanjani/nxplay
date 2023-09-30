@@ -23,6 +23,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.1",
         "pbmedia/laravel-ffmpeg": "^7.7",
+        "pion/laravel-chunk-upload": "^1.5",
         "pusher/pusher-php-server": "~4.0",
         "tymon/jwt-auth": "^1.0.2",
         "yoelpc4/laravel-cloudinary": "^2.1"
