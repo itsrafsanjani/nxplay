@@ -151,7 +151,7 @@
                     @else
                         <span>{{ $users->total() }} from {{ $users->total() }}</span>
                     @endif
-                    {{ $users->links('backend.bulma') }}
+                    {{ $users->links('backend.custom') }}
                 </div>
             </div>
             <!-- end paginator -->

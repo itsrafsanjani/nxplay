@@ -19,7 +19,7 @@ class CommentController extends Controller
         with('user:id,name,avatar', 'video:id,title,slug')
             ->select('id', 'user_id', 'video_id', 'comment_text', 'parent_id', 'created_at')
             ->latest()
-            ->paginate(20);
+            ->paginate();
 
         return view('backend.comment.index', $data);
 //        return $data;

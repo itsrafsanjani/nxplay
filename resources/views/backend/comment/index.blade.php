@@ -143,7 +143,7 @@
                     @else
                         <span>{{ $comments->total() }} from {{ $comments->total() }}</span>
                     @endif
-                    {{ $comments->links('backend.bulma') }}
+                    {{ $comments->links('backend.custom') }}
                 </div>
             </div>
             <!-- end paginator -->

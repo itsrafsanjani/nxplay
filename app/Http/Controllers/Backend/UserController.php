@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         $data['users'] = User::latest('id')
-            ->paginate(20);
+            ->paginate();
         return view('backend.user.index', $data);
     }
 

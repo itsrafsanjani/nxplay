@@ -148,7 +148,7 @@
                     @else
                         <span>{{ $reviews->total() }} from {{ $reviews->total() }}</span>
                     @endif
-                    {{ $reviews->links('backend.bulma') }}
+                    {{ $reviews->links('backend.custom') }}
                 </div>
             </div>
             <!-- end paginator -->

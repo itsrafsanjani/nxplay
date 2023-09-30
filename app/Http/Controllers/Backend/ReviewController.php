@@ -19,7 +19,7 @@ class ReviewController extends Controller
         with('user:id,name', 'video:id,title,slug')
             ->select('id', 'user_id', 'video_id', 'title', 'body', 'rating', 'created_at')
             ->latest()
-            ->paginate(20);
+            ->paginate();
 
         return view('backend.review.index', $data);
     }
