@@ -32,6 +32,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('queue:work --tries=3')
             ->cron('* * * * *')
             ->withoutOverlapping();
+
+        $schedule->command('telescope:prune')->daily();
     }
 
     /**

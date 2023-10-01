@@ -20,6 +20,7 @@
         "laravel/framework": "^8.40",
         "laravel/sanctum": "^2.10",
         "laravel/socialite": "^5.1",
+        "laravel/telescope": "^4.16",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.1",
         "pbmedia/laravel-ffmpeg": "^7.7",
@@ -67,6 +68,9 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
+        "post-update-cmd": [
+            "@php artisan telescope:publish --ansi"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
