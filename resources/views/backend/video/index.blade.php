@@ -61,9 +61,7 @@
                             <th>TYPE</th>
                             <th>VIEWS</th>
                             <th>STATUS</th>
-                            <th>Uploaded By</th>
                             <th>CREATED DATE</th>
-                            <th>UPDATED DATE</th>
                             <th>ACTIONS</th>
                         </tr>
                         </thead>
@@ -91,13 +89,7 @@
                                 <div class="main__table-text @if($video->status == 1) main__table-text--green"> Published @else main__table-text--red"> Unpublished @endif</div>
                             </td>
                             <td>
-                                <div class="main__table-text">{{ $video->user->name }}</div>
-                            </td>
-                            <td>
                                 <div class="main__table-text" title="{{ $video->created_at }}">{{ $video->created_at->diffForHumans() }}</div>
-                            </td>
-                            <td>
-                                <div class="main__table-text" title="{{ $video->updated_at }}">{{ $video->updated_at->diffForHumans() }}</div>
                             </td>
                             <td>
                                 <div class="main__table-btns">
