@@ -69,7 +69,7 @@
                         @else
                             <span>{{ $notifications->total() }} from {{ $notifications->total() }}</span>
                         @endif
-                        {{ $notifications->links('backend.bulma') }}
+                        {{ $notifications->links() }}
                     </div>
                 </div>
                 <!-- end paginator -->

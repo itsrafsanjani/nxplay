@@ -65,7 +65,7 @@
             @else
                 <span>{{ $videos->total() }} from {{ $videos->total() }}</span>
             @endif
-            {{ $videos->links('backend.bulma') }}
+            {{ $videos->links() }}
         </div>
     </div>
     <!-- end paginator -->
