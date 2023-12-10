@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
-use App\Events\VideoCreated;
-use App\Events\VideoDeleted;
-use App\Events\VideoUpdated;
+use App\Events\VideoCreatedEvent;
+use App\Events\VideoDeletedEvent;
+use App\Events\VideoProcessedEvent;
+use App\Events\VideoUpdatedEvent;
+use App\Jobs\ConvertForStreamingJob;
+use App\Listeners\NotifyEveryoneListener;
 use App\Listeners\VideoCacheListener;
+use App\Listeners\VideoCreatedListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,14 +26,18 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        VideoCreated::class => [
-            VideoCacheListener::class
+        VideoCreatedEvent::class => [
+            VideoCreatedListener::class,
         ],
-        VideoUpdated::class => [
-            VideoCacheListener::class
+        VideoProcessedEvent::class => [
+            NotifyEveryoneListener::class,
+            VideoCacheListener::class,
         ],
-        VideoDeleted::class => [
-            VideoCacheListener::class
+        VideoUpdatedEvent::class => [
+            VideoCacheListener::class,
+        ],
+        VideoDeletedEvent::class => [
+            VideoCacheListener::class,
         ],
     ];
 

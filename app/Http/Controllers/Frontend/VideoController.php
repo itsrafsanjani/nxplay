@@ -44,7 +44,7 @@ class VideoController extends Controller
 
 //        $videoGenres = !empty($data['video']['genres']);
 //
-//        $data['similarVideos'] = Video::where('genres', 'LIKE', '%' . $videoGenres . '%')
+//        $data['similarVideos'] = VideoRule::where('genres', 'LIKE', '%' . $videoGenres . '%')
 //            ->select('id', 'slug', 'title', 'imdb_rating', 'type', 'genres', 'poster')
 //            ->orderBy('views', 'desc')
 //            ->take(6)

@@ -3,16 +3,18 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\ConvertForStreaming;
-use App\Models\User;
+use App\Http\Requests\StoreVideoRequest;
+use App\Http\Requests\UpdateVideoRequest;
 use App\Models\Video;
-use App\Notifications\NewVideoReleased;
+use App\Services\TmdbService;
+use App\Services\VideoService;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Pion\Laravel\ChunkUpload\Exceptions\UploadFailedException;
@@ -24,7 +26,7 @@ class VideoController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
@@ -38,7 +40,7 @@ class VideoController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
@@ -48,88 +50,23 @@ class VideoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
+     * @param StoreVideoRequest $request
+     * @param TmdbService $tmdbService
+     * @param VideoService $videoService
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreVideoRequest $request, TmdbService $tmdbService, VideoService $videoService)
     {
-        $request->validate([
-            'tmdb_id' => 'required|integer|unique:videos',
-            'video' => 'required',
-            'status' => 'required',
-        ]);
-
-        $video = $request->get('video');
-
-        if (!File::exists(Storage::path($video))) {
-            throw new \Exception('File does not exists!');
-        }
-
         try {
-            $movie = Http::withToken(config('services.tmdb.token'))
-                ->get('//api.themoviedb.org/3/movie/' . $request->tmdb_id . '?append_to_response=credits')
-                ->throw()
-                ->json();
+            $movie = $tmdbService->getMovie($request->validated('tmdb_id'));
+            $images = $tmdbService->getMovieImages($request->validated('tmdb_id'));
 
-            $images = Http::withToken(config('services.tmdb.token'))
-                ->get('//api.themoviedb.org/3/movie/' . $request->tmdb_id . '/images')
-                ->throw()
-                ->json();
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return back()->withErrors([
-                'video' => 'The provided TMDB ID is invalid.'
-            ]);
-        }
-
-        try {
-            $data = [
-                'user_id' => auth()->id(),
-                'title' => $movie['title'],
-                'description' => $movie['overview'],
-                'runtime' => $movie['runtime'],
-                'year' => Carbon::parse($movie['release_date'])->format('Y'),
-                'imdb_id' => $movie['imdb_id'],
-                'tmdb_id' => $request->input('tmdb_id'),
-                'imdb_rating' => $movie['vote_average'],
-                'genres' => json_encode(collect($movie['genres'])->pluck('name')->take(5)->toArray()),
-                'country' => json_encode(collect($movie['production_countries'])->pluck('name')->take(5)->toArray()),
-                'directors' => json_encode(collect($movie['credits']['crew'])->pluck('name')->take(3)->toArray()),
-                'actors' => json_encode(collect($movie['credits']['cast'])->pluck('name')->take(5)->toArray()),
-                'box_office' => $movie['revenue'] ?? null,
-                'poster' => $movie['poster_path'],
-                'type' => 'Movie',
-                'video' => $video,
-                'photos' => json_encode(collect($images['backdrops'])->pluck('file_path')->toArray()),
-                'age_rating' => $movie['adult'] ? 'Rated' : 'Not Rated',
-                'status' => $request->input('status'),
-            ];
-
-            $video = Video::create($data);
-
-            /**
-             * Convert For Streaming
-             */
-            $this->dispatch(new ConvertForStreaming($video));
-
-//            /**
-//             * New Video Released Mail to All User
-//             */
-//            $users = User::all();
-//            Notification::send($users, new NewVideoReleased($video));
-//
-//            /**
-//             * FCM Push Notification using Firebase
-//             * For mobile users
-//             */
-//            $user = User::findOrFail($video->user_id);
-//            $user->topicPushNotification('nxPlay', 'New ' . $video->type . ' "' . $video->title . '" released', 'Watch it here now!', $video->id, 'https://image.tmdb.org/t/p/w45/' . $video->poster);*/
+            $video = $videoService->store($movie, $images, $request->validated());
 
             session()->flash('message', 'New ' . $video->type . ' ' . $video->title . ' uploaded successfully!');
             session()->flash('type', 'success');
             return redirect()->back();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             session()->flash('message', $e->getMessage());
             session()->flash('type', 'danger');
             return back()->withErrors([
@@ -141,10 +78,10 @@ class VideoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Video $video
+     * @return Response
      */
-    public function show($id)
+    public function show(Video $video)
     {
         //
     }
@@ -152,64 +89,43 @@ class VideoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @param Video $video
+     * @return Application|Factory|View
      */
-    public function edit($id)
+    public function edit(Video $video)
     {
-        $data['video'] = Video::select('id', 'title', 'description', 'year', 'runtime', 'country', 'genres', 'imdb_id', 'imdb_rating', 'type', 'status')->findOrFail($id);
-        return view('backend.video.edit', $data);
-//        return $data;
+        return view('backend.video.edit', compact('video'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @param UpdateVideoRequest $request
+     * @param Video $video
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(UpdateVideoRequest $request, Video $video)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'description' => 'required|min:5',
-            'runtime' => 'required',
-            'year' => 'required',
-            'imdb_rating' => 'required',
-            'type' => 'required',
-            'status' => 'required',
-        ]);
-
-        // database update
-        $video = Video::findOrFail($id);
-        $video->update($request->only('user_id', 'title', 'description', 'runtime', 'year', 'imdb_rating', 'type', 'status'));
+        $video->update($request->validated());
 
         // redirect
-        session()->flash('message', 'Video updated');
+        session()->flash('message', 'VideoRule updated');
         session()->flash('type', 'success');
         return redirect()->route('videos.index');
-
-
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Video $video
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(Video $video)
     {
-        $video = Video::findOrFail($id);
-        $videoVideo = public_path() . 'storage/videos' . $video->video;
-
-        if (file_exists($videoVideo)) {
-            @unlink($videoVideo);
-        }
+        Storage::delete($video->video);
 
         $video->delete();
-        session()->flash('message', 'Video deleted');
+        session()->flash('message', 'VideoRule deleted');
         session()->flash('type', 'success');
         return redirect()->back();
     }

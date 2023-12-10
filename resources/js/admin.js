@@ -168,6 +168,6 @@ $(document).ready(function () {
 });
 
 Echo.channel('video-created')
-    .listen('VideoCreated', (e) => {
+    .listen('VideoCreatedEvent', (e) => {
         console.log(e);
     });

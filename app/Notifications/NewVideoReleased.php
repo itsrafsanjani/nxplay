@@ -61,8 +61,8 @@ class NewVideoReleased extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->greeting('Dear user')
-                    ->line('New '. $this->video->type .' "'. $this->video->title .'" ' . 'released!')
+                    ->greeting('Dear ' . $notifiable->name)
+                    ->line("New {$this->video->type} {$this->video->title} released!")
                     ->action('Click to Watch', route('frontend.videos.show', $this->video->slug))
                     ->line('Thank you for using our application!');
     }

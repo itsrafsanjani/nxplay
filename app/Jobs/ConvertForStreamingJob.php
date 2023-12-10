@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\VideoProcessedEvent;
 use App\Models\Video;
 use FFMpeg\Format\Video\X264;
 use Illuminate\Bus\Queueable;
@@ -10,9 +11,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
-class ConvertForStreaming implements ShouldQueue
+class ConvertForStreamingJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -45,6 +47,9 @@ class ConvertForStreaming implements ShouldQueue
             ->addFormat($low)
             ->addFormat($mid)
             ->addFormat($high)
-            ->save("/public/videos/{$this->video->id}/{$this->video->id}.m3u8");
+            ->toDisk('public')
+            ->save("videos/{$this->video->id}/{$this->video->id}.m3u8");
+
+        VideoProcessedEvent::dispatch($this->video);
     }
 }

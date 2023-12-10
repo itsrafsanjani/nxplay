@@ -26,7 +26,7 @@ class CommentFactory extends Factory
 //        $comment = Comment::factory()
 //            ->count(3)
 //            ->for(User::factory()->count(10))
-//            ->for(Video::factory()->count(10))
+//            ->for(VideoRule::factory()->count(10))
 //            ->create();
         return [
             'user_id' => User::all()->random()->id,

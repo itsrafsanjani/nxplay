@@ -11,32 +11,27 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class VideoCreated implements ShouldBroadcast
+class VideoProcessedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var Video
-     */
-    public Video $video;
-
-    /**
      * Create a new event instance.
-     *
-     * @param Video $video
      */
-    public function __construct(Video $video)
+    public function __construct(public Video $video)
     {
-        $this->video = $video;
+        //
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn()
+    public function broadcastOn(): array
     {
-        return new Channel('video-created');
+        return [
+            new Channel('video-processed'),
+        ];
     }
 }

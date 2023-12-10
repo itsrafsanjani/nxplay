@@ -30,26 +30,17 @@ class DatabaseSeeder extends Seeder
             'role' => 1
         ]);
         User::create([
-            'name' => 'Md Imam Hossain',
-            'email' => 'imamagun94@gmail.com',
+            'name' => 'Ratul Hasan',
+            'email' => 'ratulxman@gmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('password'), // password
             'remember_token' => Str::random(10),
             'avatar' => 'https://www.gravatar.com/avatar/' . md5('imamagun94@gmail.com'),
             'role' => 1
         ]);
-        User::create([
-            'name' => 'Radoanul Haider',
-            'email' => 'radoan@gmail.com',
-            'email_verified_at' => now(),
-            'password' => bcrypt('password'), // password
-            'remember_token' => Str::random(10),
-            'avatar' => 'https://www.gravatar.com/avatar/' . md5('radoan@gmail.com'),
-            'role' => 1
-        ]);
 
         // User::factory(10)->create();
-        // Video::factory(10)->create();
+        // VideoRule::factory(10)->create();
         $this->call(GeneratedVideosTableSeeder::class);
         Review::factory(10)->create();
         Comment::factory(10)->create();

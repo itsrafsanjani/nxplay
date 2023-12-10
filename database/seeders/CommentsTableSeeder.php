@@ -19,7 +19,7 @@ class CommentsTableSeeder extends Seeder
 //        Comment::factory(10)->create();
         Comment::factory(10)
 //            ->has(User::factory()->count(10))
-//            ->has(Video::factory()->count(10))
+//            ->has(VideoRule::factory()->count(10))
             ->create();
     }
 }

@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use App\Events\VideoCreated;
-use App\Events\VideoDeleted;
-use App\Events\VideoUpdated;
+use App\Events\VideoCreatedEvent;
+use App\Events\VideoDeletedEvent;
+use App\Events\VideoUpdatedEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Video extends Model
@@ -120,9 +121,9 @@ class Video extends Model
      * @var array
      */
     protected $dispatchesEvents = [
-        'created' => VideoCreated::class,
-        'updated' => VideoUpdated::class,
-        'deleted' => VideoDeleted::class,
+        'created' => VideoCreatedEvent::class,
+        'updated' => VideoUpdatedEvent::class,
+        'deleted' => VideoDeletedEvent::class,
     ];
 
     public function getPosterUrlAttribute()
@@ -145,5 +146,10 @@ class Video extends Model
         }
 
         return $photoUrls;
+    }
+
+    public function getVideoUrlAttribute()
+    {
+        return Storage::disk('public')->url($this->id . '/' . $this->id . '.m3u8');
     }
 }
