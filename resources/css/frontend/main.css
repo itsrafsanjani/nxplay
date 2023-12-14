@@ -43,6 +43,9 @@ Primary use:	NXPlay Template
 /*==============================
 	Common styles
 ==============================*/
+:root {
+    --bg-color: #1a191f;
+}
 html {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -54,7 +57,7 @@ body {
 body {
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 400;
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   color: #aaaaaa;
   -webkit-font-smoothing: antialiased;
 }
@@ -114,12 +117,12 @@ ul {
   list-style: none;
 }
 ::-moz-selection {
-  background: #1a191f;
+  background: var(--bg-color);
   color: #ffd80e;
   text-shadow: none;
 }
 ::selection {
-  background: #1a191f;
+  background: var(--bg-color);
   color: #ffd80e;
   text-shadow: none;
 }
@@ -227,7 +230,7 @@ ul {
   top: 0;
   left: 0;
   right: 0;
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   z-index: 101;
   -webkit-box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
   box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
@@ -276,7 +279,7 @@ ul {
   top: 70px;
   right: 0;
   bottom: 0;
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   z-index: 99;
   width: 300px;
   padding: 30px 30px 0;
@@ -328,7 +331,7 @@ ul {
 }
 .header__dropdown-menu {
   position: absolute;
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   padding: 15px 20px;
   display: block;
   width: 100%;
@@ -527,7 +530,7 @@ ul {
 }
 .header__search {
   position: absolute;
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   top: 0;
   right: -15px;
   left: -15px;
@@ -776,7 +779,7 @@ ul {
   margin-top: 70px;
   position: relative;
   display: block;
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   padding: 40px 0;
   overflow: hidden;
 }
@@ -888,7 +891,7 @@ ul {
   padding: 0 0 20px;
 }
 .content__head {
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   margin-bottom: 30px;
   position: relative;
   border-bottom: 1px solid rgba(210,201,255,0.1);
@@ -990,7 +993,7 @@ ul {
 }
 .content__mobile-tabs-menu {
   position: absolute;
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   padding: 15px 20px;
   display: block;
   min-width: 200px;
@@ -1818,7 +1821,7 @@ ul {
 	Filter
 ==============================*/
 .filter {
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   margin-bottom: 30px;
   border-bottom: 1px solid rgba(210,201,255,0.1);
 }
@@ -1917,7 +1920,7 @@ ul {
 }
 .filter__item-menu {
   position: absolute;
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   top: 100%;
   left: 0;
   margin-top: 0;
@@ -2100,7 +2103,7 @@ ul {
 }
 /* range slider */
 .noUi-target {
-  background: #1a191f;
+  background: var(--bg-color);
   -webkit-border-radius: 0;
   border-radius: 0;
   border: none;
@@ -2246,7 +2249,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 	Profile
 ==============================*/
 .profile {
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   margin-bottom: 30px;
   border-bottom: 1px solid rgba(210,201,255,0.1);
 }
@@ -2370,7 +2373,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   font-size: 24px;
 }
 .profile__form {
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   border: 1px solid rgba(210,201,255,0.1);
   padding: 20px;
   -webkit-border-radius: 6px;
@@ -2525,7 +2528,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   -ms-flex-align: start;
   align-items: flex-start;
   padding: 20px;
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   -webkit-box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
   box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
   margin: 15px 0;
@@ -2905,7 +2908,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 	Form
 ==============================*/
 .form {
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   border: 1px solid rgba(210,201,255,0.1);
   padding: 20px;
   -webkit-border-radius: 6px;
@@ -3079,7 +3082,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   color: rgba(255,255,255,0.8);
   font-size: 16px;
   line-height: 26px;
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   padding: 20px;
   position: relative;
   letter-spacing: 0.4px;
@@ -3137,7 +3140,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   padding: 15px 20px;
   border: 1px solid rgba(210,201,255,0.1);
   position: relative;
@@ -3327,7 +3330,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   color: rgba(255,255,255,0.8);
   font-size: 16px;
   line-height: 26px;
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   padding: 20px;
   letter-spacing: 0.4px;
   border: 1px solid rgba(210,201,255,0.1);
@@ -3433,7 +3436,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 	Footer
 ==============================*/
 .footer {
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   border-top: 1px solid rgba(210,201,255,0.1);
 }
 .footer__content {
@@ -3658,7 +3661,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   padding: 40px 0;
 }
 .sign__form {
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   -webkit-box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
   box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
   display: -webkit-flex;
@@ -3873,7 +3876,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   padding: 40px 0;
 }
 .page-404__content {
-  background-color: #1a191f;
+  background-color: var(--bg-color);
   -webkit-box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
   box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
   display: -webkit-flex;
@@ -3971,7 +3974,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .plyr--video .plyr__control:hover,
 .plyr--video .plyr__control[aria-expanded="true"] {
   background: none;
-  background-color: #1a191f;
+  background-color: var(--bg-color);
 }
 .plyr--video .plyr__control--overlaid {
   background-color: rgba(255,255,255,0.1);
@@ -4149,7 +4152,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   line-height: 50px;
   text-align: center;
   background: none;
-  background-color: #1a191f;
+  background-color: var(--bg-color);
 }
 .pswp__button--arrow--left:before {
   content: '\f27d';
@@ -4291,7 +4294,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     padding: 15px;
     -webkit-box-shadow: 0 0 15px 0 rgba(0,0,0,0.3);
     box-shadow: 0 0 15px 0 rgba(0,0,0,0.3);
-    background-color: #1a191f;
+    background-color: var(--bg-color);
 }
 .select2-results__option {
     padding: 0;

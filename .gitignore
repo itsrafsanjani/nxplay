@@ -1,5 +1,6 @@
 /node_modules
 /public/hot
+/public/build
 /public/storage
 /storage/*.key
 /vendor
@@ -16,3 +17,4 @@ yarn-error.log
 /backup
 /tools
 *.cache
+/public/mix-manifest.json

@@ -31,8 +31,8 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <link href="{{ mix('css/frontend.css') }}" rel="stylesheet">
+    <link href="{{ mix('build/css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('build/css/frontend.css') }}" rel="stylesheet">
     <link href="https://unpkg.com/ionicons@4.3.0/dist/css/ionicons.min.css" rel="stylesheet">
     @yield('styles')
 </head>
@@ -44,9 +44,9 @@
 @includeWhen(request()->routeIs('home'), 'frontend.partials._about')
 @include('frontend.partials._footer')
 <!-- Scripts -->
-<script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ mix('build/js/app.js') }}"></script>
 @stack('javascripts')
-<script src="{{ mix('js/frontend.js') }}"></script>
+<script src="{{ mix('build/js/frontend.js') }}"></script>
 <script>
     @if(session('message'))
         $.notify("{{ session('message') }}");
