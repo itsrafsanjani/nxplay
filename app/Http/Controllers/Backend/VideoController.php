@@ -71,7 +71,7 @@ class VideoController extends Controller
             session()->flash('type', 'danger');
             return back()->withErrors([
                 'video' => $request->input('video'),
-            ]);
+            ])->withInput();
         }
     }
 
@@ -133,7 +133,7 @@ class VideoController extends Controller
     /**
      * @throws UploadFailedException
      */
-    public function uploadLargeFiles(Request $request)
+    public function uploadVideo(Request $request)
     {
         $receiver = new FileReceiver('file', $request, HandlerFactory::classFromRequest($request));
 

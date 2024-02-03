@@ -37,9 +37,9 @@ class ConvertForStreamingJob implements ShouldQueue
      */
     public function handle()
     {
-        $low = (new X264('aac'))->setKiloBitrate(100);
-        $mid = (new X264('aac'))->setKiloBitrate(250);
-        $high = (new X264('aac'))->setKiloBitrate(500);
+        $low = (new X264('aac'))->setKiloBitrate(500);
+        $mid = (new X264('aac'))->setKiloBitrate(2 * 1024);
+        $high = (new X264('aac'))->setKiloBitrate(5 * 1024);
 
         FFMpeg::fromDisk('local')
             ->open($this->video->video)
