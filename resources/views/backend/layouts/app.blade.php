@@ -31,8 +31,8 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <link href="{{ mix('css/admin.css') }}" rel="stylesheet">
+    <link href="{{ mix('build/css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('build/css/admin.css') }}" rel="stylesheet">
     <link href="https://unpkg.com/ionicons@4.3.0/dist/css/ionicons.min.css" rel="stylesheet">
     @yield('styles')
     @stack('styles')
@@ -53,8 +53,8 @@
     @yield('modal')
 </div>
 <!-- Scripts -->
-<script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ mix('build/js/app.js') }}"></script>
 @stack('javascripts')
-<script src="{{ mix('js/admin.js') }}" defer></script>
+<script src="{{ mix('build/js/admin.js') }}" defer></script>
 </body>
 </html>

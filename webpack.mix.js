@@ -11,23 +11,24 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js/app.js')
-    .sass('resources/sass/app.scss', 'public/css/app.css')
+mix.js('resources/js/app.js', 'public/build/js/app.js')
+    .sass('resources/sass/app.scss', 'public/build/css/app.css')
     .styles([
         'resources/css/admin.css',
-    ], 'public/css/admin.css')
+    ], 'public/build/css/admin.css')
     .styles([
         'resources/css/frontend/main.css',
-    ], 'public/css/frontend.css')
+    ], 'public/build/css/frontend.css')
     .js([
         'resources/js/admin.js',
-    ], 'public/js/admin.js')
+    ], 'public/build/js/admin.js')
     .js([
         'resources/js/frontend/jquery.morelines.min.js',
         'resources/js/frontend/main.js',
-    ], 'public/js/frontend.js')
+    ], 'public/build/js/frontend.js')
     .sourceMaps()
-    .version();
+    .version()
+    .disableNotifications();
 
 
 // 'resources/css/frontend/owl.carousel.min.css',
