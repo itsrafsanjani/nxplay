@@ -10,10 +10,16 @@ use App\Jobs\ConvertForStreamingJob;
 use App\Listeners\NotifyEveryoneListener;
 use App\Listeners\VideoCacheListener;
 use App\Listeners\VideoCreatedListener;
+use App\Listeners\WorkflowCompletedListener;
+use App\Listeners\WorkflowFailedListener;
+use App\Listeners\WorkflowStartedListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Workflow\Events\WorkflowCompleted;
+use Workflow\Events\WorkflowFailed;
+use Workflow\Events\WorkflowStarted;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -38,6 +44,16 @@ class EventServiceProvider extends ServiceProvider
         ],
         VideoDeletedEvent::class => [
             VideoCacheListener::class,
+        ],
+
+        WorkflowStarted::class => [
+            WorkflowStartedListener::class,
+        ],
+        WorkflowCompleted::class => [
+            WorkflowCompletedListener::class,
+        ],
+        WorkflowFailed::class => [
+            WorkflowFailedListener::class,
         ],
     ];
 

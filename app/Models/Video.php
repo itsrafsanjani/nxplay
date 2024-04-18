@@ -7,6 +7,7 @@ use App\Events\VideoDeletedEvent;
 use App\Events\VideoUpdatedEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -151,5 +152,13 @@ class Video extends Model
     public function getVideoUrlAttribute()
     {
         return Storage::disk('public')->url($this->id . '/' . $this->id . '.m3u8');
+    }
+
+    /**
+     * Get the video's progress.
+     */
+    public function progress(): MorphOne
+    {
+        return $this->morphOne(WorkflowProgress::class, 'progressable');
     }
 }

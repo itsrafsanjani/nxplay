@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\ConvertForStreamingJob;
 use App\Models\Video;
 use App\Workflows\ProcessVideoWorkflow;
 use FFMpeg\Format\Video\X264;
@@ -23,7 +24,7 @@ class TestVideoProcess extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Test: dispatch ConvertForStreamingJob for the first video in the database.';
 
     /**
      * Execute the console command.
@@ -39,6 +40,6 @@ class TestVideoProcess extends Command
 
         $this->info($video);
 
-        WorkflowStub::make(ProcessVideoWorkflow::class)->start($video);
+        ConvertForStreamingJob::dispatch($video);
     }
 }

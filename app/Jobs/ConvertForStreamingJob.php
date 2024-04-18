@@ -45,8 +45,5 @@ class ConvertForStreamingJob implements ShouldQueue
     public function handle()
     {
         WorkflowStub::make(ProcessVideoWorkflow::class)->start($this->video);
-
-        // TODO: handle workflow completion
-        // VideoProcessedEvent::dispatch($this->video);
     }
 }
