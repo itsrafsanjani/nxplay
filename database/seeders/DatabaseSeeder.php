@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // User::factory(10)->create();
-        // VideoRule::factory(10)->create();
+        // Video::factory(10)->create();
         $this->call(GeneratedVideosTableSeeder::class);
         Review::factory(10)->create();
         Comment::factory(10)->create();

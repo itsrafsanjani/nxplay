@@ -109,7 +109,7 @@ class VideoController extends Controller
         $video->update($request->validated());
 
         // redirect
-        session()->flash('message', 'VideoRule updated');
+        session()->flash('message', 'Video updated');
         session()->flash('type', 'success');
         return redirect()->route('videos.index');
     }
@@ -125,7 +125,7 @@ class VideoController extends Controller
         Storage::delete($video->video);
 
         $video->delete();
-        session()->flash('message', 'VideoRule deleted');
+        session()->flash('message', 'Video deleted');
         session()->flash('type', 'success');
         return redirect()->back();
     }

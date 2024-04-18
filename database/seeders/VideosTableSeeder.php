@@ -15,7 +15,6 @@ class VideosTableSeeder extends Seeder
      */
     public function run()
     {
-//        VideoRule::factory(50)->create();
         Video::factory()
             ->count(3)
             ->for(User::factory())

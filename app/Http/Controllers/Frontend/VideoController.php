@@ -42,14 +42,6 @@ class VideoController extends Controller
             $data['video']->increment('views');
         }
 
-//        $videoGenres = !empty($data['video']['genres']);
-//
-//        $data['similarVideos'] = VideoRule::where('genres', 'LIKE', '%' . $videoGenres . '%')
-//            ->select('id', 'slug', 'title', 'imdb_rating', 'type', 'genres', 'poster')
-//            ->orderBy('views', 'desc')
-//            ->take(6)
-//            ->get();
-
         //Collection in php is maybe flexible for push, pop or similar operation.
         $data['similarVideos'] = collect();
 
