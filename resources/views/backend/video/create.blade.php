@@ -158,7 +158,7 @@
     <script type="text/javascript">
         let browseFile = $('#browseFile');
         let resumable = new Resumable({
-            target: '{{ route('files.upload.large') }}',
+            target: '{{ route('videos.upload') }}',
             query: {
                 _token: '{{ csrf_token() }}'
             },

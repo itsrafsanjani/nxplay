@@ -90,31 +90,6 @@
 
                 <!-- player -->
                 <div class="col-12 col-lg-6">
-                    {{--<video controls crossorigin playsinline
-                           poster="{{ $video->poster_url }}" id="player">
-                        <!-- Video files -->
-                        --}}{{-- <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4" size="576">--}}{{--
-                        --}}{{-- <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" size="720">--}}{{--
-
-                        --}}{{--
-                            If 'http' found in the url string at postion 0 it will load that directly. Else it will add 'storage/videos/' before the url.
-                        --}}{{--
-
-                        --}}{{--<source
-                            src="@if(strpos($video->video, 'http') == 0) {{ $video->video }} @else {{ asset('storage/videos/'.$video->video) }} @endif"
-                            type="video/mp4" size="1080">--}}{{--
-
-                        <source
-                            src="{{ asset('videos/'.$video->id . '/' . $video->id . '.m3u8') }}" type="application/x-mpegURL">
-                        <!-- Caption files -->
-                        <track kind="captions" label="English" srclang="en"
-                               src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
-                               default>
-                        <track kind="captions" label="Français" srclang="fr"
-                               src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
-                        <!-- Fallback for browsers that don't support the <video> element -->
-                        <a href="{{ asset($video->video) }}" download>Download</a>
-                    </video>--}}
                     <video-js id="video" class="video-js" controls preload="auto" width="480" height="auto">
                         {{--<source src="{{ \Illuminate\Support\Facades\Storage::url($video->video) }}" type="video/mp4">--}}
                         <source src="{{ asset('storage/videos/'.$video->id . '/' . $video->id . '.m3u8') }}" type="application/x-mpegURL" size="1080">

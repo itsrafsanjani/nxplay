@@ -521,8 +521,8 @@ $(document).ready(function () {
 	$(window).on('load', initializeThirdSlider());
 });
 
-Echo.channel('video-created')
-    .listen('VideoCreated', (e) => {
+Echo.channel('video-processed')
+    .listen('VideoProcessedEvent', (e) => {
         $.notify({
             icon: 'https://image.tmdb.org/t/p/w92/' + e.video.poster,
             message: e.video.title + ' ' + e.video.type + ' has been published now',

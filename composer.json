@@ -8,49 +8,47 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.0",
-        "ext-gd": "*",
-        "ext-json": "*",
-        "ext-pdo": "*",
+        "php": "^8.2",
         "fakerphp/faker": "^1.9.1",
-        "fideloper/proxy": "^4.4",
-        "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
-        "laravel-notification-channels/pusher-push-notifications": "^2.3",
-        "laravel/framework": "^8.40",
-        "laravel/sanctum": "^2.10",
+        "laravel-notification-channels/pusher-push-notifications": "^4.1.0",
+        "laravel-workflow/laravel-workflow": "^1.0",
+        "laravel-workflow/waterline": "^1.0",
+        "laravel/framework": "^10.0",
+        "laravel/sanctum": "^3.2",
         "laravel/socialite": "^5.1",
-        "laravel/telescope": "^4.16",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.1",
-        "pbmedia/laravel-ffmpeg": "^7.7",
+        "laravel/ui": "^4.2.3",
+        "pbmedia/laravel-ffmpeg": "^8.5",
         "pion/laravel-chunk-upload": "^1.5",
-        "pusher/pusher-php-server": "~4.0",
-        "tymon/jwt-auth": "^1.0.2",
-        "yoelpc4/laravel-cloudinary": "^2.1"
+        "pusher/pusher-php-server": "^5.0",
+        "tymon/jwt-auth": "^2.0.0",
+        "yoelpc4/laravel-cloudinary": "^4.0.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
         "barryvdh/laravel-ide-helper": "^2.9",
         "beyondcode/laravel-query-detector": "^1.5",
-        "facade/ignition": "^2.5",
-        "laravel/sail": "^1.0.1",
+        "laravel/telescope": "^4.17",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^5.0",
+        "nunomaduro/collision": "^7.0",
         "orangehill/iseed": "^3.0",
-        "phpunit/phpunit": "^9.3.3"
+        "phpunit/phpunit": "^10.0",
+        "spatie/laravel-ignition": "^2.0"
     },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
         "platform": {
-            "php": "8.0"
+            "php": "8.2"
         }
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "autoload": {

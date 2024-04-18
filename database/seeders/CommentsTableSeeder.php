@@ -16,10 +16,7 @@ class CommentsTableSeeder extends Seeder
      */
     public function run()
     {
-//        Comment::factory(10)->create();
         Comment::factory(10)
-//            ->has(User::factory()->count(10))
-//            ->has(Video::factory()->count(10))
             ->create();
     }
 }

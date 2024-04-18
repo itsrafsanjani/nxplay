@@ -79,7 +79,7 @@
                     @else
                         <span>{{ $results->total() }} from {{ $results->total() }}</span>
                     @endif
-                    {{ $results->withQueryString()->links('backend.bulma') }}
+                    {{ $results->withQueryString()->links() }}
                 </div>
             </div>
             <!-- end paginator -->
